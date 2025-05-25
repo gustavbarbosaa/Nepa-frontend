@@ -1,0 +1,13 @@
+@reference '../../../../../styles.css';
+
+.text-header {
+  @apply text-center flex flex-col gap-2 font-inter;
+
+  .text-header__title {
+    @apply text-2xl font-bold text-dark;
+  }
+
+  .text-header__description {
+    @apply text-base text-tertiary-500;
+  }
+}
