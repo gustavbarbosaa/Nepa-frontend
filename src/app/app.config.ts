@@ -11,11 +11,11 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimationsAsync(),
     providePrimeNG({
-        theme: {
-            preset: Aura
-        }
-    })
+      theme: {
+        preset: Aura,
+      },
+    }),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes)
-  ]
+    provideRouter(routes),
+  ],
 };
