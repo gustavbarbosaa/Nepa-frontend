@@ -1,0 +1,22 @@
+<div class="login-form">
+  <form class="login-form__form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <app-input-form
+      id="email"
+      label="Email"
+      type="email"
+      initialIcon="heroAtSymbol" />
+
+    <app-input-form
+      id="password"
+      label="Senha"
+      type="password"
+      initialIcon="heroLockClosed"
+      [isPassword]="true" />
+
+    <app-button
+      type="submit"
+      text="Entrar"
+      color="bg-primary-900"
+      class="text-light" />
+  </form>
+</div>

@@ -9,7 +9,7 @@ import {
   heroUser,
   heroAtSymbol,
 } from '@ng-icons/heroicons/outline';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-input-form',
@@ -35,6 +35,7 @@ export class InputFormComponent implements OnInit {
   initialIcon = input.required<string>();
   finalIcon = input<string>('heroEye');
   isPassword = input<boolean>(false);
+  control = input<FormControl>();
 
   typeInput = signal<string>('');
   finalIconInput = signal<string>('');

@@ -8,14 +8,14 @@
   }
 
   .input-form__container {
-    @apply flex items-center justify-between gap-2 border border-tertiary-300 rounded-md p-2;
+    @apply w-full flex items-center justify-between gap-2 border border-tertiary-300 rounded-md p-2;
 
     ng-icon {
       @apply text-tertiary-500;
     }
 
     .input-form__input {
-      @apply font-inter text-sm font-normal text-dark outline-none;
+      @apply flex-1 font-inter text-sm font-normal text-dark outline-none;
     }
   }
 }
