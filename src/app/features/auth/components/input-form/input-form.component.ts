@@ -45,13 +45,9 @@ export class InputFormComponent implements OnInit {
   }
 
   togglePassword(): void {
-    console.log('entrei');
     if (this.isPassword()) {
-      console.log('entrei 2');
       const newTypeInput =
         this.typeInput() === 'password' ? 'text' : 'password';
-
-      console.log(newTypeInput);
 
       this.typeInput.set(newTypeInput);
 
