@@ -6,7 +6,7 @@ import { Component, input } from '@angular/core';
   template: `
     <div class="flex items-center gap-2">
       <img src="/assets/logo-nepa.png" alt="Logo do Nepa" />
-      @if (reduce()) {
+      @if (!reduce()) {
         <h2 class="font-poppins font-semibold text-base text-dark">Nepa</h2>
       }
     </div>

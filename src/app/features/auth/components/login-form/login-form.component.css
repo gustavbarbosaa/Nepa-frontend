@@ -1,5 +1,9 @@
 @reference '../../../../../styles.css';
 
+.login-form {
+  @apply flex flex-col gap-12;
+}
+
 .login-form__form {
-  @apply flex flex-col gap-4;
+  @apply flex flex-col gap-12;
 }
