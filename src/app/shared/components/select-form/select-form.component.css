@@ -1,0 +1,21 @@
+@reference '../../../../styles.css';
+
+.select-form {
+  @apply flex flex-col items-start gap-1;
+
+  .select-form__label {
+    @apply font-inter text-sm font-normal text-dark;
+  }
+
+  .select-form__container {
+    @apply w-full flex items-center justify-between gap-2 border border-tertiary-300 rounded-md p-2 transition-colors focus-within:border-tertiary-400;
+
+    ng-icon {
+      @apply text-tertiary-500;
+    }
+
+    .select-form__input {
+      @apply flex-1 font-inter text-sm font-normal text-dark outline-none;
+    }
+  }
+}

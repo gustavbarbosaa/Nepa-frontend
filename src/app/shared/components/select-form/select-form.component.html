@@ -1,0 +1,12 @@
+<div class="select-form">
+  <label class="select-form__label" [for]="id()">{{ label() }}</label>
+  <div class="select-form__container">
+    <ng-icon [name]="initialIcon()" />
+
+    <select class="select-form__input" [id]="id()">
+      @for (option of options(); track $index) {
+        <option [value]="option.value">{{ option.label }}</option>
+      }
+    </select>
+  </div>
+</div>
