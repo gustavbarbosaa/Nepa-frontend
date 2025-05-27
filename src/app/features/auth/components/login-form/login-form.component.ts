@@ -18,7 +18,6 @@ import { Checkbox } from 'primeng/checkbox';
 
 import { ButtonComponent } from '@shared/components/button/button.component';
 import { InputFormComponent } from '@shared/components/input-form/input-form.component';
-import { SelectFormComponent } from '@shared/components/select-form/select-form.component';
 
 @Component({
   selector: 'app-login-form',
@@ -29,7 +28,6 @@ import { SelectFormComponent } from '@shared/components/select-form/select-form.
     ReactiveFormsModule,
     Checkbox,
     RouterLink,
-    SelectFormComponent,
   ],
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.css',
