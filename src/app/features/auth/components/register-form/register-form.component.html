@@ -1,0 +1,54 @@
+<div class="register-form">
+  <form class="register-form__form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="flex flex-col gap-4 md:gap-8">
+      <app-input-form
+        id="name"
+        label="Nome"
+        type="text"
+        initialIcon="heroUser" />
+
+      <app-input-form
+        id="email"
+        label="Email"
+        type="email"
+        initialIcon="heroAtSymbol" />
+
+      <app-select-form
+        id="role"
+        label="Cargo"
+        initialIcon="heroAcademicCap"
+        [options]="courses()" />
+
+      <app-input-form
+        id="phone"
+        label="Telefone"
+        type="tel"
+        initialIcon="heroDevicePhoneMobile" />
+
+      <app-input-form
+        id="password"
+        label="Senha"
+        type="password"
+        initialIcon="heroLockClosed"
+        [isPassword]="true" />
+
+      <app-input-form
+        id="password"
+        label="Repita a senha"
+        type="password"
+        initialIcon="heroLockClosed"
+        [isPassword]="true" />
+    </div>
+
+    <app-button
+      type="submit"
+      text="Cadastrar"
+      color="bg-primary-900"
+      class="text-light" />
+  </form>
+
+  <p class="text-tertiary-500 text-base text-center font-inter font-normal">
+    Já possui conta?
+    <a routerLink="#" class="text-primary-900">Clique aqui!</a>
+  </p>
+</div>

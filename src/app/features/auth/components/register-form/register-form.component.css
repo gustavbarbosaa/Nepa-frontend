@@ -1,0 +1,9 @@
+@reference '../../../../../styles.css';
+
+.register-form {
+  @apply flex flex-col gap-4 md:gap-8;
+}
+
+.register-form__form {
+  @apply flex flex-col gap-4 md:gap-8;
+}

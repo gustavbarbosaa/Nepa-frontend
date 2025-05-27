@@ -1,0 +1,5 @@
+@reference '../../../../../styles.css';
+
+:host {
+  @apply flex items-center justify-center h-full gap-6 p-6;
+}
