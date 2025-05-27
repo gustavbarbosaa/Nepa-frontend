@@ -1,4 +1,3 @@
-import { ButtonComponent } from './../../../../shared/components/button/button.component';
 import {
   Component,
   inject,
@@ -6,7 +5,6 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core';
-import { InputFormComponent } from '../input-form/input-form.component';
 import {
   FormGroup,
   FormsModule,
@@ -14,8 +12,13 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Checkbox } from 'primeng/checkbox';
 import { RouterLink } from '@angular/router';
+
+import { Checkbox } from 'primeng/checkbox';
+
+import { ButtonComponent } from '@shared/components/button/button.component';
+import { InputFormComponent } from '@shared/components/input-form/input-form.component';
+import { SelectFormComponent } from '@shared/components/select-form/select-form.component';
 
 @Component({
   selector: 'app-login-form',
@@ -26,6 +29,7 @@ import { RouterLink } from '@angular/router';
     ReactiveFormsModule,
     Checkbox,
     RouterLink,
+    SelectFormComponent,
   ],
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.css',
