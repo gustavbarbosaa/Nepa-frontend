@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   imports: [],
   template: `
     <div
-      class="flex items-center justify-center flex-1 h-full bg-[url('/assets/background-auth.png')] bg-cover bg-center rounded-xl">
+      class="flex items-center justify-center flex-1 h-full bg-[url('/assets/background-auth.png')] bg-cover bg-no-repeat rounded-xl">
       <img src="/assets/logo-catolica.png" alt="Logo catolica" />
     </div>
   `,
