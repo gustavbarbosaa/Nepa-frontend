@@ -1,3 +1,4 @@
+import { RouterLink } from '@angular/router';
 import {
   Component,
   inject,
@@ -21,6 +22,7 @@ import { SelectFormComponent } from '@shared/components/select-form/select-form.
     ButtonComponent,
     InputFormComponent,
     SelectFormComponent,
+    RouterLink,
   ],
   templateUrl: './register-form.component.html',
   styleUrl: './register-form.component.css',
