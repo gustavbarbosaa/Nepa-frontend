@@ -1,0 +1,13 @@
+@reference '../../../../styles.css';
+
+.list-item {
+  @apply rounded-lg border border-transparent transition-all duration-150;
+}
+
+.list-item:hover {
+  @apply bg-tertiary-100 border-tertiary-300 ml-2;
+}
+
+.list-item__link {
+  @apply flex items-center cursor-pointer p-4;
+}

@@ -1,0 +1,53 @@
+<p-drawer #drawerRef [(visible)]="visible">
+  <ng-template #headless>
+    <div class="flex flex-col h-full">
+      <div class="flex items-center justify-between px-6 pt-4 shrink-0">
+        <app-logo [reduce]="!isVisible()" />
+        <span>
+          <button
+            type="button"
+            (click)="closeCallback($event)"
+            class="cursor-pointer rounded-full border border-tertiary-300 h-8 w-8 flex items-center justify-center hover:scale-105 duration-150 transition-all">
+            <ng-icon name="heroXMark" class="text-sm text-dark" />
+          </button>
+        </span>
+      </div>
+      <p-divider />
+
+      <div class="overflow-y-auto">
+        <ul class="list-none p-4 m-0">
+          <li>
+            <ul class="list-none p-0 m-0 overflow-hidden flex flex-col gap-4">
+              @for (item of items; track item.routerLink) {
+                <app-list-item
+                  [icon]="item.icon"
+                  [label]="item.label"
+                  [link]="item.routerLink"
+                  [textVisible]="isVisible()" />
+              }
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <div class="mt-auto">
+        <p-divider />
+        <a
+          pRipple
+          class="m-4 flex items-center cursor-pointer p-4 gap-2 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
+          <p-avatar
+            image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+            shape="circle" />
+          <span class="font-bold">Amy Elsner</span>
+        </a>
+      </div>
+    </div>
+  </ng-template>
+</p-drawer>
+
+<button
+  type="button"
+  (click)="toggleVisible()"
+  class="cursor-pointer rounded-lg border border-tertiary-300 h-8 w-8 flex items-center justify-center hover:scale-105 duration-150 transition-all">
+  <ng-icon name="heroBars3" class="text-sm text-dark" />
+</button>
