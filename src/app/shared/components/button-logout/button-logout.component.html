@@ -1,0 +1,13 @@
+<li class="list-item" (click)="logout()">
+  <button type="button" class="list-item__link">
+    <ng-icon
+      [name]="icon()"
+      class="text-2xl mr-2 text-danger-600"
+      style="color: #dc2626" />
+    @if (textVisible()) {
+      <span class="font-normal font-poppins text-base text-danger-600">{{
+        label()
+      }}</span>
+    }
+  </button>
+</li>

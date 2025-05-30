@@ -17,6 +17,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { DrawerModule } from 'primeng/drawer';
 import { DividerModule } from 'primeng/divider';
 import { heroXMark, heroBars3 } from '@ng-icons/heroicons/outline';
+import { ButtonLogoutComponent } from '../button-logout/button-logout.component';
 
 @Component({
   selector: 'app-drawer',
@@ -29,6 +30,7 @@ import { heroXMark, heroBars3 } from '@ng-icons/heroicons/outline';
     NgIcon,
     DividerModule,
     ListItemComponent,
+    ButtonLogoutComponent,
   ],
   templateUrl: './drawer.component.html',
   styleUrl: './drawer.component.css',
@@ -90,12 +92,6 @@ export class DrawerComponent implements OnInit {
         icon: 'heroFolder',
         label: 'Projetos',
         routerLink: '/projetos',
-        textVisible: this.isVisible(),
-      },
-      {
-        icon: 'heroArrowLeftOnRectangle',
-        label: 'Sair',
-        routerLink: '/logout',
         textVisible: this.isVisible(),
       },
     ];

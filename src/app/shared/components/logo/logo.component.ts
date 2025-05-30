@@ -1,15 +1,19 @@
 import { Component, input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-logo',
-  imports: [],
+  imports: [RouterLink],
   template: `
-    <div class="flex items-center gap-2">
+    <a routerLink="#" class="flex items-center gap-2">
       <img src="/assets/logo-nepa.png" alt="Logo do Nepa" />
       @if (!reduce()) {
-        <h2 class="font-poppins font-semibold text-base text-dark">Nepa</h2>
+        <h2
+          class="font-poppins font-semibold text-base text-dark dark:text-light">
+          Nepa
+        </h2>
       }
-    </div>
+    </a>
   `,
 })
 export class LogoComponent {

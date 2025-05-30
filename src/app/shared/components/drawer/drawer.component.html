@@ -12,6 +12,7 @@
           </button>
         </span>
       </div>
+
       <p-divider />
 
       <div class="overflow-y-auto">
@@ -25,6 +26,7 @@
                   [link]="item.routerLink"
                   [textVisible]="isVisible()" />
               }
+              <app-button-logout [textVisible]="isVisible()" />
             </ul>
           </li>
         </ul>
@@ -32,22 +34,26 @@
 
       <div class="mt-auto">
         <p-divider />
+
         <a
           pRipple
-          class="m-4 flex items-center cursor-pointer p-4 gap-2 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
+          class="m-4 flex items-center cursor-pointer p-4 gap-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
           <p-avatar
             image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
             shape="circle" />
-          <span class="font-bold">Amy Elsner</span>
+          <div
+            class="font-poppins font-normal text-sm flex flex-col items-start">
+            <span class="text-dark dark:text-light">Amy Elsner</span>
+            <span class="text-tertiary-500 dark:text-tertiary-400"
+              >exempleAexemple.com</span
+            >
+          </div>
         </a>
       </div>
     </div>
   </ng-template>
 </p-drawer>
 
-<button
-  type="button"
-  (click)="toggleVisible()"
-  class="cursor-pointer rounded-lg border border-tertiary-300 h-8 w-8 flex items-center justify-center hover:scale-105 duration-150 transition-all">
+<button type="button" (click)="toggleVisible()" class="button_open_drawer">
   <ng-icon name="heroBars3" class="text-sm text-dark" />
 </button>

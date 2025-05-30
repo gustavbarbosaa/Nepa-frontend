@@ -1,0 +1,5 @@
+@reference '../../../../styles.css';
+
+.button_open_drawer {
+  @apply absolute top-6 left-6 cursor-pointer rounded-lg border border-tertiary-300 h-8 w-8 flex items-center justify-center hover:scale-105 duration-150 transition-all;
+}
