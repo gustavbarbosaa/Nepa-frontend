@@ -3,7 +3,7 @@
   <div class="select-form__container">
     <ng-icon [name]="initialIcon()" />
 
-    <select class="select-form__input" [id]="id()">
+    <select class="select-form__input" [id]="id()" [formControl]="control()">
       @for (option of options(); track $index) {
         <option [value]="option.value">{{ option.label }}</option>
       }

@@ -8,12 +8,14 @@ import {
   heroDevicePhoneMobile,
   heroUser,
   heroAtSymbol,
+  heroIdentification,
 } from '@ng-icons/heroicons/outline';
-import { FormControl, FormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-input-form',
-  imports: [NgIcon, FormsModule],
+  imports: [NgIcon, ReactiveFormsModule, CommonModule],
   templateUrl: './input-form.component.html',
   styleUrl: './input-form.component.css',
   viewProviders: [
@@ -25,6 +27,7 @@ import { FormControl, FormsModule } from '@angular/forms';
       heroDevicePhoneMobile,
       heroUser,
       heroAtSymbol,
+      heroIdentification,
     }),
   ],
 })
@@ -35,7 +38,7 @@ export class InputFormComponent implements OnInit {
   initialIcon = input<string>();
   finalIcon = input<string>('heroEye');
   isPassword = input<boolean>(false);
-  control = input<FormControl>();
+  control = input.required<FormControl>();
 
   typeInput = signal<string>('');
   finalIconInput = signal<string>('');
@@ -43,6 +46,10 @@ export class InputFormComponent implements OnInit {
   ngOnInit(): void {
     this.typeInput.set(this.type());
     this.finalIconInput.set(this.finalIcon()!);
+  }
+
+  get formControl(): FormControl {
+    return this.control();
   }
 
   togglePassword(): void {

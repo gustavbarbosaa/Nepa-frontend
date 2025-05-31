@@ -3,7 +3,11 @@
   <div class="input-form__container">
     <ng-icon [name]="initialIcon()" />
 
-    <input class="input-form__input" [id]="id()" [type]="typeInput()" />
+    <input
+      [formControl]="control()"
+      class="input-form__input"
+      [id]="id()"
+      [type]="typeInput()" />
 
     @if (isPassword()) {
       <ng-icon (click)="togglePassword()" [name]="finalIconInput()" />

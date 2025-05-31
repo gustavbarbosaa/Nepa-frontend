@@ -1,19 +1,27 @@
 import { RouterLink } from '@angular/router';
 import {
   Component,
+  computed,
   inject,
   OnInit,
+  Signal,
   signal,
   WritableSignal,
 } from '@angular/core';
 import {
+  FormControl,
   FormGroup,
   NonNullableFormBuilder,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { ButtonComponent } from '@shared/components/button/button.component';
 import { InputFormComponent } from '@shared/components/input-form/input-form.component';
 import { SelectFormComponent } from '@shared/components/select-form/select-form.component';
+import { RegisterStudentService } from '@core/services/register-user/register-student.service';
+import { RegisterTeacherService } from '@core/services/register-user/register-teacher.service';
+import { validateEqualPasswords } from '@shared/validators/validateEqualPasswords';
+import { iRegisterUserRequest } from '@app/shared/models/register-user.model';
 
 @Component({
   selector: 'app-register-form',
@@ -29,21 +37,91 @@ import { SelectFormComponent } from '@shared/components/select-form/select-form.
 })
 export class RegisterFormComponent implements OnInit {
   form!: FormGroup;
-  formBuilder = inject(NonNullableFormBuilder);
+  private formBuilder = inject(NonNullableFormBuilder);
+  private readonly registerStudentService = inject(RegisterStudentService);
+  private readonly registerTeacherService = inject(RegisterTeacherService);
+
+  typesUser: WritableSignal<{ label: string; value: string }[]> = signal([]);
   courses: WritableSignal<{ label: string; value: string }[]> = signal([]);
 
   ngOnInit(): void {
-    this.form = this.formBuilder.group({});
+    this.form = this.formBuilder.group(
+      {
+        tipoUsuario: ['', Validators.required],
+        nome: ['', [Validators.required, Validators.minLength(3)]],
+        matricula: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(20),
+          ],
+        ],
+        email: [
+          '',
+          [Validators.required, Validators.email, Validators.minLength(5)],
+        ],
+        senha: ['', [Validators.required, Validators.minLength(6)]],
+        confirmarSenha: ['', [Validators.required, Validators.minLength(6)]],
+        telefone: ['', [Validators.required, Validators.minLength(11)]],
+        curso_id: ['', Validators.required],
+      },
+      { validators: validateEqualPasswords }
+    );
+
+    this.typesUser.set([
+      { label: 'Selecione o tipo de usuário', value: '' },
+      { label: 'Professor', value: 'professor' },
+      { label: 'Aluno', value: 'aluno' },
+    ]);
 
     this.courses.set([
       { label: 'Selecione um curso', value: '' },
-      { label: 'Ciência da Computação', value: 'ciencia_da_computacao' },
-      { label: 'Direito', value: 'direito' },
-      { label: 'Educação Física', value: 'educacao_fisica' },
-      { label: 'Marketing', value: 'marketing' },
-      { label: 'Filosofia', value: 'filosofia' },
+      {
+        label: 'Ciência da Computação',
+        value: '781aa5fa-0152-4f80-a7b9-34d26f3ad480',
+      },
     ]);
   }
 
-  onSubmit(): void {}
+  getControl<T = string>(controlName: string): FormControl<T> {
+    return this.form.get(controlName) as FormControl<T>;
+  }
+
+  registerForType(
+    userType: Signal<string>,
+    registerData: iRegisterUserRequest
+  ): void {
+    if (userType() !== 'professor') {
+      this.registerStudentService.register(registerData).subscribe({
+        next: () => this.form.reset(),
+        error: error => console.error('Erro ao cadastrar aluno:', error),
+      });
+      return;
+    }
+
+    this.registerTeacherService.register(registerData).subscribe({
+      next: () => this.form.reset(),
+      error: error => console.error('Erro ao cadastrar professor:', error),
+    });
+  }
+
+  onSubmit(): void {
+    if (this.form.invalid) {
+      return;
+    }
+
+    const { typeUserForm, ...userRequest } = this.form.value;
+    const userType: Signal<string> = computed(() => typeUserForm);
+    const registerData: iRegisterUserRequest = {
+      nome: userRequest.nome,
+      matricula: userRequest.matricula,
+      email: userRequest.email,
+      senha: userRequest.senha,
+      telefone: userRequest.telefone,
+      curso_id: userRequest.curso_id,
+    };
+
+    this.registerForType(userType, registerData);
+  }
 }

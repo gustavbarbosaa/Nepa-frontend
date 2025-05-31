@@ -1,5 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { Component, input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   heroAcademicCap,
@@ -9,11 +10,12 @@ import {
   heroDevicePhoneMobile,
   heroUser,
   heroAtSymbol,
+  heroArrowPathRoundedSquare,
 } from '@ng-icons/heroicons/outline';
 
 @Component({
   selector: 'app-select-form',
-  imports: [NgIcon],
+  imports: [NgIcon, ReactiveFormsModule, CommonModule],
   templateUrl: './select-form.component.html',
   styleUrl: './select-form.component.css',
   viewProviders: [
@@ -25,6 +27,7 @@ import {
       heroDevicePhoneMobile,
       heroUser,
       heroAtSymbol,
+      heroArrowPathRoundedSquare,
     }),
   ],
 })
@@ -32,6 +35,6 @@ export class SelectFormComponent {
   id = input.required<string>();
   label = input.required<string>();
   initialIcon = input<string>();
-  control = input<FormControl>();
+  control = input.required<FormControl>();
   options = input<{ label: string; value: string }[]>([]);
 }
