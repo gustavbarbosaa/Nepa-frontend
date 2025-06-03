@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { iLogin } from '@shared/models/login.model';
 import { iToken } from '@shared/models/token.model';
@@ -16,12 +16,25 @@ export class AuthService {
 
   login(loginData: iLogin): Observable<iToken> {
     return this.http.post<iToken>(`${apiUrl}/auth/login`, loginData).pipe(
-      tap(response => {
-        this.tokenService.setAccessToken(response.access_token);
-        this.tokenService.setRefreshToken(response.refresh_token);
+      tap((response: iToken) => {
+        this.tokenService.setTokens(response);
       }),
-      catchError(error => {
-        throw error;
+      catchError((errorResponse: HttpErrorResponse) => {
+        let errorMessage = 'Ocorreu um erro desconhecido.';
+        if (errorResponse.status === 401) {
+          errorMessage =
+            'Credenciais inválidas. Verifique seu usuário e senha.';
+        } else if (errorResponse.status === 400) {
+          if (errorResponse.error && errorResponse.error.message) {
+            errorMessage = errorResponse.error.message;
+          } else {
+            errorMessage = 'Dados inválidos fornecidos.';
+          }
+        } else if (errorResponse.status >= 500) {
+          errorMessage = 'Erro no servidor. Tente novamente mais tarde.';
+        }
+        console.error('AuthService login error:', errorResponse);
+        return throwError(() => new Error(errorMessage));
       })
     );
   }
