@@ -5,12 +5,14 @@
         id="email"
         label="Email"
         type="email"
+        [control]="getControl('email')"
         initialIcon="heroUser" />
 
       <app-input-form
         id="password"
         label="Senha"
         type="password"
+        [control]="getControl('senha')"
         initialIcon="heroLockClosed"
         [isPassword]="true" />
     </div>

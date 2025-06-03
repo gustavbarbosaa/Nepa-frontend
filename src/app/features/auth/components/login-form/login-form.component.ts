@@ -8,6 +8,7 @@ import {
 import {
   FormGroup,
   FormsModule,
+  FormControl,
   NonNullableFormBuilder,
   ReactiveFormsModule,
   Validators,
@@ -18,6 +19,8 @@ import { Checkbox } from 'primeng/checkbox';
 
 import { ButtonComponent } from '@shared/components/button/button.component';
 import { InputFormComponent } from '@shared/components/input-form/input-form.component';
+import { CommonModule } from '@angular/common';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login-form',
@@ -28,6 +31,7 @@ import { InputFormComponent } from '@shared/components/input-form/input-form.com
     ReactiveFormsModule,
     Checkbox,
     RouterLink,
+    CommonModule,
   ],
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.css',
@@ -35,6 +39,7 @@ import { InputFormComponent } from '@shared/components/input-form/input-form.com
 export class LoginFormComponent implements OnInit {
   form!: FormGroup;
   formBuilder = inject(NonNullableFormBuilder);
+  messageService = inject(MessageService);
 
   remember: WritableSignal<boolean> = signal(false);
 
@@ -44,6 +49,10 @@ export class LoginFormComponent implements OnInit {
       password: ['', [Validators.required]],
       remember: [false, [Validators.required]],
     });
+  }
+
+  getControl<T = string>(controlName: string): FormControl<T> {
+    return this.form.get(controlName) as FormControl<T>;
   }
 
   onSubmit(): void {
