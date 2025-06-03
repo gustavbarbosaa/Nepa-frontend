@@ -22,6 +22,10 @@ import { RegisterStudentService } from '@core/services/register-user/register-st
 import { RegisterTeacherService } from '@core/services/register-user/register-teacher.service';
 import { validateEqualPasswords } from '@shared/validators/validateEqualPasswords';
 import { iRegisterUserRequest } from '@app/shared/models/register-user.model';
+import { ToastService } from '@core/services/toast/toast.service';
+import { MessageService } from 'primeng/api';
+import { RippleModule } from 'primeng/ripple';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-register-form',
@@ -31,7 +35,10 @@ import { iRegisterUserRequest } from '@app/shared/models/register-user.model';
     InputFormComponent,
     SelectFormComponent,
     RouterLink,
+    ToastModule,
+    RippleModule,
   ],
+  providers: [ToastService, MessageService],
   templateUrl: './register-form.component.html',
   styleUrl: './register-form.component.css',
 })
@@ -40,6 +47,7 @@ export class RegisterFormComponent implements OnInit {
   private formBuilder = inject(NonNullableFormBuilder);
   private readonly registerStudentService = inject(RegisterStudentService);
   private readonly registerTeacherService = inject(RegisterTeacherService);
+  readonly toastService = inject(ToastService);
 
   typesUser: WritableSignal<{ label: string; value: string }[]> = signal([]);
   courses: WritableSignal<{ label: string; value: string }[]> = signal([]);
@@ -94,20 +102,36 @@ export class RegisterFormComponent implements OnInit {
   ): void {
     if (userType() !== 'professor') {
       this.registerStudentService.register(registerData).subscribe({
-        next: () => this.form.reset(),
-        error: error => console.error('Erro ao cadastrar aluno:', error),
+        next: () => {
+          this.toastService.showSuccess('Aluno cadastrado com sucesso!');
+          this.form.reset();
+        },
+        error: error => {
+          console.error('Erro ao cadastrar aluno:', error);
+          this.toastService.showError('Erro ao cadastrar aluno', 'Erro');
+        },
       });
       return;
     }
 
     this.registerTeacherService.register(registerData).subscribe({
-      next: () => this.form.reset(),
-      error: error => console.error('Erro ao cadastrar professor:', error),
+      next: () => {
+        this.toastService.showSuccess('Aluno cadastrado com sucesso!');
+        this.form.reset();
+      },
+      error: error => {
+        console.error('Erro ao cadastrar aluno:', error);
+        this.toastService.showError('Erro ao cadastrar aluno', 'Erro');
+      },
     });
   }
 
   onSubmit(): void {
     if (this.form.invalid) {
+      this.toastService.showWarn(
+        'Preencha todos os campos obrigatórios',
+        'Alerta'
+      );
       return;
     }
 

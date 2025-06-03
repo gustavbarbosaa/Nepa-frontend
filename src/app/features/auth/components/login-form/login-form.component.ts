@@ -20,7 +20,6 @@ import { Checkbox } from 'primeng/checkbox';
 import { ButtonComponent } from '@shared/components/button/button.component';
 import { InputFormComponent } from '@shared/components/input-form/input-form.component';
 import { CommonModule } from '@angular/common';
-import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login-form',
@@ -39,7 +38,6 @@ import { MessageService } from 'primeng/api';
 export class LoginFormComponent implements OnInit {
   form!: FormGroup;
   formBuilder = inject(NonNullableFormBuilder);
-  messageService = inject(MessageService);
 
   remember: WritableSignal<boolean> = signal(false);
 
