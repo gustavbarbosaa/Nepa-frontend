@@ -54,14 +54,49 @@ export class LoginFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      login: ['gustavoa@gmail.com', [Validators.required, Validators.email]],
+      login: ['', [Validators.required, Validators.email]],
       senha: ['Guga1957!', [Validators.required]],
       remember: [false],
     });
+
+    this.checkUserRememberedLogin();
   }
 
   getControl<T = string>(controlName: string): FormControl<T> {
     return this.form.get(controlName) as FormControl<T>;
+  }
+
+  rememberLoginInLocalStorage(): void {
+    const rememberChecked = this.form.get('remember')?.value;
+    const login = this.getControl<string>('login').value;
+
+    if (!rememberChecked) {
+      localStorage.removeItem('userLogin');
+      return;
+    }
+
+    localStorage.setItem('userLogin', login);
+  }
+
+  checkUserRememberedLogin(): void {
+    const rememberedLogin = localStorage.getItem('userLogin');
+
+    if (rememberedLogin) {
+      this.getControl<string>('login').setValue(rememberedLogin);
+      this.form.get('remember')?.setValue(true, { emitEvent: false });
+      this.remember.set(true);
+    }
+
+    this.form.get('remember')?.valueChanges.subscribe(value => {
+      this.remember.set(value);
+      this.rememberLoginInLocalStorage();
+    });
+
+    this.form.get('login')?.valueChanges.subscribe(() => {
+      if (this.form.get('remember')?.value) {
+        this.rememberLoginInLocalStorage();
+      }
+    });
   }
 
   onSubmit(): void {
