@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { iLogin } from '@shared/models/login.model';
 import { iToken } from '@shared/models/token.model';
 import { environment } from '@env/environment';
-import { catchError, Observable, tap } from 'rxjs';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 import { TokenService } from '@core/services/token/token.service';
 
 @Injectable({
@@ -15,7 +15,7 @@ export class AuthService {
   private readonly apiUrl = environment.apiUrl;
 
   login(loginData: iLogin): Observable<iToken> {
-    return this.http.post<iToken>(`${apiUrl}/auth/login`, loginData).pipe(
+    return this.http.post<iToken>(`${this.apiUrl}/auth/login`, loginData).pipe(
       tap((response: iToken) => {
         this.tokenService.setTokens(response);
       }),

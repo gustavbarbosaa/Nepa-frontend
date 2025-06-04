@@ -20,6 +20,12 @@ import { Checkbox } from 'primeng/checkbox';
 import { ButtonComponent } from '@shared/components/button/button.component';
 import { InputFormComponent } from '@shared/components/input-form/input-form.component';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '@app/core/services/auth/auth.service';
+import { iLogin } from '@app/shared/models/login.model';
+import { ToastService } from '@core/services/toast/toast.service';
+import { MessageService } from 'primeng/api';
+import { RippleModule } from 'primeng/ripple';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-login-form',
@@ -31,21 +37,26 @@ import { CommonModule } from '@angular/common';
     Checkbox,
     RouterLink,
     CommonModule,
+    ToastModule,
+    RippleModule,
   ],
+  providers: [ToastService, MessageService],
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.css',
 })
 export class LoginFormComponent implements OnInit {
   form!: FormGroup;
   formBuilder = inject(NonNullableFormBuilder);
+  authService = inject(AuthService);
+  toastService = inject(ToastService);
 
   remember: WritableSignal<boolean> = signal(false);
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
-      remember: [false, [Validators.required]],
+      login: ['gustavoa@gmail.com', [Validators.required, Validators.email]],
+      senha: ['Guga1957!', [Validators.required]],
+      remember: [false],
     });
   }
 
@@ -60,6 +71,22 @@ export class LoginFormComponent implements OnInit {
       return;
     }
 
-    console.log(this.form.value);
+    const { ...userRequest } = this.form.value;
+    const loginData: iLogin = {
+      login: userRequest.login,
+      senha: userRequest.senha,
+    };
+
+    this.authService.login(loginData).subscribe({
+      next: () => {
+        this.toastService.showSuccess('Login realizado com sucesso!');
+      },
+      error: error => {
+        this.toastService.showError(
+          error.message || 'Erro ao realizar login.',
+          'Erro'
+        );
+      },
+    });
   }
 }

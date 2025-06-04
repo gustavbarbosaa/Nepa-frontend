@@ -1,4 +1,5 @@
-import { Injectable, WritableSignal } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
+import { iToken } from '@app/shared/models/token.model';
 import { jwtDecode } from 'jwt-decode';
 
 const LOCAL_STORAGE_ACCESS_TOKEN = 'access_token';

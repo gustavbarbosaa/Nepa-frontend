@@ -11,4 +11,5 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./features/home/pages/home.routes').then(r => r.homeRoutes),
   },
+  { path: '', redirectTo: 'auth', pathMatch: 'full' },
 ];

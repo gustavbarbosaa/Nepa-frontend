@@ -1,11 +1,12 @@
 <div class="login-form">
+  <p-toast />
   <form class="login-form__form" [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="flex flex-col gap-6 md:gap-12">
       <app-input-form
         id="email"
         label="Email"
         type="email"
-        [control]="getControl('email')"
+        [control]="getControl('login')"
         initialIcon="heroUser" />
 
       <app-input-form
@@ -20,9 +21,9 @@
     <div class="flex flex-col md:flex-row gap-4 justify-between items-center">
       <div class="flex items-center">
         <p-checkbox
-          formControlName="remember"
-          [value]="remember()"
-          inputId="remember" />
+          binary="true"
+          inputId="remember"
+          formControlName="remember" />
         <label
           for="remember"
           class="ml-2 text-tertiary-500 font-inter font-light">
@@ -45,6 +46,8 @@
 
   <p class="text-tertiary-500 text-base text-center font-inter font-normal">
     Ainda não possui conta?
-    <a routerLink="#" class="text-primary-900">Clique aqui!</a>
+    <a [routerLink]="['/auth/register']" class="text-primary-900"
+      >Clique aqui!</a
+    >
   </p>
 </div>

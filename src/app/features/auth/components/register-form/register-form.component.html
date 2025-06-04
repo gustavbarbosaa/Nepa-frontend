@@ -23,12 +23,23 @@
         [control]="getControl('email')"
         initialIcon="heroAtSymbol" />
 
-      <app-input-form
-        id="registration"
-        label="Matrícula"
-        type="text"
-        [control]="getControl('matricula')"
-        initialIcon="heroIdentification" />
+      <div class="flex items-center gap-2 w-full">
+        <app-input-form
+          id="registration"
+          class="flex-1"
+          label="Matrícula"
+          type="text"
+          [control]="getControl('matricula')"
+          initialIcon="heroIdentification" />
+
+        <app-input-form
+          id="phone"
+          class="flex-1"
+          label="Telefone"
+          type="tel"
+          [control]="getControl('telefone')"
+          initialIcon="heroDevicePhoneMobile" />
+      </div>
 
       <app-select-form
         id="course"
@@ -36,13 +47,6 @@
         initialIcon="heroAcademicCap"
         [control]="getControl('curso_id')"
         [options]="courses()" />
-
-      <app-input-form
-        id="phone"
-        label="Telefone"
-        type="tel"
-        [control]="getControl('telefone')"
-        initialIcon="heroDevicePhoneMobile" />
 
       <div class="flex items-center gap-2 w-full">
         <app-input-form
@@ -73,6 +77,6 @@
 
   <p class="text-tertiary-500 text-base text-center font-inter font-normal">
     Já possui conta?
-    <a routerLink="#" class="text-primary-900">Clique aqui!</a>
+    <a [routerLink]="['/auth/login']" class="text-primary-900">Clique aqui!</a>
   </p>
 </div>
