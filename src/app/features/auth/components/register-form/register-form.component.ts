@@ -21,7 +21,7 @@ import { SelectFormComponent } from '@shared/components/select-form/select-form.
 import { RegisterStudentService } from '@core/services/register-user/register-student.service';
 import { RegisterTeacherService } from '@core/services/register-user/register-teacher.service';
 import { validateEqualPasswords } from '@shared/validators/validateEqualPasswords';
-import { iRegisterUserRequest } from '@app/shared/models/register-user.model';
+import { iRegisterUserRequest } from '@shared/models/register-user.model';
 import { ToastService } from '@core/services/toast/toast.service';
 import { MessageService } from 'primeng/api';
 import { RippleModule } from 'primeng/ripple';

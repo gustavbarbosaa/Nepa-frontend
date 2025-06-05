@@ -1,0 +1,10 @@
+<div class="h-full">
+  @if (userAuthenticated()) {
+    <div class="w-full h-full sm:p-12">
+      <app-drawer />
+      <router-outlet />
+    </div>
+  } @else {
+    <router-outlet />
+  }
+</div>

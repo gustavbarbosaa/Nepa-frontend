@@ -5,6 +5,7 @@ import { iToken } from '@shared/models/token.model';
 import { environment } from '@env/environment';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { TokenService } from '@core/services/token/token.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -12,16 +13,19 @@ import { TokenService } from '@core/services/token/token.service';
 export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly tokenService = inject(TokenService);
+  private readonly router = inject(Router);
   private readonly apiUrl = environment.apiUrl;
 
   login(loginData: iLogin): Observable<iToken> {
     return this.http.post<iToken>(`${this.apiUrl}/auth/login`, loginData).pipe(
       tap((response: iToken) => {
         this.tokenService.setTokens(response);
+        this.router.navigate(['/home']);
       }),
       catchError((errorResponse: HttpErrorResponse) => {
         let errorMessage = 'Ocorreu um erro desconhecido.';
-        if (errorResponse.status === 401) {
+        console.log(errorResponse.status);
+        if (errorResponse.status === 404) {
           errorMessage =
             'Credenciais inválidas. Verifique seu usuário e senha.';
         } else if (errorResponse.status === 400) {
@@ -41,5 +45,6 @@ export class AuthService {
 
   logout(): void {
     this.tokenService.clearTokens();
+    this.router.navigate(['/auth/login']);
   }
 }

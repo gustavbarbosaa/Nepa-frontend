@@ -20,8 +20,8 @@ import { Checkbox } from 'primeng/checkbox';
 import { ButtonComponent } from '@shared/components/button/button.component';
 import { InputFormComponent } from '@shared/components/input-form/input-form.component';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '@app/core/services/auth/auth.service';
-import { iLogin } from '@app/shared/models/login.model';
+import { AuthService } from '@core/services/auth/auth.service';
+import { iLogin } from '@shared/models/login.model';
 import { ToastService } from '@core/services/toast/toast.service';
 import { MessageService } from 'primeng/api';
 import { RippleModule } from 'primeng/ripple';
@@ -55,7 +55,7 @@ export class LoginFormComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       login: ['', [Validators.required, Validators.email]],
-      senha: ['Guga1957!', [Validators.required]],
+      senha: ['', [Validators.required, Validators.minLength(6)]],
       remember: [false],
     });
 

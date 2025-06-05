@@ -1,4 +1,5 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
+import { AuthService } from '@core/services/auth/auth.service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { heroArrowLeftOnRectangle } from '@ng-icons/heroicons/outline';
 
@@ -14,11 +15,13 @@ import { heroArrowLeftOnRectangle } from '@ng-icons/heroicons/outline';
   ],
 })
 export class ButtonLogoutComponent {
+  private readonly authService = inject(AuthService);
+
   label = input<string>('Sair');
   icon = input<string>('heroArrowLeftOnRectangle');
   textVisible = input<boolean>(true);
 
   logout(): void {
-    console.log('Logout realizado com sucesso!');
+    this.authService.logout();
   }
 }
