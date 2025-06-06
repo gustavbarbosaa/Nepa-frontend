@@ -25,7 +25,6 @@ export class AuthService {
       }),
       catchError((errorResponse: HttpErrorResponse) => {
         let errorMessage = 'Ocorreu um erro desconhecido.';
-        console.log(errorResponse.status);
         if (errorResponse.status === 404) {
           errorMessage =
             'Credenciais inválidas. Verifique seu usuário e senha.';
