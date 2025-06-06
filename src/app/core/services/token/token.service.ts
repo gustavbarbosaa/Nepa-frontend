@@ -1,5 +1,6 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
 import { iToken } from '@shared/models/token.model';
+import { iUserInfo } from '@shared/models/user-info.model';
 import { jwtDecode } from 'jwt-decode';
 
 const LOCAL_STORAGE_ACCESS_TOKEN = 'access_token';
@@ -54,11 +55,19 @@ export class TokenService {
       const decodedToken: { exp: number } = jwtDecode(accessToken);
       const currentTime = Math.floor(Date.now() / 1000);
 
-      console.log(currentTime);
       return decodedToken.exp > currentTime;
     } catch (error) {
       console.error('Error decoding access token:', error);
       return false;
     }
+  }
+
+  getNameAndTypeUserForToken(): iUserInfo | null {
+    const accessToken = this.getAccessToken();
+
+    if (!accessToken) return null;
+
+    const decodedToken: iUserInfo = jwtDecode(accessToken);
+    return decodedToken;
   }
 }

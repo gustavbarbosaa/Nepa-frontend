@@ -43,10 +43,12 @@
             shape="circle" />
           <div
             class="font-poppins font-normal text-sm flex flex-col items-start">
-            <span class="text-dark dark:text-light">Amy Elsner</span>
-            <span class="text-tertiary-500 dark:text-tertiary-400"
-              >exempleAexemple.com</span
-            >
+            <span class="text-dark dark:text-light max-w-[200px] truncate">{{
+              userInfo()?.nome
+            }}</span>
+            <span class="text-tertiary-500 dark:text-tertiary-400">{{
+              userInfo()?.autoridade
+            }}</span>
           </div>
         </a>
       </div>

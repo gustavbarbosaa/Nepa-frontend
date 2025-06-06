@@ -20,6 +20,7 @@ export class AuthService {
     return this.http.post<iToken>(`${this.apiUrl}/auth/login`, loginData).pipe(
       tap((response: iToken) => {
         this.tokenService.setTokens(response);
+        this.tokenService.getNameAndTypeUserForToken();
         this.router.navigate(['/home']);
       }),
       catchError((errorResponse: HttpErrorResponse) => {

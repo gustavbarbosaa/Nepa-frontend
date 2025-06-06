@@ -9,6 +9,7 @@ import {
   computed,
   Signal,
   OnInit,
+  inject,
 } from '@angular/core';
 import { Drawer } from 'primeng/drawer';
 import { ButtonModule } from 'primeng/button';
@@ -18,6 +19,8 @@ import { DrawerModule } from 'primeng/drawer';
 import { DividerModule } from 'primeng/divider';
 import { heroXMark, heroBars3 } from '@ng-icons/heroicons/outline';
 import { ButtonLogoutComponent } from '../button-logout/button-logout.component';
+import { TokenService } from '@core/services/token/token.service';
+import { iUserInfo } from '@shared/models/user-info.model';
 
 @Component({
   selector: 'app-drawer',
@@ -42,6 +45,10 @@ import { ButtonLogoutComponent } from '../button-logout/button-logout.component'
   ],
 })
 export class DrawerComponent implements OnInit {
+  private readonly tokenService = inject(TokenService);
+  userInfo: WritableSignal<iUserInfo | null> = signal(
+    this.tokenService.getNameAndTypeUserForToken()
+  );
   @ViewChild('drawerRef') drawerRef!: Drawer;
 
   closeCallback(e: Event): void {
