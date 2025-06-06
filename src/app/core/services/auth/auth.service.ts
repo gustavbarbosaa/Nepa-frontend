@@ -17,32 +17,30 @@ export class AuthService {
   private readonly apiUrl = environment.apiUrl;
 
   login(loginData: iLogin): Observable<iToken> {
-    return this.http
-      .post<iToken>(`${this.apiUrl}/autenticacao/entrar`, loginData)
-      .pipe(
-        tap((response: iToken) => {
-          this.tokenService.setTokens(response);
-          this.tokenService.getNameAndTypeUserForToken();
-          this.router.navigate(['/inicio']);
-        }),
-        catchError((errorResponse: HttpErrorResponse) => {
-          let errorMessage = 'Ocorreu um erro desconhecido.';
-          if (errorResponse.status === 404) {
-            errorMessage =
-              'Credenciais inválidas. Verifique seu usuário e senha.';
-          } else if (errorResponse.status === 400) {
-            if (errorResponse.error && errorResponse.error.message) {
-              errorMessage = errorResponse.error.message;
-            } else {
-              errorMessage = 'Dados inválidos fornecidos.';
-            }
-          } else if (errorResponse.status >= 500) {
-            errorMessage = 'Erro no servidor. Tente novamente mais tarde.';
+    return this.http.post<iToken>(`${this.apiUrl}/auth/login`, loginData).pipe(
+      tap((response: iToken) => {
+        this.tokenService.setTokens(response);
+        this.tokenService.getNameAndTypeUserForToken();
+        this.router.navigate(['/inicio']);
+      }),
+      catchError((errorResponse: HttpErrorResponse) => {
+        let errorMessage = 'Ocorreu um erro desconhecido.';
+        if (errorResponse.status === 404) {
+          errorMessage =
+            'Credenciais inválidas. Verifique seu usuário e senha.';
+        } else if (errorResponse.status === 400) {
+          if (errorResponse.error && errorResponse.error.message) {
+            errorMessage = errorResponse.error.message;
+          } else {
+            errorMessage = 'Dados inválidos fornecidos.';
           }
-          console.error('AuthService login error:', errorResponse);
-          return throwError(() => new Error(errorMessage));
-        })
-      );
+        } else if (errorResponse.status >= 500) {
+          errorMessage = 'Erro no servidor. Tente novamente mais tarde.';
+        }
+        console.error('AuthService login error:', errorResponse);
+        return throwError(() => new Error(errorMessage));
+      })
+    );
   }
 
   logout(): void {
