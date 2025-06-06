@@ -10,7 +10,9 @@ export const authGuard: CanActivateFn = state => {
   const isValid = accessToken && tokenService.isAccessTokenValid();
 
   if (!isValid) {
-    router.navigate(['/auth/login'], { queryParams: { returnUrl: state.url } });
+    router.navigate(['/autenticacao/entrar'], {
+      queryParams: { returnUrl: state.url },
+    });
     return false;
   }
 

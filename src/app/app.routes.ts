@@ -3,12 +3,12 @@ import { authGuard } from './core/guards/auth/auth.guard';
 
 export const routes: Routes = [
   {
-    path: 'auth',
+    path: 'autenticacao',
     loadChildren: () =>
       import('./features/auth/pages/auth.routes').then(r => r.authRoutes),
   },
   {
-    path: 'home',
+    path: 'inicio',
     canActivate: [authGuard],
     loadChildren: () =>
       import('./features/home/pages/home.routes').then(r => r.homeRoutes),
