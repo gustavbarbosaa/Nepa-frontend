@@ -2,7 +2,8 @@
   @if (!userAuthenticated()) {
     <div class="w-full h-full">
       <app-drawer />
-      <router-outlet />
+      <app-form-notice />
+      <!-- <router-outlet /> -->
     </div>
   } @else {
     <router-outlet />

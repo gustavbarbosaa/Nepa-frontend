@@ -1,1 +1,44 @@
-<p>form-notice works!</p>
+<div class="notice-form">
+  <p-toast />
+  <form class="notice-form__form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <app-input-form
+      id="nome"
+      label="Nome"
+      type="text"
+      [control]="getControl('nome')"
+      initialIcon="heroUser" />
+
+    <app-input-form
+      id="descricao"
+      label="Descrição"
+      type="text"
+      [control]="getControl('descricao')"
+      initialIcon="heroLockClosed" />
+
+    <app-select-form
+      id="admin"
+      label="Administrador"
+      initialIcon="heroAcademicCap"
+      [control]="getControl('admin_id')"
+      [options]="admins()" />
+
+    <p-fileupload
+      name="demo[]"
+      url="https://www.primefaces.org/cdn/api/upload.php"
+      (onUpload)="onUpload($event)"
+      [multiple]="true"
+      accept="image/*, .pdf"
+      maxFileSize="1000000"
+      mode="advanced">
+      <ng-template #empty>
+        <div>Arraste e solte os arquivos aqui para realizar o upload!</div>
+      </ng-template>
+    </p-fileupload>
+
+    <app-button
+      type="submit"
+      text="Cadastrar edital"
+      color="bg-primary-900"
+      class="text-light" />
+  </form>
+</div>
