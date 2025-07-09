@@ -1,0 +1,13 @@
+@reference '../../../../../styles.css';
+
+.notice-form__form {
+  @apply w-full flex flex-col justify-center items-center gap-4;
+}
+
+.textarea_form {
+  @apply w-full flex items-center justify-between gap-2 border border-tertiary-300 rounded-md p-2 transition-colors focus-within:border-tertiary-400 outline-none;
+}
+
+.label-description_form {
+  @apply font-inter text-sm font-normal text-dark;
+}

@@ -9,6 +9,7 @@ import {
   heroUser,
   heroAtSymbol,
   heroIdentification,
+  heroDocumentText,
 } from '@ng-icons/heroicons/outline';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -28,6 +29,7 @@ import { CommonModule } from '@angular/common';
       heroUser,
       heroAtSymbol,
       heroIdentification,
+      heroDocumentText,
     }),
   ],
 })

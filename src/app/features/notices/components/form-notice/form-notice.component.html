@@ -3,42 +3,29 @@
   <form class="notice-form__form" [formGroup]="form" (ngSubmit)="onSubmit()">
     <app-input-form
       id="nome"
-      label="Nome"
+      label="Insira o nome do edital"
+      class="w-full"
       type="text"
       [control]="getControl('nome')"
-      initialIcon="heroUser" />
+      initialIcon="heroDocumentText" />
 
-    <app-input-form
-      id="descricao"
-      label="Descrição"
-      type="text"
-      [control]="getControl('descricao')"
-      initialIcon="heroLockClosed" />
-
-    <app-select-form
-      id="admin"
-      label="Administrador"
-      initialIcon="heroAcademicCap"
-      [control]="getControl('admin_id')"
-      [options]="admins()" />
-
-    <p-fileupload
-      name="demo[]"
-      url="https://www.primefaces.org/cdn/api/upload.php"
-      (onUpload)="onUpload($event)"
-      [multiple]="true"
-      accept="image/*, .pdf"
-      maxFileSize="1000000"
-      mode="advanced">
-      <ng-template #empty>
-        <div>Arraste e solte os arquivos aqui para realizar o upload!</div>
-      </ng-template>
-    </p-fileupload>
+    <div class="w-full">
+      <label class="label-description_form" for="descricao"
+        >Insira uma descrição para o edital</label
+      >
+      <textarea
+        rows="6"
+        name="descricao"
+        id="descricao"
+        formControlName="descricao"
+        class="textarea_form">
+      </textarea>
+    </div>
 
     <app-button
       type="submit"
       text="Cadastrar edital"
       color="bg-primary-900"
-      class="text-light" />
+      class="text-light w-full" />
   </form>
 </div>

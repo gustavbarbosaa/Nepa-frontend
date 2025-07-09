@@ -1,11 +1,10 @@
 export interface iNoticeRequest {
   nome: string;
   descricao: string;
-  admin_id: string;
-  arquivo: string;
 }
 
 export interface iNoticeResponse {
+  id: string;
   nome: string;
   descricao: string;
   caminho_arquivo: string;

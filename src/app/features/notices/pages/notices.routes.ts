@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
-import { HomePage } from './home/home.page';
 import { authGuard } from '@core/guards/auth/auth.guard';
+import { NoticesPage } from './notices/notices.page';
 
-export const homeRoutes: Routes = [
+export const noticeRoutes: Routes = [
   {
     path: '',
-    component: HomePage,
+    component: NoticesPage,
     canActivate: [authGuard],
   },
 ];

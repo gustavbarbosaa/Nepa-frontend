@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-// import { authGuard } from './core/guards/auth/auth.guard';
+import { authGuard } from './core/guards/auth/auth.guard';
 
 export const routes: Routes = [
   {
@@ -9,9 +9,17 @@ export const routes: Routes = [
   },
   {
     path: 'inicio',
-    // canActivate: [authGuard],
+    canActivate: [authGuard],
     loadChildren: () =>
       import('./features/home/pages/home.routes').then(r => r.homeRoutes),
+  },
+  {
+    path: 'editais',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./features/notices/pages/notices.routes').then(
+        r => r.noticeRoutes
+      ),
   },
   { path: '', redirectTo: 'autenticacao', pathMatch: 'full' },
 ];
