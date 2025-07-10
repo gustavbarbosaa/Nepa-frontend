@@ -14,6 +14,7 @@ import { InputFormComponent } from '@shared/components/input-form/input-form.com
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { TextareaModule } from 'primeng/textarea';
+import { NoticeSignalService } from '@features/notices/services/notice-signal/notice-signal.service';
 
 @Component({
   selector: 'app-form-notice',
@@ -34,6 +35,7 @@ export class FormNoticeComponent implements OnInit {
   formBuilder = inject(NonNullableFormBuilder);
   toastService = inject(ToastService);
   noticeService = inject(NoticeService);
+  noticeSignalService = inject(NoticeSignalService);
 
   successRegister = output<void>();
 
@@ -66,6 +68,7 @@ export class FormNoticeComponent implements OnInit {
 
         this.form.reset();
         this.successRegister.emit();
+        this.noticeSignalService.triggerRefresh();
       },
       error: error => {
         this.toastService.showError('Houve um erro inesperado!', 'Ops!');

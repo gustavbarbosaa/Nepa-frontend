@@ -1,0 +1,5 @@
+@reference '../../../../../styles.css';
+
+.button-action {
+  @apply flex items-center justify-center transition-all;
+}
