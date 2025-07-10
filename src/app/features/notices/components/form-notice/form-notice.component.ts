@@ -13,6 +13,7 @@ import { ButtonComponent } from '@shared/components/button/button.component';
 import { InputFormComponent } from '@shared/components/input-form/input-form.component';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { TextareaModule } from 'primeng/textarea';
 
 @Component({
   selector: 'app-form-notice',
@@ -26,7 +27,7 @@ import { ToastModule } from 'primeng/toast';
   ],
   templateUrl: './form-notice.component.html',
   styleUrl: './form-notice.component.css',
-  providers: [ToastService, MessageService],
+  providers: [ToastService, MessageService, TextareaModule],
 })
 export class FormNoticeComponent implements OnInit {
   form!: FormGroup;
