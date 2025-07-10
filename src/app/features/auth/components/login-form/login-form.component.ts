@@ -51,6 +51,7 @@ export class LoginFormComponent implements OnInit {
   toastService = inject(ToastService);
 
   remember: WritableSignal<boolean> = signal(false);
+  loading = signal<boolean>(false);
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -106,6 +107,8 @@ export class LoginFormComponent implements OnInit {
       return;
     }
 
+    this.loading.set(true);
+
     const { ...userRequest } = this.form.value;
     const loginData: iLogin = {
       login: userRequest.login,
@@ -114,14 +117,17 @@ export class LoginFormComponent implements OnInit {
 
     this.authService.login(loginData).subscribe({
       next: () => {
+        this.loading.set(false);
         this.toastService.showSuccess('Login realizado com sucesso!');
       },
       error: error => {
+        this.loading.set(false);
         this.toastService.showError(
           error.message || 'Erro ao realizar login.',
           'Erro'
         );
       },
+      complete: () => this.loading.set(false),
     });
   }
 }

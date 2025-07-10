@@ -1,5 +1,5 @@
+<p-toast position="top-right" />
 <div class="notice-form">
-  <p-toast />
   <form class="notice-form__form" [formGroup]="form" (ngSubmit)="onSubmit()">
     <app-input-form
       id="nome"
@@ -27,6 +27,7 @@
       type="submit"
       text="Cadastrar edital"
       color="bg-primary-900"
-      class="text-light w-full" />
+      class="text-light w-full"
+      [loading]="loading()" />
   </form>
 </div>

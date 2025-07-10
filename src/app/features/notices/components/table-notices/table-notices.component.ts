@@ -15,10 +15,11 @@ import { Tag } from 'primeng/tag';
 import { NoticeSignalService } from '@features/notices/services/notice-signal/notice-signal.service';
 import { iNoticeResponse } from '@shared/models/notice.model';
 import { Dialog } from 'primeng/dialog';
+import { ButtonComponent } from '@shared/components/button/button.component';
 
 @Component({
   selector: 'app-table-notices',
-  imports: [Dialog, TableModule, Tag, CommonModule, NgIcon],
+  imports: [Dialog, TableModule, Tag, CommonModule, NgIcon, ButtonComponent],
   templateUrl: './table-notices.component.html',
   styleUrl: './table-notices.component.css',
   viewProviders: [provideIcons({ heroPencil, heroTrash })],
@@ -29,7 +30,8 @@ export class TableNoticesComponent implements OnInit {
 
   allNotices = signal<iNoticeResponse[]>([]);
   selectedNotice = signal<iNoticeResponse | null>(null);
-  visible = signal(false);
+  visible = signal<boolean>(false);
+  loading = signal<boolean>(false);
 
   notices = computed(() => {
     const name = this.noticeSignalService.filterName().toLowerCase();
@@ -70,15 +72,20 @@ export class TableNoticesComponent implements OnInit {
   }
 
   deleteNotice(): void {
+    this.loading.set(true);
     const notice = this.selectedNotice();
     if (!notice) return;
 
     this.noticeService.delete(notice.id).subscribe({
       next: () => {
         this.fetchNotices();
+        this.loading.set(false);
         this.visible.set(false);
       },
       error: err => console.error('Erro ao excluir edital:', err),
+      complete: () => {
+        this.loading.set(false);
+      },
     });
   }
 }

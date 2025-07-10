@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, output } from '@angular/core';
+import { Component, inject, OnInit, output, signal } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -38,6 +38,7 @@ export class FormNoticeComponent implements OnInit {
   noticeSignalService = inject(NoticeSignalService);
 
   successRegister = output<void>();
+  loading = signal<boolean>(false);
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -59,6 +60,8 @@ export class FormNoticeComponent implements OnInit {
       return;
     }
 
+    this.loading.set(true);
+
     this.noticeService.post(this.form.value).subscribe({
       next: () => {
         this.toastService.showSuccess(
@@ -66,13 +69,18 @@ export class FormNoticeComponent implements OnInit {
           'Sucesso!'
         );
 
+        this.loading.set(false);
         this.form.reset();
         this.successRegister.emit();
         this.noticeSignalService.triggerRefresh();
       },
       error: error => {
+        this.loading.set(false);
         this.toastService.showError('Houve um erro inesperado!', 'Ops!');
         console.error(error.error.message);
+      },
+      complete: () => {
+        this.loading.set(false);
       },
     });
   }

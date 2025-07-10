@@ -77,12 +77,20 @@
                         (click)="visible.set(false)">
                         Cancelar
                       </button>
-                      <button
+
+                      <app-button
+                        text="Excluir"
+                        color="bg-danger-600"
+                        class="text-light max-w-[150px] w-full"
+                        (click)="deleteNotice()"
+                        [loading]="loading()" />
+
+                      <!-- <button
                         type="button"
                         class="bg-danger-600 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-danger-700 transition-all"
                         (click)="deleteNotice()">
                         Excluir
-                      </button>
+                      </button> -->
                     </div>
                   }
                 </div>

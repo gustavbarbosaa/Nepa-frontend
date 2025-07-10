@@ -51,6 +51,7 @@ export class RegisterFormComponent implements OnInit {
 
   typesUser: WritableSignal<{ label: string; value: string }[]> = signal([]);
   courses: WritableSignal<{ label: string; value: string }[]> = signal([]);
+  loading = signal<boolean>(false);
 
   ngOnInit(): void {
     this.form = this.formBuilder.group(
@@ -103,26 +104,34 @@ export class RegisterFormComponent implements OnInit {
     if (userType() !== 'professor') {
       this.registerStudentService.register(registerData).subscribe({
         next: () => {
+          this.loading.set(false);
           this.toastService.showSuccess('Aluno cadastrado com sucesso!');
           this.form.reset();
         },
         error: error => {
+          this.loading.set(false);
+
           console.error('Erro ao cadastrar aluno:', error);
           this.toastService.showError('Erro ao cadastrar aluno', 'Erro');
         },
+
+        complete: () => this.loading.set(false),
       });
       return;
     }
 
     this.registerTeacherService.register(registerData).subscribe({
       next: () => {
+        this.loading.set(false);
         this.toastService.showSuccess('Aluno cadastrado com sucesso!');
         this.form.reset();
       },
       error: error => {
+        this.loading.set(false);
         console.error('Erro ao cadastrar aluno:', error);
         this.toastService.showError('Erro ao cadastrar aluno', 'Erro');
       },
+      complete: () => this.loading.set(false),
     });
   }
 
@@ -134,6 +143,8 @@ export class RegisterFormComponent implements OnInit {
       );
       return;
     }
+
+    this.loading.set(true);
 
     const { typeUserForm, ...userRequest } = this.form.value;
     const userType: Signal<string> = computed(() => typeUserForm);
