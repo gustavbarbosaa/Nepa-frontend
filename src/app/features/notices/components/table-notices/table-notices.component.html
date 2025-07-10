@@ -32,13 +32,29 @@
         </td>
         <td>
           <div class="flex items-center gap-4">
-            <div
+            <button
+              type="button"
+              (click)="showEditDialog(notice)"
               class="button-action bg-secondary-200 px-4 py-3 rounded-lg hover:bg-secondary-300 cursor-pointer">
               <ng-icon
                 name="heroPencil"
                 class="text-secondary-600"
                 style="color: #eab308" />
-            </div>
+
+              <p-dialog
+                header="Insira o arquivo do edital!"
+                [(visible)]="visibleEdit"
+                [modal]="true"
+                [dismissableMask]="true"
+                [style]="{ width: '500px' }"
+                [breakpoints]="{ '960px': '90vw' }"
+                appendTo="body">
+                <app-insert-file
+                  (successEdit)="onSuccessEdit()"
+                  [editalData]="selectedNotice()"
+                  [editalId]="selectedNotice()?.id" />
+              </p-dialog>
+            </button>
             <button
               type="button"
               (click)="showDeleteDialog(notice)"
@@ -50,7 +66,7 @@
 
               <p-dialog
                 header="Alertaa!"
-                [(visible)]="visible"
+                [(visible)]="visibleDelete"
                 [modal]="true"
                 [dismissableMask]="true"
                 [style]="{ width: '500px' }"
@@ -74,7 +90,7 @@
                       <button
                         type="button"
                         class="bg-tertiary-200 px-4 py-2 rounded-lg cursor-pointer hover:bg-tertiary-300 transition-all"
-                        (click)="visible.set(false)">
+                        (click)="visibleDelete.set(false)">
                         Cancelar
                       </button>
 
@@ -84,13 +100,6 @@
                         class="text-light max-w-[150px] w-full"
                         (click)="deleteNotice()"
                         [loading]="loading()" />
-
-                      <!-- <button
-                        type="button"
-                        class="bg-danger-600 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-danger-700 transition-all"
-                        (click)="deleteNotice()">
-                        Excluir
-                      </button> -->
                     </div>
                   }
                 </div>

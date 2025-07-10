@@ -36,5 +36,5 @@ export class ButtonComponent {
   text = input.required<string>();
   type = input<string>('button');
   color = input<string>('bg-primary-900');
-  loading = input<boolean>();
+  loading = input.required<boolean>();
 }

@@ -1,0 +1,49 @@
+<p-toast position="top-right" />
+<div class="notice-form">
+  <form class="notice-form__form" [formGroup]="form" (ngSubmit)="insertFile()">
+    <app-input-form
+      id="nome"
+      label="Insira o nome do edital"
+      class="w-full"
+      type="text"
+      [control]="getControl('nome')"
+      initialIcon="heroDocumentText" />
+
+    <div class="w-full">
+      <label class="label-description_form" for="descricao"
+        >Insira uma descrição para o edital</label
+      >
+      <textarea
+        rows="6"
+        name="descricao"
+        id="descricao"
+        pTextarea
+        formControlName="descricao"
+        class="textarea_form">
+      </textarea>
+    </div>
+
+    <div class="card">
+      <p-toast />
+      <p-fileupload
+        name="file"
+        (onSelect)="onSelect($event)"
+        accept="application/pdf"
+        maxFileSize="1000000"
+        chooseLabel="Insira o arquivo"
+        chooseIcon="pi pi-upload"
+        mode="basic">
+        <ng-template #empty>
+          <div>Arraste e solte o arquivo aqui!</div>
+        </ng-template>
+      </p-fileupload>
+    </div>
+
+    <app-button
+      type="submit"
+      text="Inserir arquivo"
+      color="bg-primary-900"
+      class="text-light w-full"
+      [loading]="loading()" />
+  </form>
+</div>

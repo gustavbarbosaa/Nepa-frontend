@@ -16,10 +16,19 @@ import { NoticeSignalService } from '@features/notices/services/notice-signal/no
 import { iNoticeResponse } from '@shared/models/notice.model';
 import { Dialog } from 'primeng/dialog';
 import { ButtonComponent } from '@shared/components/button/button.component';
+import { InsertFileComponent } from '../insert-file/insert-file.component';
 
 @Component({
   selector: 'app-table-notices',
-  imports: [Dialog, TableModule, Tag, CommonModule, NgIcon, ButtonComponent],
+  imports: [
+    Dialog,
+    TableModule,
+    Tag,
+    CommonModule,
+    NgIcon,
+    ButtonComponent,
+    InsertFileComponent,
+  ],
   templateUrl: './table-notices.component.html',
   styleUrl: './table-notices.component.css',
   viewProviders: [provideIcons({ heroPencil, heroTrash })],
@@ -30,7 +39,8 @@ export class TableNoticesComponent implements OnInit {
 
   allNotices = signal<iNoticeResponse[]>([]);
   selectedNotice = signal<iNoticeResponse | null>(null);
-  visible = signal<boolean>(false);
+  visibleDelete = signal<boolean>(false);
+  visibleEdit = signal<boolean>(false);
   loading = signal<boolean>(false);
 
   notices = computed(() => {
@@ -59,6 +69,10 @@ export class TableNoticesComponent implements OnInit {
     this.fetchNotices();
   }
 
+  onSuccessEdit(): void {
+    this.visibleEdit.set(false);
+  }
+
   fetchNotices(): void {
     this.noticeService.getAll().subscribe({
       next: res => this.allNotices.set(res),
@@ -66,9 +80,14 @@ export class TableNoticesComponent implements OnInit {
     });
   }
 
+  showEditDialog(notice: iNoticeResponse): void {
+    this.selectedNotice.set(notice);
+    this.visibleEdit.set(true);
+  }
+
   showDeleteDialog(notice: iNoticeResponse): void {
     this.selectedNotice.set(notice);
-    this.visible.set(true);
+    this.visibleDelete.set(true);
   }
 
   deleteNotice(): void {
@@ -80,7 +99,7 @@ export class TableNoticesComponent implements OnInit {
       next: () => {
         this.fetchNotices();
         this.loading.set(false);
-        this.visible.set(false);
+        this.visibleDelete.set(false);
       },
       error: err => console.error('Erro ao excluir edital:', err),
       complete: () => {

@@ -37,7 +37,7 @@ export class NoticeService {
     return this.http.delete<void>(`${this.apiUrl}/editais/${id}`).pipe(take(1));
   }
 
-  insertFile(id: string, file: File): Observable<iNoticeResponse> {
+  insertFile(id: string, file: FormData): Observable<iNoticeResponse> {
     return this.http
       .put<iNoticeResponse>(`${this.apiUrl}/editais/${id}/arquivo`, file)
       .pipe(take(1));
