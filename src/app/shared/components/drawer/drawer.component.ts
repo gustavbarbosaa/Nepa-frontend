@@ -79,20 +79,14 @@ export class DrawerComponent implements OnInit {
       },
       {
         icon: 'heroUserGroup',
-        label: 'Alunos',
-        routerLink: '/alunos',
+        label: 'Usuários',
+        routerLink: '/usuarios',
         textVisible: this.isVisible(),
       },
       {
         icon: 'heroClipboardDocumentList',
         label: 'Editais',
         routerLink: '/editais',
-        textVisible: this.isVisible(),
-      },
-      {
-        icon: 'heroAcademicCap',
-        label: 'Professores',
-        routerLink: '/professores',
         textVisible: this.isVisible(),
       },
       {
