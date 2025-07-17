@@ -8,6 +8,13 @@ export const routes: Routes = [
       import('./features/auth/pages/auth.routes').then(r => r.authRoutes),
   },
   {
+    path: 'alunos',
+    loadChildren: () =>
+      import('./features/students/pages/students.routes').then(
+        r => r.studentsRoutes
+      ),
+  },
+  {
     path: 'inicio',
     canActivate: [authGuard],
     loadChildren: () =>
