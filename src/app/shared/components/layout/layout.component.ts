@@ -12,6 +12,9 @@ import { DrawerComponent } from '@shared/components/drawer/drawer.component';
 export class LayoutComponent {
   private readonly tokenService = inject(TokenService);
   readonly userAuthenticated = computed(() => {
-    return !!this.tokenService.getAccessToken();
+    return (
+      !!this.tokenService.getAccessToken() &&
+      this.tokenService.isAccessTokenValid()
+    );
   });
 }
