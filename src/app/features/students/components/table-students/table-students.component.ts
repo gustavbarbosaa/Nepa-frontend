@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { StudentService } from '@features/students/services/student/student.service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { heroPencil, heroTrash } from '@ng-icons/heroicons/outline';
 import { ButtonComponent } from '@shared/components/button/button.component';
@@ -16,9 +17,28 @@ import { Tag } from 'primeng/tag';
   viewProviders: [provideIcons({ heroPencil, heroTrash })],
 })
 export class TableStudentsComponent implements OnInit {
+  private studentService = inject(StudentService);
   allStudents = signal<iStudent[]>([]);
+  loading = signal<boolean>(false);
 
   ngOnInit(): void {
-    console.log('TableStudentsComponent initialized');
+    this.loading.set(true);
+
+    this.studentService.getStudents().subscribe({
+      next: students => {
+        this.loading.set(false);
+        this.allStudents.set(students);
+        console.log('Alunos carregados:', students);
+      },
+      error: err => {
+        this.loading.set(false);
+        console.error('Erro ao buscar alunos:', err);
+      },
+      complete: () => {
+        this.loading.set(false);
+
+        console.log('Busca de alunos concluída');
+      },
+    });
   }
 }
