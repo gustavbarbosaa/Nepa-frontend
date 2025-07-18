@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { StudentSignalService } from '@features/students/services/student-signal/student-signal.service';
 import { StudentService } from '@features/students/services/student/student.service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
@@ -37,30 +44,33 @@ export class TableStudentsComponent implements OnInit {
 
     return this.allStudents().filter(student => {
       const matchNames = student.nome.toLowerCase().includes(name);
-      const matchStatus = status === false || student.ativo === status;
+      const matchesStatus =
+        status === '' ||
+        (status === 'ativo' && student.ativo === true) ||
+        (status === 'inativo' && student.ativo === false);
 
-      return matchNames && matchStatus;
+      return matchNames && matchesStatus;
     });
   });
 
+  constructor() {
+    effect(() => {
+      this.studentSignalService.refresh$();
+      this.fetchStudents();
+    });
+  }
+
   ngOnInit(): void {
-    this.loading.set(true);
+    this.fetchStudents();
+  }
 
+  fetchStudents(): void {
     this.studentService.getStudents().subscribe({
-      next: students => {
-        this.loading.set(false);
-        this.allStudents.set(students);
-        console.log('Alunos carregados:', students);
+      next: res => {
+        this.allStudents.set(res);
+        console.log('Alunos carregados com sucesso!', res);
       },
-      error: error => {
-        this.loading.set(false);
-        console.error('Erro ao buscar alunos:', error);
-      },
-      complete: () => {
-        this.loading.set(false);
-
-        console.log('Busca de alunos concluída');
-      },
+      error: err => console.error('Erro ao buscar alunos: ', err),
     });
   }
 }

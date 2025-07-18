@@ -6,7 +6,7 @@ import { Injectable, signal } from '@angular/core';
 export class StudentSignalService {
   private refreshSignal = signal(0);
   filterName = signal<string>('');
-  filterStatus = signal<boolean>(false);
+  filterStatus = signal<string>('');
 
   refresh$ = this.refreshSignal.asReadonly();
 
