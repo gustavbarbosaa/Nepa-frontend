@@ -93,6 +93,10 @@ export class InputFormComponent implements OnInit {
       return `Máximo de ${maxLength} caracteres`;
     }
 
+    if (errors['pattern']) {
+      return 'A senha deve conter pelo menos 8 caracteres, com letras e números';
+    }
+
     return 'Campo inválido';
   }
 }

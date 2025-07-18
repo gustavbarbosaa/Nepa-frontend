@@ -65,8 +65,20 @@ export class RegisterFormComponent implements OnInit {
           '',
           [Validators.required, Validators.email, Validators.minLength(5)],
         ],
-        senha: ['', [Validators.required, Validators.minLength(6)]],
-        confirmar_senha: ['', [Validators.required, Validators.minLength(6)]],
+        senha: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
+          ],
+        ],
+        confirmar_senha: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
+          ],
+        ],
         telefone: ['', [Validators.required, Validators.minLength(11)]],
         curso_id: ['', Validators.required],
       },
