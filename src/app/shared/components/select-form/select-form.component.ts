@@ -39,4 +39,20 @@ export class SelectFormComponent {
   initialIcon = input<string>();
   control = input.required<FormControl>();
   options = input<{ label: string; value: string }[]>([]);
+
+  get formControl(): FormControl {
+    return this.control();
+  }
+
+  getSelectErrorMessage(): string {
+    const errors = this.formControl.errors;
+
+    if (!errors) return '';
+
+    if (errors['required']) {
+      return 'Seleção obrigatória';
+    }
+
+    return 'Campo inválido';
+  }
 }
