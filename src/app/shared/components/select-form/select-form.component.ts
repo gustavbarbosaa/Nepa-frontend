@@ -11,6 +11,7 @@ import {
   heroUser,
   heroAtSymbol,
   heroArrowPathRoundedSquare,
+  heroAdjustmentsHorizontal,
 } from '@ng-icons/heroicons/outline';
 
 @Component({
@@ -28,6 +29,7 @@ import {
       heroUser,
       heroAtSymbol,
       heroArrowPathRoundedSquare,
+      heroAdjustmentsHorizontal,
     }),
   ],
 })
