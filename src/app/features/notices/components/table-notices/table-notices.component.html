@@ -5,7 +5,8 @@
     [paginator]="true"
     [rows]="5"
     [tableStyle]="{ 'min-width': '50rem' }"
-    [rowsPerPageOptions]="[5, 10, 20]">
+    [rowsPerPageOptions]="[5, 10, 20]"
+    [loading]="loading()">
     <ng-template #header>
       <tr>
         <th style="width: 25%">Nome</th>
