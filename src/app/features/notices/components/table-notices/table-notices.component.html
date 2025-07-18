@@ -36,11 +36,18 @@
             <button
               type="button"
               (click)="showEditDialog(notice)"
-              class="button-action bg-primary-200 px-4 py-3 rounded-lg hover:bg-primary-300 cursor-pointer">
+              [disabled]="notice.caminho_arquivo"
+              [ngClass]="
+                notice.caminho_arquivo
+                  ? 'cursor-not-allowed bg-tertiary-200'
+                  : 'hover:bg-primary-300 cursor-pointer'
+              "
+              class="button-action bg-primary-200 px-4 py-3 rounded-lg">
               <ng-icon
                 name="heroPencil"
-                class="text-primary-600"
-                style="color: #4f46e5" />
+                [style]="
+                  notice.caminho_arquivo ? 'color: #9ca3af' : 'color: #4f46e5'
+                " />
 
               <p-dialog
                 header="Insira o arquivo do edital!"
