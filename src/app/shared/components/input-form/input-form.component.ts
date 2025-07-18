@@ -69,4 +69,30 @@ export class InputFormComponent implements OnInit {
       );
     }
   }
+
+  getErrorMessage(): string {
+    const errors = this.formControl.errors;
+
+    if (!errors) return '';
+
+    if (errors['required']) {
+      return 'Este campo é obrigatório';
+    }
+
+    if (errors['email']) {
+      return 'E-mail inválido';
+    }
+
+    if (errors['minlength']) {
+      const requiredLength = errors['minlength'].requiredLength;
+      return `Mínimo de ${requiredLength} caracteres`;
+    }
+
+    if (errors['maxlength']) {
+      const maxLength = errors['maxlength'].requiredLength;
+      return `Máximo de ${maxLength} caracteres`;
+    }
+
+    return 'Campo inválido';
+  }
 }

@@ -24,4 +24,9 @@
       <ng-icon (click)="togglePassword()" [name]="finalIconInput()" />
     }
   </div>
+  <div class="text-danger-500 text-sm mt-1">
+    @if (formControl.invalid && (formControl.dirty || formControl.touched)) {
+      {{ getErrorMessage() }}
+    }
+  </div>
 </div>
