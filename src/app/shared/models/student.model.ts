@@ -5,5 +5,5 @@ export interface iStudent {
   email: string;
   telefone: string;
   autoridade: string;
-  ativo: string;
+  ativo: boolean;
 }
