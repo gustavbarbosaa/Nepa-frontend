@@ -1,0 +1,24 @@
+<div class="relative flex flex-col items-center justify-between gap-4">
+  <div class="w-full flex items-center justify-between">
+    <app-title-header-list
+      title="Gerenciar alunos"
+      subtitle="Faça o gerenciamento dos alunos cadastrados" />
+    <div
+      class="w-full flex items-center justify-between rounded-2xl border border-tertiary-100 p-4 gap-4">
+      <app-input-form
+        id="nome"
+        label="Filtrar pelo nome do edital"
+        type="text"
+        [control]="getControl('filterName')"
+        class="w-full"
+        initialIcon="heroUser" />
+
+      <app-select-form
+        id="course"
+        label="Curso"
+        initialIcon="heroAcademicCap"
+        [control]="getControl('filterStatus')"
+        [options]="statusFilter()" />
+    </div>
+  </div>
+</div>

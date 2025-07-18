@@ -17,6 +17,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { NoticeSignalService } from '@features/notices/services/notice-signal/notice-signal.service';
+import { TitleHeaderListComponent } from '@shared/components/title-header-list/title-header-list.component';
 
 @Component({
   selector: 'app-header-notices',
@@ -26,6 +27,7 @@ import { NoticeSignalService } from '@features/notices/services/notice-signal/no
     FormNoticeComponent,
     InputFormComponent,
     SelectFormComponent,
+    TitleHeaderListComponent,
   ],
   standalone: true,
   templateUrl: './header-notices.component.html',
