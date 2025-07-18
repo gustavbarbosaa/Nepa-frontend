@@ -23,11 +23,12 @@
     class="w-full flex items-center justify-between rounded-2xl border border-tertiary-100 p-4 gap-4">
     <app-input-form
       id="nome"
-      label="Filtrar pelo nome do edital"
+      label="Filtrar por nome"
       type="text"
       [control]="getControl('filterName')"
       class="w-full"
-      initialIcon="heroDocumentText" />
+      initialIcon="heroDocumentText"
+      placeholder="Informe o nome do edital" />
 
     <app-select-form
       id="course"

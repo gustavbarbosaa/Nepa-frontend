@@ -16,11 +16,19 @@ import { TableModule } from 'primeng/table';
 import { Tag } from 'primeng/tag';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { NgxMaskPipe } from 'ngx-mask';
+import { Dialog } from 'primeng/dialog';
+import { ButtonComponent } from '@shared/components/button/button.component';
+import { ToastService } from '@core/services/toast/toast.service';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-table-students',
   imports: [
+    ButtonComponent,
+    Dialog,
     TableModule,
+    ToastModule,
     Tag,
     CommonModule,
     NgIcon,
@@ -30,12 +38,16 @@ import { NgxMaskPipe } from 'ngx-mask';
   templateUrl: './table-students.component.html',
   styleUrl: './table-students.component.css',
   viewProviders: [provideIcons({ heroPencil, heroTrash })],
+  providers: [ToastService, MessageService],
 })
 export class TableStudentsComponent implements OnInit {
   private studentService = inject(StudentService);
   private studentSignalService = inject(StudentSignalService);
+  private toastService = inject(ToastService);
 
   allStudents = signal<iStudent[]>([]);
+  selectedStudent = signal<iStudent | null>(null);
+  visibleDelete = signal<boolean>(false);
   loading = signal<boolean>(false);
 
   students = computed(() => {
@@ -65,12 +77,45 @@ export class TableStudentsComponent implements OnInit {
   }
 
   fetchStudents(): void {
-    this.studentService.getStudents().subscribe({
+    this.studentService.getAll().subscribe({
       next: res => {
         this.allStudents.set(res);
-        console.log('Alunos carregados com sucesso!', res);
       },
       error: err => console.error('Erro ao buscar alunos: ', err),
+    });
+  }
+
+  showDeleteDialog(student: iStudent): void {
+    this.selectedStudent.set(student);
+    this.visibleDelete.set(true);
+  }
+
+  deleteStudent(): void {
+    this.loading.set(true);
+    const student = this.selectedStudent();
+    if (!student) return;
+
+    this.studentService.delete(student.id).subscribe({
+      next: () => {
+        this.fetchStudents();
+        this.loading.set(false);
+        this.visibleDelete.set(false);
+        this.toastService.showSuccess(
+          'Aluno excluído com sucesso!',
+          'Sucesso!'
+        );
+      },
+      error: error => {
+        this.toastService.showError(
+          'Houve um erro ao excluir o aluno!',
+          'Ops!'
+        );
+        this.loading.set(false);
+        console.error(error.error.message);
+      },
+      complete: () => {
+        this.loading.set(false);
+      },
     });
   }
 }

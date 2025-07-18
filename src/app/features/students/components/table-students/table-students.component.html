@@ -1,4 +1,6 @@
 <div class="card">
+  <p-toast position="top-right" />
+
   <p-table
     class="flex-1 overflow-auto"
     [value]="students()"
@@ -54,11 +56,55 @@
             </button>
             <button
               type="button"
+              (click)="showDeleteDialog(student)"
               class="button-action bg-danger-200 px-4 py-3 rounded-lg hover:bg-danger-300 cursor-pointer">
               <ng-icon
                 name="heroTrash"
                 class="text-danger-600"
                 style="color: #dc2626" />
+
+              <p-dialog
+                header="Alertaa!"
+                [(visible)]="visibleDelete"
+                [modal]="true"
+                [dismissableMask]="true"
+                [style]="{ width: '500px' }"
+                [breakpoints]="{ '960px': '90vw' }"
+                appendTo="body">
+                <p-toast position="top-right" />
+
+                <div>
+                  @if (selectedStudent()) {
+                    <h2
+                      class="text-xl font-bold text-danger-600 py-4 border-t border-tertiary-200">
+                      Tem certeza que deseja excluir este aluno?
+                    </h2>
+                    <p class="mb-2">
+                      <strong>Nome:</strong> {{ selectedStudent()!.nome }}
+                    </p>
+                    <p class="mb-4">
+                      <strong>Matrícula:</strong>
+                      {{ selectedStudent()!.matricula }}
+                    </p>
+                    <div
+                      class="flex justify-end gap-4 pt-6 border-t border-tertiary-200">
+                      <button
+                        type="button"
+                        class="bg-tertiary-200 px-4 py-2 rounded-lg cursor-pointer hover:bg-tertiary-300 transition-all"
+                        (click)="visibleDelete.set(false)">
+                        Cancelar
+                      </button>
+
+                      <app-button
+                        text="Excluir"
+                        color="bg-danger-600"
+                        class="text-light max-w-[150px] w-full"
+                        (click)="deleteStudent()"
+                        [loading]="loading()" />
+                    </div>
+                  }
+                </div>
+              </p-dialog>
             </button>
           </div>
         </td>

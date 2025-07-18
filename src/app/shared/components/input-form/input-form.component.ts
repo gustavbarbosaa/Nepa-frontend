@@ -13,10 +13,11 @@ import {
 } from '@ng-icons/heroicons/outline';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-input-form',
-  imports: [NgIcon, ReactiveFormsModule, CommonModule],
+  imports: [NgIcon, ReactiveFormsModule, CommonModule, NgxMaskDirective],
   templateUrl: './input-form.component.html',
   styleUrl: './input-form.component.css',
   viewProviders: [
@@ -32,6 +33,7 @@ import { CommonModule } from '@angular/common';
       heroDocumentText,
     }),
   ],
+  providers: [],
 })
 export class InputFormComponent implements OnInit {
   id = input.required<string>();
@@ -41,6 +43,7 @@ export class InputFormComponent implements OnInit {
   finalIcon = input<string>('heroEye');
   isPassword = input<boolean>(false);
   control = input.required<FormControl>();
+  placeholder = input.required<string>();
 
   typeInput = signal<string>('');
   finalIconInput = signal<string>('');

@@ -11,7 +11,7 @@ export class StudentService {
   private http = inject(HttpClient);
   private readonly apiUrl: string = environment.apiUrl;
 
-  getStudents(active?: boolean): Observable<iStudent[]> {
+  getAll(active?: boolean): Observable<iStudent[]> {
     if (active !== undefined) {
       return this.http
         .get<iStudent[]>(`${this.apiUrl}/alunos?ativo=${active}`)
@@ -19,5 +19,9 @@ export class StudentService {
     }
 
     return this.http.get<iStudent[]>(`${this.apiUrl}/alunos/`).pipe(take(1));
+  }
+
+  delete(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/alunos/${id}`).pipe(take(1));
   }
 }

@@ -1,12 +1,12 @@
 <p-toast />
 <div class="register-form">
-  <form class="register-form__form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <form class="register-form__form" [formGroup]="form" (ngSubmit)="register()">
     <div class="flex flex-col gap-4 md:gap-8">
       <app-select-form
         id="typeUSer"
         label="Tipo de usuário"
         initialIcon="heroArrowPathRoundedSquare"
-        [control]="getControl('tipoUsuario')"
+        [control]="getControl('tipo')"
         [options]="typesUser()" />
 
       <app-input-form
@@ -14,14 +14,16 @@
         label="Nome"
         type="text"
         [control]="getControl('nome')"
-        initialIcon="heroUser" />
+        initialIcon="heroUser"
+        placeholder="Insira seu nome" />
 
       <app-input-form
         id="email"
         label="Email"
         type="email"
         [control]="getControl('email')"
-        initialIcon="heroAtSymbol" />
+        initialIcon="heroAtSymbol"
+        placeholder="seuemail@dominio.com" />
 
       <div class="flex items-center gap-2 w-full">
         <app-input-form
@@ -30,7 +32,8 @@
           label="Matrícula"
           type="text"
           [control]="getControl('matricula')"
-          initialIcon="heroIdentification" />
+          initialIcon="heroIdentification"
+          placeholder="Informe sua matrícula" />
 
         <app-input-form
           id="phone"
@@ -38,7 +41,8 @@
           label="Telefone"
           type="tel"
           [control]="getControl('telefone')"
-          initialIcon="heroDevicePhoneMobile" />
+          initialIcon="heroDevicePhoneMobile"
+          placeholder="(00) 9 0000-0000" />
       </div>
 
       <app-select-form
@@ -56,16 +60,18 @@
           type="password"
           [control]="getControl('senha')"
           initialIcon="heroLockClosed"
-          [isPassword]="true" />
+          [isPassword]="true"
+          placeholder="Inform sua senha" />
 
         <app-input-form
           class="flex-1"
           id="password"
           label="Repita a senha"
           type="password"
-          [control]="getControl('confirmarSenha')"
+          [control]="getControl('confirmar_senha')"
           initialIcon="heroLockClosed"
-          [isPassword]="true" />
+          [isPassword]="true"
+          placeholder="Informe a senha novamente" />
       </div>
     </div>
     <app-button

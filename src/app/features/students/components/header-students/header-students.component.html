@@ -6,11 +6,12 @@
     class="w-full flex items-center justify-between rounded-2xl border border-tertiary-100 p-4 gap-4">
     <app-input-form
       id="nome"
-      label="Filtrar pelo nome do aluno"
+      label="Filtrar pelo nome"
       type="text"
       [control]="getControl('filterName')"
       class="w-full"
-      initialIcon="heroUser" />
+      initialIcon="heroUser"
+      placeholder="Informe o nome do aluno" />
 
     <app-select-form
       id="status"

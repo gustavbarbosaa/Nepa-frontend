@@ -3,11 +3,22 @@
   <div class="input-form__container">
     <ng-icon [name]="initialIcon()" />
 
-    <input
-      [formControl]="control()"
-      class="input-form__input"
-      [id]="id()"
-      [type]="typeInput()" />
+    @if (type() === 'tel') {
+      <input
+        [formControl]="control()"
+        class="input-form__input"
+        [id]="id()"
+        [type]="typeInput()"
+        [placeholder]="placeholder()"
+        mask="(00) 0 0000-0000" />
+    } @else {
+      <input
+        [formControl]="control()"
+        class="input-form__input"
+        [id]="id()"
+        [type]="typeInput()"
+        [placeholder]="placeholder()" />
+    }
 
     @if (isPassword()) {
       <ng-icon (click)="togglePassword()" [name]="finalIconInput()" />

@@ -7,7 +7,8 @@
         label="Email"
         type="email"
         [control]="getControl('login')"
-        initialIcon="heroUser" />
+        initialIcon="heroUser"
+        placeholder="Informe seu email" />
 
       <app-input-form
         id="password"
@@ -15,7 +16,8 @@
         type="password"
         [control]="getControl('senha')"
         initialIcon="heroLockClosed"
-        [isPassword]="true" />
+        [isPassword]="true"
+        placeholder="Informe sua senha" />
     </div>
 
     <div class="flex flex-col md:flex-row gap-4 justify-between items-center">
