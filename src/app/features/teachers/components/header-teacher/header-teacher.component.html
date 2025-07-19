@@ -1,0 +1,23 @@
+<div class="w-full flex flex-col items-start justify-between gap-4">
+  <app-title-header-list
+    title="Gerenciar professores"
+    subtitle="Faça o gerenciamento dos professores cadastrados" />
+  <div
+    class="w-full flex items-center justify-between rounded-2xl border border-tertiary-100 p-4 gap-4">
+    <app-input-form
+      id="nome"
+      label="Filtrar pelo nome"
+      type="text"
+      [control]="getControl('filterName')"
+      class="w-full"
+      initialIcon="heroUser"
+      placeholder="Informe o nome do professor" />
+
+    <app-select-form
+      id="status"
+      label="Status"
+      initialIcon="heroAdjustmentsHorizontal"
+      [control]="getControl('filterStatus')"
+      [options]="statusFilter()" />
+  </div>
+</div>

@@ -15,6 +15,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'professores',
+    loadChildren: () =>
+      import('./features/teachers/pages/teacher.routes').then(
+        r => r.teacherRoutes
+      ),
+  },
+  {
     path: 'inicio',
     canActivate: [authGuard],
     loadChildren: () =>
