@@ -1,0 +1,18 @@
+<div class="card">
+  <p-table
+    class="flex-1 overflow-auto"
+    [value]="data()"
+    [paginator]="true"
+    [rows]="5"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowsPerPageOptions]="[5, 10, 20]">
+    <ng-container *ngTemplateOutlet="headerTable"></ng-container>
+    <ng-template pTemplate="body" let-item>
+      <ng-container
+        *ngTemplateOutlet="
+          bodyTable;
+          context: { $implicit: item }
+        "></ng-container>
+    </ng-template>
+  </p-table>
+</div>

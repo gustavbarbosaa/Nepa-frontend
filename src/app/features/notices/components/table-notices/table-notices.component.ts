@@ -17,6 +17,10 @@ import { iNoticeResponse } from '@shared/models/notice.model';
 import { Dialog } from 'primeng/dialog';
 import { ButtonComponent } from '@shared/components/button/button.component';
 import { InsertFileComponent } from '../insert-file/insert-file.component';
+import { TableListItemsComponent } from '@shared/components/table-list-items/table-list-items.component';
+import { ToastService } from '@core/services/toast/toast.service';
+import { MessageService } from 'primeng/api';
+import { Toast } from 'primeng/toast';
 
 @Component({
   selector: 'app-table-notices',
@@ -28,14 +32,18 @@ import { InsertFileComponent } from '../insert-file/insert-file.component';
     NgIcon,
     ButtonComponent,
     InsertFileComponent,
+    TableListItemsComponent,
+    Toast,
   ],
   templateUrl: './table-notices.component.html',
   styleUrl: './table-notices.component.css',
   viewProviders: [provideIcons({ heroPencil, heroTrash })],
+  providers: [MessageService, ToastService],
 })
 export class TableNoticesComponent implements OnInit {
   private noticeService = inject(NoticeService);
   private noticeSignalService = inject(NoticeSignalService);
+  private toastService = inject(ToastService);
 
   allNotices = signal<iNoticeResponse[]>([]);
   selectedNotice = signal<iNoticeResponse | null>(null);
@@ -101,7 +109,11 @@ export class TableNoticesComponent implements OnInit {
         this.loading.set(false);
         this.visibleDelete.set(false);
       },
-      error: err => console.error('Erro ao excluir edital:', err),
+      error: err => {
+        this.loading.set(false);
+        this.toastService.showError('Erro ao excluir edital!', 'Erro');
+        console.error('Erro ao excluir edital:', err);
+      },
       complete: () => {
         this.loading.set(false);
       },

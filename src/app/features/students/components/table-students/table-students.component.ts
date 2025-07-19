@@ -21,6 +21,7 @@ import { ButtonComponent } from '@shared/components/button/button.component';
 import { ToastService } from '@core/services/toast/toast.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { TableListItemsComponent } from '@shared/components/table-list-items/table-list-items.component';
 
 @Component({
   selector: 'app-table-students',
@@ -32,8 +33,8 @@ import { ToastModule } from 'primeng/toast';
     Tag,
     CommonModule,
     NgIcon,
-    ScrollPanelModule,
     NgxMaskPipe,
+    TableListItemsComponent,
   ],
   templateUrl: './table-students.component.html',
   styleUrl: './table-students.component.css',
