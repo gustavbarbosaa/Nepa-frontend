@@ -3,11 +3,12 @@
   <form class="notice-form__form" [formGroup]="form" (ngSubmit)="onSubmit()">
     <app-input-form
       id="nome"
-      label="Insira o nome do edital"
+      label="Nome"
       class="w-full"
       type="text"
       [control]="getControl('nome')"
-      initialIcon="heroDocumentText" />
+      initialIcon="heroDocumentText"
+      placeholder="Insira o nome do edital" />
 
     <div class="w-full">
       <label class="label-description_form" for="descricao"
@@ -19,6 +20,7 @@
         id="descricao"
         pTextarea
         formControlName="descricao"
+        placeholder="Insira uma descrição para o edital"
         class="textarea_form">
       </textarea>
     </div>
