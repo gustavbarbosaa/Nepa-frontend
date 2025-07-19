@@ -14,7 +14,6 @@ import { heroPencil, heroTrash } from '@ng-icons/heroicons/outline';
 import { iStudent } from '@shared/models/student.model';
 import { TableModule } from 'primeng/table';
 import { Tag } from 'primeng/tag';
-import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { NgxMaskPipe } from 'ngx-mask';
 import { Dialog } from 'primeng/dialog';
 import { ButtonComponent } from '@shared/components/button/button.component';
