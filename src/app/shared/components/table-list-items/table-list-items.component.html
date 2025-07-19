@@ -6,7 +6,9 @@
     [rows]="5"
     [tableStyle]="{ 'min-width': '50rem' }"
     [rowsPerPageOptions]="[5, 10, 20]">
-    <ng-container *ngTemplateOutlet="headerTable"></ng-container>
+    <ng-template pTemplate="header">
+      <ng-container *ngTemplateOutlet="headerTable"></ng-container>
+    </ng-template>
     <ng-template pTemplate="body" let-item>
       <ng-container
         *ngTemplateOutlet="
