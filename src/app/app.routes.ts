@@ -22,6 +22,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'projetos',
+    loadChildren: () =>
+      import('./features/projects/pages/projects.routes').then(
+        r => r.projectRoutes
+      ),
+  },
+  {
     path: 'inicio',
     canActivate: [authGuard],
     loadChildren: () =>
