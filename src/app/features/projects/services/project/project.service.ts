@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { iProject } from '@shared/models/project.model';
@@ -12,25 +12,13 @@ export class ProjectService {
   private apiUrl = environment.apiUrl;
 
   getAll(status?: string, id?: string): Observable<iProject[]> {
-    if (status !== undefined && id !== undefined) {
-      return this.http
-        .get<iProject[]>(`${this.apiUrl}/projetos?status=${status}&id=${id}`)
-        .pipe(take(1));
-    }
+    let params = new HttpParams();
+    if (status) params = params.append('status', status);
+    if (id) params = params.append('curso_id', id);
 
-    if (status !== undefined && id === undefined) {
-      return this.http
-        .get<iProject[]>(`${this.apiUrl}/projetos?status=${status}`)
-        .pipe(take(1));
-    }
-
-    if (status === undefined && id !== undefined) {
-      return this.http
-        .get<iProject[]>(`${this.apiUrl}/projetos?id=${id}`)
-        .pipe(take(1));
-    }
-
-    return this.http.get<iProject[]>(`${this.apiUrl}/projetos/`).pipe(take(1));
+    return this.http
+      .get<iProject[]>(`${this.apiUrl}/projetos/`, { params })
+      .pipe(take(1));
   }
 
   getById(id: string): Observable<iProject> {

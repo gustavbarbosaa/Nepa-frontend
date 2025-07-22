@@ -11,7 +11,7 @@ import { ToastService } from '@core/services/toast/toast.service';
 import { ProjectSignalService } from '@features/projects/services/project-signal/project-signal.service';
 import { ProjectService } from '@features/projects/services/project/project.service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { heroPencil, heroTrash } from '@ng-icons/heroicons/outline';
+import { heroCheck, heroPencil, heroTrash } from '@ng-icons/heroicons/outline';
 import { ButtonComponent } from '@shared/components/button/button.component';
 import { TableListItemsComponent } from '@shared/components/table-list-items/table-list-items.component';
 import { iProject } from '@shared/models/project.model';
@@ -35,7 +35,7 @@ import { ToastModule } from 'primeng/toast';
   ],
   templateUrl: './table-projects.component.html',
   styleUrl: './table-projects.component.css',
-  viewProviders: [provideIcons({ heroPencil, heroTrash })],
+  viewProviders: [provideIcons({ heroPencil, heroTrash, heroCheck })],
   providers: [ToastService, MessageService],
 })
 export class TableProjectsComponent implements OnInit {
@@ -51,12 +51,14 @@ export class TableProjectsComponent implements OnInit {
   projects = computed(() => {
     const title = this.projectSignalService.filterTitle().toLowerCase();
     const status = this.projectSignalService.filterStatus();
+    const courseId = this.projectSignalService.filterCourse();
 
     return this.allProjects().filter(project => {
-      const matchTitle = project.titulo.toLowerCase().includes(title);
-      const matchStatus = status === '' || project.status === status;
+      const matchesTitle = project.titulo.toLowerCase().includes(title);
+      const matchesStatus = !status || project.status === status;
+      const matchesCourse = !courseId || project.id === courseId;
 
-      return matchTitle && matchStatus;
+      return matchesTitle && matchesStatus && matchesCourse;
     });
   });
 

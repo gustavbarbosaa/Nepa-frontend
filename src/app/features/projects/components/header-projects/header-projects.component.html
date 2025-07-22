@@ -16,10 +16,17 @@
       placeholder="Informe o título do projeto" />
 
     <app-select-form
-      id="course"
+      id="status"
       label="Status do projeto"
       initialIcon="heroAdjustmentsHorizontal"
       [control]="getControl('filterStatus')"
       [options]="statusFilter()" />
+
+    <app-select-form
+      id="course"
+      label="Curso"
+      initialIcon="heroAdjustmentsHorizontal"
+      [control]="getControl('filterCourse')"
+      [options]="coursesFilter()" />
   </div>
 </div>
