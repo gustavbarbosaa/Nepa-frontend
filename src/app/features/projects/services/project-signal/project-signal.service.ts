@@ -1,12 +1,12 @@
 import { Injectable, signal } from '@angular/core';
-import { ProjectStatus } from '@shared/models/project.model';
+import { ProjectStatus } from '@features/projects/enums/status.enum';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProjectSignalService {
   private refreshSignal = signal(0);
-  filterName = signal<string>('');
+  filterTitle = signal<string>('');
   filterStatus = signal<ProjectStatus | ''>('');
 
   refresh$ = this.refreshSignal.asReadonly();

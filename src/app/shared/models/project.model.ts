@@ -1,3 +1,5 @@
+import { ProjectStatus } from '@features/projects/enums/status.enum';
+
 export interface iProject {
   id: string;
   titulo: string;
@@ -18,13 +20,4 @@ export interface iProject {
   referencias: string;
   aceitou_termos: boolean;
   data_limite_edicao: string;
-}
-
-export enum ProjectStatus {
-  finalizado = 'FINALIZADO',
-  em_andamento = 'EM ANDAMENTO',
-  cancelado = 'CANCELADO',
-  aprovado = 'APROVADO',
-  pendente = 'PENDENTE',
-  rejeitado = 'rejeitado',
 }

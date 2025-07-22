@@ -1,1 +1,25 @@
-<p>header-projects works!</p>
+<div class="relative flex flex-col items-center justify-between gap-4">
+  <div class="w-full flex items-center justify-between">
+    <app-title-header-list
+      title="Gerenciar projetos"
+      subtitle="Faça o gerenciamento dos projetos publicados" />
+  </div>
+  <div
+    class="w-full flex items-center justify-between rounded-2xl border border-tertiary-100 p-4 gap-4">
+    <app-input-form
+      id="nome"
+      label="Filtrar por título do projeto"
+      type="text"
+      [control]="getControl('filterTitle')"
+      class="w-full"
+      initialIcon="heroDocumentText"
+      placeholder="Informe o título do projeto" />
+
+    <app-select-form
+      id="course"
+      label="Status do projeto"
+      initialIcon="heroAdjustmentsHorizontal"
+      [control]="getControl('filterStatus')"
+      [options]="statusFilter()" />
+  </div>
+</div>

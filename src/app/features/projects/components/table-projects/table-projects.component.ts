@@ -49,7 +49,7 @@ export class TableProjectsComponent implements OnInit {
   loading = signal<boolean>(false);
 
   projects = computed(() => {
-    const title = this.projectSignalService.filterName().toLowerCase();
+    const title = this.projectSignalService.filterTitle().toLowerCase();
     const status = this.projectSignalService.filterStatus();
 
     return this.allProjects().filter(project => {
