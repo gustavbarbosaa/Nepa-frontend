@@ -6,13 +6,22 @@ import {
   inject,
   signal,
   OnInit,
+  WritableSignal,
 } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  NonNullableFormBuilder,
+  Validators,
+} from '@angular/forms';
 import { ToastService } from '@core/services/toast/toast.service';
+import { ProjectStatus } from '@features/projects/enums/status.enum';
 import { ProjectSignalService } from '@features/projects/services/project-signal/project-signal.service';
 import { ProjectService } from '@features/projects/services/project/project.service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { heroCheck, heroPencil, heroTrash } from '@ng-icons/heroicons/outline';
 import { ButtonComponent } from '@shared/components/button/button.component';
+import { SelectFormComponent } from '@shared/components/select-form/select-form.component';
 import { TableListItemsComponent } from '@shared/components/table-list-items/table-list-items.component';
 import { iProject } from '@shared/models/project.model';
 import { MessageService } from 'primeng/api';
@@ -26,6 +35,7 @@ import { ToastModule } from 'primeng/toast';
   imports: [
     TableListItemsComponent,
     ButtonComponent,
+    SelectFormComponent,
     Dialog,
     TableModule,
     ToastModule,
@@ -39,14 +49,21 @@ import { ToastModule } from 'primeng/toast';
   providers: [ToastService, MessageService],
 })
 export class TableProjectsComponent implements OnInit {
+  formStatus!: FormGroup;
   private projectService = inject(ProjectService);
   private projectSignalService = inject(ProjectSignalService);
   private toastService = inject(ToastService);
+  private formBuilder = inject(NonNullableFormBuilder);
 
   allProjects = signal<iProject[]>([]);
   selectedProject = signal<iProject | null>(null);
   visibleDelete = signal<boolean>(false);
+  visibleApprove = signal<boolean>(false);
   loading = signal<boolean>(false);
+
+  statusProject: WritableSignal<{ label: string; value: string }[]> = signal(
+    []
+  );
 
   projects = computed(() => {
     const title = this.projectSignalService.filterTitle().toLowerCase();
@@ -71,6 +88,17 @@ export class TableProjectsComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchProjects();
+
+    this.formStatus = this.formBuilder.group({
+      status: ['APROVADO', [Validators.required]],
+    });
+
+    this.statusProject.set([
+      ...Object.entries(ProjectStatus).map(([key, value]) => ({
+        label: this.formatStatusLabel(key),
+        value: value,
+      })),
+    ]);
   }
 
   fetchProjects(): void {
@@ -87,7 +115,43 @@ export class TableProjectsComponent implements OnInit {
     this.visibleDelete.set(true);
   }
 
-  deleteStudent(): void {
+  showApproveDialog(project: iProject): void {
+    this.selectedProject.set(project);
+    this.visibleApprove.set(true);
+  }
+
+  approveProject(): void {
+    this.loading.set(true);
+    const project = this.selectedProject();
+    if (!project) return;
+
+    this.projectService
+      .editProject(project.id, this.formStatus.value)
+      .subscribe({
+        next: () => {
+          this.fetchProjects();
+          this.loading.set(false);
+          this.visibleApprove.set(false);
+          this.toastService.showSuccess(
+            'Projeto aprovado com sucesso!',
+            'Sucesso!'
+          );
+        },
+        error: error => {
+          this.toastService.showError(
+            'Houve um erro ao aprovar o projeto!',
+            'Ops!'
+          );
+          this.loading.set(false);
+          console.error(error.error.message);
+        },
+        complete: () => {
+          this.loading.set(false);
+        },
+      });
+  }
+
+  deleteProject(): void {
     this.loading.set(true);
     const project = this.selectedProject();
     if (!project) return;
@@ -114,5 +178,17 @@ export class TableProjectsComponent implements OnInit {
         this.loading.set(false);
       },
     });
+  }
+
+  getControl<T = string>(controlName: string): FormControl<T> {
+    return this.formStatus.get(controlName) as FormControl<T>;
+  }
+
+  private formatStatusLabel(status: string): string {
+    return status
+      .toLowerCase()
+      .split('_')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
   }
 }
