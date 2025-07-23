@@ -1,6 +1,7 @@
 import {
   Component,
   inject,
+  input,
   OnInit,
   Signal,
   signal,
@@ -21,14 +22,22 @@ import { TitleHeaderListComponent } from '@shared/components/title-header-list/t
 import { toSignal } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs';
 import { ProjectService } from '@features/projects/services/project/project.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header-projects',
-  imports: [TitleHeaderListComponent, InputFormComponent, SelectFormComponent],
+  imports: [
+    TitleHeaderListComponent,
+    InputFormComponent,
+    SelectFormComponent,
+    RouterLink,
+  ],
   templateUrl: './header-projects.component.html',
   styleUrl: './header-projects.component.css',
 })
 export class HeaderProjectsComponent implements OnInit {
+  isFiltered = input.required<boolean>();
+
   form!: FormGroup;
   private formBuilder = inject(NonNullableFormBuilder);
   private projectServiceSignal = inject(ProjectSignalService);

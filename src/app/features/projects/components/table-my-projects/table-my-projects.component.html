@@ -1,0 +1,79 @@
+<app-table-list-items [data]="projects()">
+  <ng-template #headerTable>
+    <tr>
+      <th style="width: 25%">Título</th>
+      <th style="width: 25%">Titulação</th>
+      <th style="width: 20%">Status</th>
+      <th style="width: 5%">Vagas</th>
+      <th style="width: 25%">Limite de edição</th>
+      <th style="width: 5%">Ações</th>
+    </tr>
+  </ng-template>
+
+  <ng-template #bodyTable let-project>
+    <tr>
+      <td>
+        <div
+          class="max-w-[350px] truncate whitespace-nowrap overflow-hidden text-ellipsis">
+          {{ project.titulo }}
+        </div>
+      </td>
+
+      <td>
+        <div
+          class="max-w-[350px] truncate whitespace-nowrap overflow-hidden text-ellipsis">
+          {{ project.titulacao }}
+        </div>
+      </td>
+
+      <td>
+        @switch (project.status) {
+          @case ('Pendente') {
+            <p-tag value="Pendente" severity="warning" />
+          }
+          @case ('Em Andamento') {
+            <p-tag value="Em Andamento" severity="info" />
+          }
+          @case ('Concluído') {
+            <p-tag value="Concluído" severity="success" />
+          }
+          @case ('Cancelado') {
+            <p-tag value="Cancelado" severity="danger" />
+          }
+          @default {
+            <p-tag value="Desconhecido" severity="secondary" />
+          }
+        }
+      </td>
+
+      <td>
+        <div
+          class="max-w-[350px] truncate whitespace-nowrap overflow-hidden text-ellipsis">
+          {{ project.vagas_ocupadas }} / {{ project.vagas_totais }}
+        </div>
+      </td>
+
+      <td>
+        <div
+          class="flex items-center justify-center max-w-[350px] truncate whitespace-nowrap overflow-hidden text-ellipsis">
+          {{ project.data_limite_edicao | date: 'dd/MM/yyy' }}
+        </div>
+      </td>
+
+      <td>
+        <div class="flex items-center gap-4">
+          <button
+            type="button"
+            class="button-action bg-primary-200 px-4 py-3 rounded-lg hover:bg-primary-300 cursor-pointer">
+            <ng-icon name="heroPencil" style="color: #4f46e5" />
+          </button>
+          <button
+            type="button"
+            class="button-action bg-tertiary-200 px-4 py-3 rounded-lg hover:bg-tertiary-300 cursor-pointer">
+            <ng-icon name="heroDocumentText" style="color: #4b5563" />
+          </button>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</app-table-list-items>

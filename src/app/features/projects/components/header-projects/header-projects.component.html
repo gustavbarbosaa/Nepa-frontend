@@ -3,6 +3,14 @@
     <app-title-header-list
       title="Gerenciar projetos"
       subtitle="Faça o gerenciamento dos projetos publicados" />
+
+    @if (isFiltered()) {
+      <a
+        class="inline-flex items-center justify-center bg-gradient-to-r from-primary-600 to-primary-700 rounded-xl px-6 py-3 text-white font-bold hover:from-primary-700 hover:to-primary-800 transition-all duration-500 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50"
+        routerLink="/projetos/cadastrar"
+        >Cadastrar projetos</a
+      >
+    }
   </div>
   <div
     class="w-full flex items-center justify-between rounded-2xl border border-tertiary-100 p-4 gap-4">
@@ -22,11 +30,13 @@
       [control]="getControl('filterStatus')"
       [options]="statusFilter()" />
 
-    <app-select-form
-      id="course"
-      label="Curso"
-      initialIcon="heroAdjustmentsHorizontal"
-      [control]="getControl('filterCourse')"
-      [options]="coursesFilter()" />
+    @if (!isFiltered()) {
+      <app-select-form
+        id="course"
+        label="Curso"
+        initialIcon="heroAdjustmentsHorizontal"
+        [control]="getControl('filterCourse')"
+        [options]="coursesFilter()" />
+    }
   </div>
 </div>

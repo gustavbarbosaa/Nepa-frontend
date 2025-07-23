@@ -101,6 +101,12 @@ export class DrawerComponent implements OnInit {
         routerLink: '/projetos',
         textVisible: this.isVisible(),
       },
+      {
+        icon: 'heroFolder',
+        label: 'Meus Projetos',
+        routerLink: '/projetos/meus-projetos',
+        textVisible: this.isVisible(),
+      },
     ];
   }
 }
