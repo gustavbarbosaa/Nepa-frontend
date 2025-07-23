@@ -3,6 +3,7 @@ import {
   Component,
   inject,
   OnInit,
+  Signal,
   signal,
   WritableSignal,
 } from '@angular/core';
@@ -22,6 +23,9 @@ import { MessageService } from 'primeng/api';
 import { RippleModule } from 'primeng/ripple';
 import { ToastModule } from 'primeng/toast';
 import { RegisterUserService } from '@core/services/register-user/register-user.service';
+import { CourseService } from '@core/services/course/course.service';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-register-form',
@@ -42,11 +46,26 @@ export class RegisterFormComponent implements OnInit {
   form!: FormGroup;
   private formBuilder = inject(NonNullableFormBuilder);
   private readonly registerUserService = inject(RegisterUserService);
+  private readonly courseService = inject(CourseService);
   readonly toastService = inject(ToastService);
 
   typesUser: WritableSignal<{ label: string; value: string }[]> = signal([]);
-  courses: WritableSignal<{ label: string; value: string }[]> = signal([]);
+  courses: Signal<{ label: string; value: string }[]> = signal([]);
   loading = signal<boolean>(false);
+
+  constructor() {
+    this.courses = toSignal(
+      this.courseService
+        .getAll()
+        .pipe(
+          map(courses => [
+            { label: 'Selecione o seu curso', value: '' },
+            ...courses.map(c => ({ label: c.nome, value: c.id })),
+          ])
+        ),
+      { initialValue: [] }
+    );
+  }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group(
@@ -89,14 +108,6 @@ export class RegisterFormComponent implements OnInit {
       { label: 'Selecione o tipo de usuário', value: '' },
       { label: 'Professor', value: 'professor' },
       { label: 'Aluno', value: 'aluno' },
-    ]);
-
-    this.courses.set([
-      { label: 'Selecione um curso', value: '' },
-      {
-        label: 'Ciência da Computação',
-        value: '781aa5fa-0152-4f80-a7b9-34d26f3ad480',
-      },
     ]);
   }
 
