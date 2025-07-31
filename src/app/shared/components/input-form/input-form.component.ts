@@ -10,6 +10,9 @@ import {
   heroAtSymbol,
   heroIdentification,
   heroDocumentText,
+  heroMapPin,
+  heroUserGroup,
+  heroMagnifyingGlass,
 } from '@ng-icons/heroicons/outline';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -31,6 +34,9 @@ import { NgxMaskDirective } from 'ngx-mask';
       heroAtSymbol,
       heroIdentification,
       heroDocumentText,
+      heroMapPin,
+      heroUserGroup,
+      heroMagnifyingGlass,
     }),
   ],
   providers: [],

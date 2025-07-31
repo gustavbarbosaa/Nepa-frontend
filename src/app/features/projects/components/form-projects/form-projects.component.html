@@ -1,1 +1,219 @@
-<p>form-projects works!</p>
+<form [formGroup]="projectForm">
+  <p-stepper [value]="currentStep()">
+    <!-- Passo 1: Informações Básicas -->
+    <p-step-item [value]="1">
+      <p-step>Informações Básicas</p-step>
+      <p-step-panel>
+        <ng-template #content let-activateCallback="activateCallback">
+          <div class="grid gap-4">
+            <!-- Linha 1 -->
+            <app-input-form
+              id="titulo"
+              label="Título"
+              type="text"
+              [control]="getControl('titulo')"
+              initialIcon="heroDocumentText"
+              placeholder="Insira o título do projeto" />
+
+            <!-- Linha 2 -->
+            <app-select-form
+              id="status"
+              label="Status do Projeto"
+              initialIcon="heroArrowPathRoundedSquare"
+              [control]="getControl('status')"
+              [options]="statusOptions()" />
+
+            <app-input-form
+              id="titulacao"
+              label="Titulação"
+              type="text"
+              [control]="getControl('titulacao')"
+              initialIcon="heroDocumentText"
+              placeholder="Insira a titulação do projeto" />
+
+            <!-- Linha 3 -->
+            <app-input-form
+              id="vagas_totais"
+              label="Vagas totais"
+              type="number"
+              [control]="getControl('vagas_totais')"
+              initialIcon="heroUserGroup"
+              placeholder="Insira a quantidade de vagas do projeto" />
+
+            <app-input-form
+              id="localizacao"
+              label="Localização"
+              type="text"
+              [control]="getControl('localizacao')"
+              initialIcon="heroMapPin"
+              placeholder="Insira a localização do projeto" />
+
+            <app-input-form
+              id="populacao"
+              label="População"
+              type="text"
+              [control]="getControl('populacao')"
+              initialIcon="heroUserGroup"
+              placeholder="Insira a população do projeto" />
+          </div>
+
+          <div class="flex justify-content-end py-6">
+            <p-button
+              label="Próximo"
+              (onClick)="activateCallback(2)"
+              [disabled]="
+                !projectForm.get('titulo')?.valid ||
+                !projectForm.get('status')?.valid ||
+                !projectForm.get('titulacao')?.valid ||
+                !projectForm.get('vagas_totais')?.valid ||
+                !projectForm.get('populacao')?.valid ||
+                !projectForm.get('localizacao')?.valid
+              " />
+          </div>
+        </ng-template>
+      </p-step-panel>
+    </p-step-item>
+
+    <!-- Passo 2: Detalhes do Projeto -->
+    <p-step-item [value]="2">
+      <p-step>Detalhes do Projeto</p-step>
+      <p-step-panel>
+        <ng-template #content let-activateCallback="activateCallback">
+          <div class="grid gap-4">
+            <app-text-area
+              id="sumario"
+              label="Sumário *"
+              [control]="getControl('sumario')"
+              placeholder="informe o sumário do projeto"
+              [rows]="5">
+            </app-text-area>
+
+            <app-text-area
+              id="objetivo_geral"
+              label="Objetivo Geral *"
+              [control]="getControl('objetivo_geral')"
+              placeholder="Descreva o objetivo principal do projeto"
+              [rows]="5">
+            </app-text-area>
+
+            <app-text-area
+              id="objetivo_especifico"
+              label="Objetivos Específicos *"
+              [control]="getControl('objetivo_especifico')"
+              placeholder="Descreva os objetivos específicos do projeto"
+              [rows]="5">
+            </app-text-area>
+
+            <app-text-area
+              id="justificativa"
+              label="Justificativa *"
+              [control]="getControl('justificativa')"
+              placeholder="Descreva a justificativa para o projeto"
+              [rows]="5">
+            </app-text-area>
+
+            <app-text-area
+              id="metodologia"
+              label="Metodologia *"
+              [control]="getControl('metodologia')"
+              placeholder="Descreva a metodologia que será utilizada"
+              [rows]="5">
+            </app-text-area>
+          </div>
+
+          <div class="flex justify-content-between py-6 gap-4">
+            <p-button
+              label="Voltar"
+              severity="secondary"
+              (onClick)="activateCallback(1)" />
+            <p-button
+              label="Próximo"
+              (onClick)="activateCallback(3)"
+              [disabled]="
+                !projectForm.get('objetivo_geral')?.valid ||
+                !projectForm.get('sumario')?.valid ||
+                !projectForm.get('objetivo_especifico')?.valid ||
+                !projectForm.get('justificativa')?.valid ||
+                !projectForm.get('metodologia')?.valid
+              " />
+          </div>
+        </ng-template>
+      </p-step-panel>
+    </p-step-item>
+
+    <!-- Passo 3: Informações Complementares -->
+    <p-step-item [value]="3">
+      <p-step>Finalização</p-step>
+      <p-step-panel>
+        <ng-template #content let-activateCallback="activateCallback">
+          <div class="grid gap-4">
+            <label for="palavras_chave" class="block mb-2 font-medium">
+              Palavras-chave *
+            </label>
+            <p-chips
+              id="palavras_chave"
+              formControlName="palavras_chave"
+              placeholder="Digite e pressione Enter"
+              separator=","
+              class="w-full">
+              <ng-template pTemplate="chip" let-item>
+                <span>{{ item }}</span>
+              </ng-template>
+            </p-chips>
+
+            <app-input-form
+              id="linha_de_pesquisa"
+              label="linha de pesquisa *"
+              type="text"
+              [control]="getControl('linha_de_pesquisa')"
+              initialIcon="heroMagnifyingGlass"
+              placeholder="informe a linha de pesquisa" />
+
+            <app-text-area
+              id="cronograma_atividades"
+              label="Cronograma de atividades *"
+              [control]="getControl('cronograma_atividades')"
+              placeholder="Insira o cronograma de atividades"
+              [rows]="5">
+            </app-text-area>
+
+            <app-text-area
+              id="referencias"
+              label="Referências Bibliográficas *"
+              [control]="getControl('referencias')"
+              placeholder="Liste as referências utilizadas"
+              [rows]="5">
+            </app-text-area>
+
+            <div class="flex items-center justify-start">
+              <p-checkbox
+                [binary]="true"
+                formControlName="aceitou_termos"
+                inputId="aceitou_termos"></p-checkbox>
+              <label for="aceitou_termos" class="ml-2"
+                >Li e aceito os termos*</label
+              >
+            </div>
+          </div>
+
+          <div class="flex justify-content-between py-6">
+            <p-button
+              label="Voltar"
+              severity="secondary"
+              (onClick)="activateCallback(2)" />
+            <p-button
+              label="Enviar"
+              (onClick)="submitForm()"
+              [disabled]="
+                !projectForm.get('palavras_chave')?.valid ||
+                !projectForm.get('linha_de_pesquisa')?.valid ||
+                !projectForm.get('cronograma_atividades')?.valid ||
+                !projectForm.get('referencias')?.valid ||
+                !projectForm.get('aceitou_termos')?.valid
+              " />
+          </div>
+        </ng-template>
+      </p-step-panel>
+    </p-step-item>
+  </p-stepper>
+</form>

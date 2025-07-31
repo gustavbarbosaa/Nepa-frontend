@@ -1,0 +1,23 @@
+<div class="textarea-form">
+  <label class="textarea-form__label" [for]="id()">{{ label() }}</label>
+  <div class="textarea-form__container">
+    <textarea
+      [formControl]="control()"
+      class="textarea-form__textarea"
+      [id]="id()"
+      [placeholder]="placeholder()"
+      [rows]="rows()"></textarea>
+  </div>
+  <div class="flex justify-between items-center mt-1">
+    <div class="text-danger-500 text-sm">
+      @if (control().invalid && (control().dirty || control().touched)) {
+        {{ getErrorMessage() }}
+      }
+    </div>
+    @if (showCharacterCount()) {
+      <div class="text-surface-500 text-xs">
+        {{ characterCount() }}/{{ maxLength() || '∞' }}
+      </div>
+    }
+  </div>
+</div>
