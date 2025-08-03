@@ -22,6 +22,7 @@ import {
 import { TableListItemsComponent } from '@shared/components/table-list-items/table-list-items.component';
 import { iProject } from '@shared/models/project.model';
 import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { Tag } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
@@ -29,6 +30,7 @@ import { ToastModule } from 'primeng/toast';
 @Component({
   selector: 'app-table-my-projects',
   imports: [
+    ButtonModule,
     TableListItemsComponent,
     TableModule,
     ToastModule,
