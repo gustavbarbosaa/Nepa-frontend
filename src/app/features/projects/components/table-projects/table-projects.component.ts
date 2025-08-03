@@ -125,30 +125,28 @@ export class TableProjectsComponent implements OnInit {
     const project = this.selectedProject();
     if (!project) return;
 
-    this.projectService
-      .editProject(project.id, this.formStatus.value)
-      .subscribe({
-        next: () => {
-          this.fetchProjects();
-          this.loading.set(false);
-          this.visibleApprove.set(false);
-          this.toastService.showSuccess(
-            'Projeto aprovado com sucesso!',
-            'Sucesso!'
-          );
-        },
-        error: error => {
-          this.toastService.showError(
-            'Houve um erro ao aprovar o projeto!',
-            'Ops!'
-          );
-          this.loading.set(false);
-          console.error(error.error.message);
-        },
-        complete: () => {
-          this.loading.set(false);
-        },
-      });
+    this.projectService.edit(project.id, this.formStatus.value).subscribe({
+      next: () => {
+        this.fetchProjects();
+        this.loading.set(false);
+        this.visibleApprove.set(false);
+        this.toastService.showSuccess(
+          'Projeto aprovado com sucesso!',
+          'Sucesso!'
+        );
+      },
+      error: error => {
+        this.toastService.showError(
+          'Houve um erro ao aprovar o projeto!',
+          'Ops!'
+        );
+        this.loading.set(false);
+        console.error(error.error.message);
+      },
+      complete: () => {
+        this.loading.set(false);
+      },
+    });
   }
 
   deleteProject(): void {

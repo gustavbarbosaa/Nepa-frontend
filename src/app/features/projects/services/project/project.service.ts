@@ -33,7 +33,13 @@ export class ProjectService {
       .pipe(take(1));
   }
 
-  editProject(id: string, status: string): Observable<iProject> {
+  post(form: FormData): Observable<iProject> {
+    return this.http
+      .post<iProject>(`${this.apiUrl}/projetos/`, form)
+      .pipe(take(1));
+  }
+
+  edit(id: string, status: string): Observable<iProject> {
     return this.http
       .patch<iProject>(`${this.apiUrl}/projetos/${id}`, status)
       .pipe(take(1));

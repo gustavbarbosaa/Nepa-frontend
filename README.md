@@ -1,59 +1,97 @@
-# FrontendNepa
+# Nepa-frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.12.
+Este é o frontend do sistema Nepa, desenvolvido em Angular. O projeto tem como objetivo permitir o gerenciamento de projetos, editais, professores e alunos de maneira intuitiva, robusta e responsiva.
 
-## Development server
+## Índice
 
-To start a local development server, run:
+- [Visão Geral](#visão-geral)
+- [Funcionalidades Principais](#funcionalidades-principais)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Como Executar Localmente](#como-executar-localmente)
+- [Scaffolding de Código](#scaffolding-de-código)
+- [Boas Práticas](#boas-práticas)
+- [Recursos Adicionais](#recursos-adicionais)
 
-```bash
-ng serve
+---
+
+## Visão Geral
+
+O Nepa-frontend é uma aplicação web para gerenciamento acadêmico de projetos, editais, professores e alunos. A interface é moderna, com uso intensivo de componentes reutilizáveis e integração com backend via serviços Angular. O sistema permite operações de CRUD (criar, visualizar, atualizar e excluir) para os principais objetos do domínio.
+
+## Funcionalidades Principais
+
+- **Gerenciamento de Projetos:** Cadastro, filtro, aprovação, exclusão e listagem de projetos, com status dinâmicos (Pendente, Em Andamento, Concluído, Cancelado).
+- **Gerenciamento de Editais:** Permite cadastrar e filtrar editais publicados.
+- **Gerenciamento de Professores e Alunos:** Cadastro, edição e filtragem por status e nome.
+- **Controle de Acesso e Navegação:** Interface simples, com navegação clara entre módulos e filtros inteligentes.
+- **Feedback visual:** Uso de diálogos de confirmação, toasts de sucesso/erro e indicadores de loading.
+- **Responsividade:** Componentes adaptados para diferentes resoluções.
+
+## Estrutura do Projeto
+
+```
+src/
+ ├── app/
+ │    ├── core/            # Configurações centrais, serviços globais, guards, interceptors etc.
+ │    ├── features/
+ │    │    ├── projects/
+ │    │    │     ├── components/
+ │    │    │     │     ├── header-projects/       # Header e filtros de projetos
+ │    │    │     │     ├── table-projects/        # Listagem de todos os projetos (admin)
+ │    │    │     │     ├── table-my-projects/     # Listagem dos projetos do usuário
+ │    │    ├── notices/
+ │    │    ├── teachers/
+ │    │    └── students/
+ │    └── shared/         # Componentes reutilizáveis
+ └── index.html           # Ponto de entrada da aplicação
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- O diretório **core** centraliza serviços e definições globais como autenticação, tratamento de erros, guards, interceptors e providers utilizados em toda a aplicação.
+- Cada módulo em **features** possui componentes para header (filtros e ações principais) e tabelas (listagem e ações de cada item).
+- Os serviços (`projectService`, `courseService` etc.) realizam a integração com o backend.
 
-## Code scaffolding
+## Como Executar Localmente
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+1. **Pré-requisitos:** Node.js, Angular CLI instalado globalmente.
+2. **Instalação das dependências:**
+
+   ```bash
+   npm install
+   ```
+
+3. **Iniciar o servidor de desenvolvimento:**
+
+   ```bash
+   ng serve
+   ```
+
+   Acesse [http://localhost:4200/](http://localhost:4200/) no navegador.
+
+## Scaffolding de Código
+
+Para gerar novos componentes, utilize o Angular CLI:
 
 ```bash
-ng generate component component-name
+ng generate component nome-do-componente
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Veja todos os schematics disponíveis:
 
 ```bash
 ng generate --help
 ```
 
-## Building
+## Boas Práticas
 
-To build the project run:
+- Utilize os componentes compartilhados para manter o padrão visual e de usabilidade.
+- Prefira Observables e Signals para reatividade dos dados.
+- Separe lógica de apresentação (componentes) da lógica de negócios (serviços).
+- Sempre realize tratamento de erros nas requisições.
 
-```bash
-ng build
-```
+## Recursos Adicionais
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+- [Documentação Angular CLI](https://github.com/angular/angular-cli)
+- [Angular Docs](https://angular.io/docs)
+- [PrimeNG](https://primeng.org/) (caso utilize componentes PrimeNG)
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---

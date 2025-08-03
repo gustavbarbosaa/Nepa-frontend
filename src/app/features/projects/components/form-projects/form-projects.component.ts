@@ -20,6 +20,11 @@ import { ChipsModule } from 'primeng/chips';
 import { InputFormComponent } from '@shared/components/input-form/input-form.component';
 import { SelectFormComponent } from '@shared/components/select-form/select-form.component';
 import { TextAreaComponent } from '@shared/components/text-area/text-area.component';
+import { ProjectService } from '@features/projects/services/project/project.service';
+import { ToastService } from '@core/services/toast/toast.service';
+import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
+import { Toast } from 'primeng/toast';
 
 @Component({
   selector: 'app-form-projects',
@@ -32,15 +37,21 @@ import { TextAreaComponent } from '@shared/components/text-area/text-area.compon
     InputFormComponent,
     SelectFormComponent,
     TextAreaComponent,
+    Toast,
   ],
   templateUrl: './form-projects.component.html',
   styleUrl: './form-projects.component.css',
+  providers: [ToastService, MessageService],
 })
 export class FormProjectsComponent implements OnInit {
   private fb = inject(NonNullableFormBuilder);
+  private projectService = inject(ProjectService);
+  private toastService = inject(ToastService);
+  private router = inject(Router);
 
   projectForm!: FormGroup;
   currentStep = signal<number>(1);
+  loading = signal<boolean>(false);
   statusOptions: WritableSignal<{ label: string; value: string }[]> = signal(
     []
   );
@@ -95,9 +106,34 @@ export class FormProjectsComponent implements OnInit {
       return;
     }
 
+    this.loading.set(true);
     const formValueToSend = { ...this.projectForm.value };
     formValueToSend.palavras_chave = formValueToSend.palavras_chave.join(', ');
     formValueToSend.vagas_totais = Number(formValueToSend.vagas_totais);
+
+    this.projectService.post(formValueToSend).subscribe({
+      next: () => {
+        this.loading.set(false);
+
+        this.toastService.showSuccess(
+          'Projeto cadastrado com sucesso!',
+          'Sucesso'
+        );
+
+        setInterval(() => {
+          this.router.navigate(['/projetos/meus-projetos']);
+        });
+      },
+      error: error => {
+        this.loading.set(false);
+
+        this.toastService.showError(
+          `Erro ao cadastrar projeto: ${error}`,
+          'Erro'
+        );
+      },
+      complete: () => this.loading.set(false),
+    });
 
     this.projectForm.markAllAsTouched();
     console.log('Dados do formulário:', formValueToSend);
