@@ -21,10 +21,12 @@ import { ToastService } from '@core/services/toast/toast.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { TableListItemsComponent } from '@shared/components/table-list-items/table-list-items.component';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-table-students',
   imports: [
+    ButtonModule,
     ButtonComponent,
     Dialog,
     TableModule,
