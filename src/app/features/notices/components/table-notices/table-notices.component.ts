@@ -21,6 +21,7 @@ import { TableListItemsComponent } from '@shared/components/table-list-items/tab
 import { ToastService } from '@core/services/toast/toast.service';
 import { MessageService } from 'primeng/api';
 import { Toast } from 'primeng/toast';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-table-notices',
@@ -31,6 +32,7 @@ import { Toast } from 'primeng/toast';
     CommonModule,
     NgIcon,
     ButtonComponent,
+    ButtonModule,
     InsertFileComponent,
     TableListItemsComponent,
     Toast,
