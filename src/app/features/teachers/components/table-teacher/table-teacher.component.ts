@@ -16,6 +16,7 @@ import { TableListItemsComponent } from '@shared/components/table-list-items/tab
 import { iTeacher } from '@shared/models/teacher.model';
 import { NgxMaskPipe } from 'ngx-mask';
 import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 import { Dialog } from 'primeng/dialog';
 import { Tag } from 'primeng/tag';
 import { Toast } from 'primeng/toast';
@@ -24,6 +25,7 @@ import { Toast } from 'primeng/toast';
   selector: 'app-table-teacher',
   imports: [
     TableListItemsComponent,
+    ButtonModule,
     ButtonComponent,
     Toast,
     Dialog,
