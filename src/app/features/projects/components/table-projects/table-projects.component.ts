@@ -25,6 +25,7 @@ import { SelectFormComponent } from '@shared/components/select-form/select-form.
 import { TableListItemsComponent } from '@shared/components/table-list-items/table-list-items.component';
 import { iProject } from '@shared/models/project.model';
 import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 import { Dialog } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
 import { Tag } from 'primeng/tag';
@@ -34,6 +35,7 @@ import { ToastModule } from 'primeng/toast';
   selector: 'app-table-projects',
   imports: [
     TableListItemsComponent,
+    ButtonModule,
     ButtonComponent,
     SelectFormComponent,
     Dialog,
