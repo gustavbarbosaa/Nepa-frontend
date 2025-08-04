@@ -1,5 +1,5 @@
 export enum eAutoridade {
-  ADMIN,
-  ALUNO,
-  PROFESSOR,
+  admin = 'ADMIN',
+  aluno = 'ALUNO',
+  professor = 'PROFESSOR',
 }
