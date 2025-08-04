@@ -88,7 +88,7 @@ export class TableNoticesComponent implements OnInit {
     if (!notice) return;
 
     this.noticeService.getBySlug(notice.slug).subscribe({
-      next: (blob: any) => {
+      next: (blob: Blob) => {
         const url = window.URL.createObjectURL(blob);
         window.open(url);
       },

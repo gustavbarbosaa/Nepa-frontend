@@ -27,12 +27,12 @@ export class NoticeService {
       .pipe(take(1));
   }
 
-  getBySlug(slug: string): Observable<unknown> {
+  getBySlug(slug: string): Observable<Blob> {
     return this.http
       .get(`${this.apiUrl}/editais/${slug}`, {
         responseType: 'blob',
       })
-      .pipe(take(1));
+      .pipe(take(1)) as Observable<Blob>;
   }
 
   delete(id: string): Observable<void> {
