@@ -21,6 +21,7 @@ import { heroXMark, heroBars3 } from '@ng-icons/heroicons/outline';
 import { ButtonLogoutComponent } from '../button-logout/button-logout.component';
 import { TokenService } from '@core/services/token/token.service';
 import { iUserInfo } from '@shared/models/user-info.model';
+import { eAutoridade } from '@shared/enums/autoridade.enum';
 
 @Component({
   selector: 'app-drawer',
@@ -70,43 +71,78 @@ export class DrawerComponent implements OnInit {
   }[] = [];
 
   ngOnInit(): void {
-    this.items = [
+    const user = this.tokenService.getNameAndTypeUserForToken();
+    console.log(user);
+    console.log(this.userInfo);
+
+    const menuItems: {
+      icon: string;
+      label: string;
+      routerLink: string;
+      textVisible: boolean;
+    }[] = [
       {
         icon: 'heroHome',
         label: 'Início',
         routerLink: '/',
         textVisible: this.isVisible(),
       },
-      {
-        icon: 'heroUserGroup',
-        label: 'Alunos',
-        routerLink: '/alunos',
-        textVisible: this.isVisible(),
-      },
-      {
-        icon: 'heroClipboardDocumentList',
-        label: 'Editais',
-        routerLink: '/editais',
-        textVisible: this.isVisible(),
-      },
-      {
-        icon: 'heroAcademicCap',
-        label: 'Professores',
-        routerLink: '/professores',
-        textVisible: this.isVisible(),
-      },
-      {
-        icon: 'heroFolder',
-        label: 'Projetos',
-        routerLink: '/projetos',
-        textVisible: this.isVisible(),
-      },
-      {
-        icon: 'heroFolder',
-        label: 'Meus Projetos',
-        routerLink: '/projetos/meus-projetos',
-        textVisible: this.isVisible(),
-      },
     ];
+
+    switch (user?.autoridade) {
+      case eAutoridade.admin:
+        menuItems.push(
+          {
+            icon: 'heroFolder',
+            label: 'Projetos',
+            routerLink: '/projetos',
+            textVisible: this.isVisible(),
+          },
+          {
+            icon: 'heroClipboardDocumentList',
+            label: 'Editais',
+            routerLink: '/editais',
+            textVisible: this.isVisible(),
+          },
+          {
+            icon: 'heroUserGroup',
+            label: 'Usuários',
+            routerLink: '/usuarios',
+            textVisible: this.isVisible(),
+          }
+        );
+        break;
+
+      case eAutoridade.professor:
+        menuItems.push(
+          {
+            icon: 'heroFolder',
+            label: 'Meus Projetos',
+            routerLink: '/projetos/meus-projetos',
+            textVisible: this.isVisible(),
+          },
+          {
+            icon: 'heroClipboardDocumentList',
+            label: 'Editais',
+            routerLink: '/editais',
+            textVisible: this.isVisible(),
+          }
+        );
+        break;
+
+      case eAutoridade.aluno:
+        menuItems.push({
+          icon: 'heroFolder',
+          label: 'Projetos',
+          routerLink: '/projetos',
+          textVisible: this.isVisible(),
+        });
+        break;
+
+      default:
+        break;
+    }
+
+    this.items = menuItems;
   }
 }
