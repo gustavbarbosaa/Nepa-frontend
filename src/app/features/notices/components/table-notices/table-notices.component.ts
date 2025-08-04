@@ -9,8 +9,6 @@ import {
 } from '@angular/core';
 import { NoticeService } from '@features/notices/services/notice/notice.service';
 import { TableModule } from 'primeng/table';
-import { NgIcon, provideIcons } from '@ng-icons/core';
-import { heroPencil, heroTrash } from '@ng-icons/heroicons/outline';
 import { Tag } from 'primeng/tag';
 import { NoticeSignalService } from '@features/notices/services/notice-signal/notice-signal.service';
 import { iNoticeResponse } from '@shared/models/notice.model';
@@ -30,7 +28,6 @@ import { ButtonModule } from 'primeng/button';
     TableModule,
     Tag,
     CommonModule,
-    NgIcon,
     ButtonComponent,
     ButtonModule,
     InsertFileComponent,
@@ -39,7 +36,6 @@ import { ButtonModule } from 'primeng/button';
   ],
   templateUrl: './table-notices.component.html',
   styleUrl: './table-notices.component.css',
-  viewProviders: [provideIcons({ heroPencil, heroTrash })],
   providers: [MessageService, ToastService],
 })
 export class TableNoticesComponent implements OnInit {

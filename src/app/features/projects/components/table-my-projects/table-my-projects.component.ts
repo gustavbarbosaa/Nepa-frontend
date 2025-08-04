@@ -12,13 +12,6 @@ import { ToastService } from '@core/services/toast/toast.service';
 import { ProjectStatus } from '@features/projects/enums/status.enum';
 import { ProjectSignalService } from '@features/projects/services/project-signal/project-signal.service';
 import { ProjectService } from '@features/projects/services/project/project.service';
-import { NgIcon, provideIcons } from '@ng-icons/core';
-import {
-  heroCheck,
-  heroDocumentText,
-  heroPencil,
-  heroTrash,
-} from '@ng-icons/heroicons/outline';
 import { TableListItemsComponent } from '@shared/components/table-list-items/table-list-items.component';
 import { iProject } from '@shared/models/project.model';
 import { MessageService } from 'primeng/api';
@@ -36,13 +29,9 @@ import { ToastModule } from 'primeng/toast';
     ToastModule,
     Tag,
     CommonModule,
-    NgIcon,
   ],
   templateUrl: './table-my-projects.component.html',
   styleUrl: './table-my-projects.component.css',
-  viewProviders: [
-    provideIcons({ heroPencil, heroTrash, heroCheck, heroDocumentText }),
-  ],
   providers: [ToastService, MessageService],
 })
 export class TableMyProjectsComponent implements OnInit {

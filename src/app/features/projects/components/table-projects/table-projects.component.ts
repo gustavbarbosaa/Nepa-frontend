@@ -18,8 +18,6 @@ import { ToastService } from '@core/services/toast/toast.service';
 import { ProjectStatus } from '@features/projects/enums/status.enum';
 import { ProjectSignalService } from '@features/projects/services/project-signal/project-signal.service';
 import { ProjectService } from '@features/projects/services/project/project.service';
-import { NgIcon, provideIcons } from '@ng-icons/core';
-import { heroCheck, heroPencil, heroTrash } from '@ng-icons/heroicons/outline';
 import { ButtonComponent } from '@shared/components/button/button.component';
 import { SelectFormComponent } from '@shared/components/select-form/select-form.component';
 import { TableListItemsComponent } from '@shared/components/table-list-items/table-list-items.component';
@@ -43,11 +41,9 @@ import { ToastModule } from 'primeng/toast';
     ToastModule,
     Tag,
     CommonModule,
-    NgIcon,
   ],
   templateUrl: './table-projects.component.html',
   styleUrl: './table-projects.component.css',
-  viewProviders: [provideIcons({ heroPencil, heroTrash, heroCheck })],
   providers: [ToastService, MessageService],
 })
 export class TableProjectsComponent implements OnInit {

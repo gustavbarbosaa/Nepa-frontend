@@ -9,8 +9,6 @@ import {
 } from '@angular/core';
 import { StudentSignalService } from '@features/students/services/student-signal/student-signal.service';
 import { StudentService } from '@features/students/services/student/student.service';
-import { NgIcon, provideIcons } from '@ng-icons/core';
-import { heroPencil, heroTrash } from '@ng-icons/heroicons/outline';
 import { iStudent } from '@shared/models/student.model';
 import { TableModule } from 'primeng/table';
 import { Tag } from 'primeng/tag';
@@ -33,13 +31,11 @@ import { ButtonModule } from 'primeng/button';
     ToastModule,
     Tag,
     CommonModule,
-    NgIcon,
     NgxMaskPipe,
     TableListItemsComponent,
   ],
   templateUrl: './table-students.component.html',
   styleUrl: './table-students.component.css',
-  viewProviders: [provideIcons({ heroPencil, heroTrash })],
   providers: [ToastService, MessageService],
 })
 export class TableStudentsComponent implements OnInit {

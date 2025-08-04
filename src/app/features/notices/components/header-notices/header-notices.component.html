@@ -3,11 +3,14 @@
     <app-title-header-list
       title="Gerenciar editais"
       subtitle="Faça o gerenciamento dos editais publicados" />
-    <p-button
-      class="absolute right-0"
+    <button
+      type="button"
+      class="absolute right-0 inline-flex items-center justify-center bg-gradient-to-r from-primary-600 to-primary-700 rounded-xl px-6 py-3 text-white font-bold hover:from-primary-700 hover:to-primary-800 transition-all duration-500 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50 cursor-pointer"
       severity="contrast"
       (click)="showDialog()"
-      label="Cadastrar edital" />
+      label="Cadastrar edital">
+      Cadastrar edital
+    </button>
     <p-dialog
       header="Cadastre um novo edital"
       [(visible)]="visible"

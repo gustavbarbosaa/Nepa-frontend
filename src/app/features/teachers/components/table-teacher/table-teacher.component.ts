@@ -9,8 +9,6 @@ import {
 import { ToastService } from '@core/services/toast/toast.service';
 import { TeacherSignalService } from '@features/teachers/services/teacher-signal/teacher-signal.service';
 import { TeacherService } from '@features/teachers/services/teacher/teacher.service';
-import { NgIcon, provideIcons } from '@ng-icons/core';
-import { heroPencil, heroTrash } from '@ng-icons/heroicons/outline';
 import { ButtonComponent } from '@shared/components/button/button.component';
 import { TableListItemsComponent } from '@shared/components/table-list-items/table-list-items.component';
 import { iTeacher } from '@shared/models/teacher.model';
@@ -29,13 +27,11 @@ import { Toast } from 'primeng/toast';
     ButtonComponent,
     Toast,
     Dialog,
-    NgIcon,
     Tag,
     NgxMaskPipe,
   ],
   templateUrl: './table-teacher.component.html',
   styleUrl: './table-teacher.component.css',
-  viewProviders: [provideIcons({ heroPencil, heroTrash })],
   providers: [ToastService, MessageService],
 })
 export class TableTeacherComponent implements OnInit {
