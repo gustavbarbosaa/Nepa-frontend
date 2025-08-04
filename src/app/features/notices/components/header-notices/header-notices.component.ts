@@ -18,6 +18,8 @@ import {
 } from '@angular/forms';
 import { NoticeSignalService } from '@features/notices/services/notice-signal/notice-signal.service';
 import { TitleHeaderListComponent } from '@shared/components/title-header-list/title-header-list.component';
+import { TokenService } from '@core/services/token/token.service';
+import { eAutoridade } from '@shared/enums/autoridade.enum';
 
 @Component({
   selector: 'app-header-notices',
@@ -37,7 +39,10 @@ export class HeaderNoticesComponent implements OnInit {
   form!: FormGroup;
   private formBuilder = inject(NonNullableFormBuilder);
   private noticeServiceSignal = inject(NoticeSignalService);
+  private tokenService = inject(TokenService);
 
+  userInfo = signal(this.tokenService.getNameAndTypeUserForToken());
+  autoridade = eAutoridade;
   fileFilter: WritableSignal<{ label: string; value: string }[]> = signal([]);
   visible: boolean = false;
 
