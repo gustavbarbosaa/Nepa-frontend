@@ -27,9 +27,11 @@ export class NoticeService {
       .pipe(take(1));
   }
 
-  getBySlug(slug: string): Observable<iNoticeResponse> {
+  getBySlug(slug: string): Observable<unknown> {
     return this.http
-      .get<iNoticeResponse>(`${this.apiUrl}/editais/${slug}`)
+      .get(`${this.apiUrl}/editais/${slug}`, {
+        responseType: 'blob',
+      })
       .pipe(take(1));
   }
 

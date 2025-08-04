@@ -20,6 +20,8 @@ import { ToastService } from '@core/services/toast/toast.service';
 import { MessageService } from 'primeng/api';
 import { Toast } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
+import { TokenService } from '@core/services/token/token.service';
+import { eAutoridade } from '@shared/enums/autoridade.enum';
 
 @Component({
   selector: 'app-table-notices',
@@ -42,12 +44,15 @@ export class TableNoticesComponent implements OnInit {
   private noticeService = inject(NoticeService);
   private noticeSignalService = inject(NoticeSignalService);
   private toastService = inject(ToastService);
+  private tokenService = inject(TokenService);
 
   allNotices = signal<iNoticeResponse[]>([]);
   selectedNotice = signal<iNoticeResponse | null>(null);
   visibleDelete = signal<boolean>(false);
   visibleEdit = signal<boolean>(false);
   loading = signal<boolean>(false);
+  userInfo = signal(this.tokenService.getNameAndTypeUserForToken());
+  autoridade = eAutoridade;
 
   notices = computed(() => {
     const name = this.noticeSignalService.filterName().toLowerCase();
@@ -77,6 +82,22 @@ export class TableNoticesComponent implements OnInit {
 
   onSuccessEdit(): void {
     this.visibleEdit.set(false);
+  }
+
+  openPDFNotice(notice: iNoticeResponse): void {
+    if (!notice) return;
+
+    this.noticeService.getBySlug(notice.slug).subscribe({
+      next: (blob: any) => {
+        const url = window.URL.createObjectURL(blob);
+        window.open(url);
+      },
+      error: () =>
+        this.toastService.showError(
+          'Não foi possível abrir este edital',
+          'Erro'
+        ),
+    });
   }
 
   fetchNotices(): void {
