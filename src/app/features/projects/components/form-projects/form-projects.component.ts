@@ -14,7 +14,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ProjectStatus } from '@features/projects/enums/status.enum';
+import { eProjectStatus } from '@features/projects/enums/status.enum';
 import { Checkbox } from 'primeng/checkbox';
 import { ChipsModule } from 'primeng/chips';
 import { InputFormComponent } from '@shared/components/input-form/input-form.component';
@@ -78,7 +78,7 @@ export class FormProjectsComponent implements OnInit {
     });
 
     const optionsStatus = [
-      ...Object.entries(ProjectStatus).map(([key, value]) => ({
+      ...Object.entries(eProjectStatus).map(([key, value]) => ({
         label: this.formatStatusLabel(key),
         value: value,
       })),

@@ -1,4 +1,4 @@
-export enum ProjectStatus {
+export enum eProjectStatus {
   finalizado = 'FINALIZADO',
   em_andamento = 'EM ANDAMENTO',
   cancelado = 'CANCELADO',

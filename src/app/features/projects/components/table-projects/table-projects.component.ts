@@ -15,7 +15,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ToastService } from '@core/services/toast/toast.service';
-import { ProjectStatus } from '@features/projects/enums/status.enum';
+import { eProjectStatus } from '@features/projects/enums/status.enum';
 import { ProjectSignalService } from '@features/projects/services/project-signal/project-signal.service';
 import { ProjectService } from '@features/projects/services/project/project.service';
 import { ButtonComponent } from '@shared/components/button/button.component';
@@ -92,7 +92,7 @@ export class TableProjectsComponent implements OnInit {
     });
 
     this.statusProject.set([
-      ...Object.entries(ProjectStatus).map(([key, value]) => ({
+      ...Object.entries(eProjectStatus).map(([key, value]) => ({
         label: this.formatStatusLabel(key),
         value: value,
       })),

@@ -1,10 +1,10 @@
-import { ProjectStatus } from '@features/projects/enums/status.enum';
+import { eProjectStatus } from '@features/projects/enums/status.enum';
 
 export interface iProject {
   id: string;
   titulo: string;
   sumario: string;
-  status: ProjectStatus;
+  status: eProjectStatus;
   titulacao: string;
   linha_de_pesquisa: string;
   vagas_ocupadas: number;

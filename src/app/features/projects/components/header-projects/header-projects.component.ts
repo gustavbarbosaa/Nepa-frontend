@@ -14,7 +14,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { CourseService } from '@core/services/course/course.service';
-import { ProjectStatus } from '@features/projects/enums/status.enum';
+import { eProjectStatus } from '@features/projects/enums/status.enum';
 import { ProjectSignalService } from '@features/projects/services/project-signal/project-signal.service';
 import { InputFormComponent } from '@shared/components/input-form/input-form.component';
 import { SelectFormComponent } from '@shared/components/select-form/select-form.component';
@@ -70,7 +70,7 @@ export class HeaderProjectsComponent implements OnInit {
 
     this.statusFilter.set([
       { label: 'Todos', value: '' },
-      ...Object.entries(ProjectStatus).map(([key, value]) => ({
+      ...Object.entries(eProjectStatus).map(([key, value]) => ({
         label: this.formatStatusLabel(key),
         value: value,
       })),
