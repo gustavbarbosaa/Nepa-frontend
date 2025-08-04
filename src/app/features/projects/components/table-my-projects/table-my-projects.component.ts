@@ -8,6 +8,7 @@ import {
   effect,
   WritableSignal,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { ToastService } from '@core/services/toast/toast.service';
 import { eProjectStatus } from '@features/projects/enums/status.enum';
 import { ProjectSignalService } from '@features/projects/services/project-signal/project-signal.service';
@@ -29,6 +30,7 @@ import { ToastModule } from 'primeng/toast';
     ToastModule,
     Tag,
     CommonModule,
+    RouterLink,
   ],
   templateUrl: './table-my-projects.component.html',
   styleUrl: './table-my-projects.component.css',
