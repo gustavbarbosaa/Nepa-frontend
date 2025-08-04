@@ -38,7 +38,9 @@
         <a
           pRipple
           class="m-4 flex items-center cursor-pointer p-4 gap-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
-          <p-avatar [label]="userInfo()!.nome[0]" shape="circle" />
+          <p-avatar
+            [label]="userInfo()!.nome[0].toLocaleUpperCase()"
+            shape="circle" />
           <div
             class="font-poppins font-normal text-sm flex flex-col items-start">
             <span class="text-dark dark:text-light max-w-[200px] truncate">{{
