@@ -23,6 +23,12 @@ export class TeacherService {
       .pipe(take(1));
   }
 
+  edit(id: string, status: { ativo: boolean }): Observable<iTeacher> {
+    return this.http
+      .patch<iTeacher>(`${this.apiUrl}/professores/${id}`, status)
+      .pipe(take(1));
+  }
+
   delete(id: string): Observable<void> {
     return this.http
       .delete<void>(`${this.apiUrl}/professores/${id}`)

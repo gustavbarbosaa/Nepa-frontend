@@ -42,6 +42,7 @@ export class TableTeacherComponent implements OnInit {
   allTeachers = signal<iTeacher[]>([]);
   selectedTeacher = signal<iTeacher | null>(null);
   visibleDelete = signal<boolean>(false);
+  visibleApprove = signal<boolean>(false);
   loading = signal<boolean>(false);
 
   teachers = computed(() => {
@@ -84,12 +85,44 @@ export class TableTeacherComponent implements OnInit {
     this.visibleDelete.set(true);
   }
 
-  deleteTeacher(): void {
-    this.loading.set(true);
-    const teacher = this.selectedTeacher();
-    if (!teacher) return;
+  showApproveDialog(teacher: iTeacher): void {
+    this.selectedTeacher.set(teacher);
+    this.visibleApprove.set(true);
+  }
 
-    this.teacherService.delete(teacher.id).subscribe({
+  approveTeacher(): void {
+    const teacher = this.verifyTeacherSelected();
+
+    this.teacherService.edit(teacher!.id, { ativo: true }).subscribe({
+      next: () => {
+        this.fetchTeachers();
+        this.toastService.showSuccess(
+          'Ativação realizada com sucesso!',
+          'Sucesso'
+        );
+
+        setInterval(() => {
+          this.visibleApprove.set(false);
+        }, 2000);
+      },
+      error: error => {
+        this.toastService.showError(
+          'Houve um erro ao aceitar o professor!',
+          'Ops!'
+        );
+        this.loading.set(false);
+        console.error(error.error.message);
+      },
+      complete: () => {
+        this.loading.set(false);
+      },
+    });
+  }
+
+  deleteTeacher(): void {
+    const teacher = this.verifyTeacherSelected();
+
+    this.teacherService.delete(teacher!.id).subscribe({
       next: () => {
         this.fetchTeachers();
         this.loading.set(false);
@@ -111,5 +144,13 @@ export class TableTeacherComponent implements OnInit {
         this.loading.set(false);
       },
     });
+  }
+
+  verifyTeacherSelected(): iTeacher | null {
+    this.loading.set(true);
+    const teacher = this.selectedTeacher();
+    if (!teacher) return null;
+
+    return teacher;
   }
 }
