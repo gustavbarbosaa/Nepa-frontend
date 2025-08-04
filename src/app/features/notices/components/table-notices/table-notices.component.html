@@ -18,10 +18,10 @@
         </div>
       </td>
       <td>
-        @if (notice.caminho_arquivo === null) {
+        @if (!notice.slug) {
           <p-tag value="Sem arquivo" severity="danger" />
         } @else {
-          {{ notice.caminho_arquivo }}
+          {{ notice.slug }}
         }
       </td>
       <td>
@@ -99,6 +99,7 @@
             <p-button
               severity="success"
               icon="pi pi-cloud"
+              [disabled]="!notice.slug"
               (onClick)="openPDFNotice(notice)" />
           }
         </div>
