@@ -1,8 +1,8 @@
 export enum eProjectStatus {
-  finalizado = 'FINALIZADO',
-  em_andamento = 'EM ANDAMENTO',
-  cancelado = 'CANCELADO',
-  aprovado = 'APROVADO',
-  pendente = 'PENDENTE',
-  rejeitado = 'rejeitado',
+  finalizado = 'Finalizado',
+  em_andamento = 'Em Andamento',
+  cancelado = 'Cancelado',
+  aprovado = 'Aprovado',
+  pendente = 'Pendente',
+  rejeitado = 'Rejeitado',
 }
