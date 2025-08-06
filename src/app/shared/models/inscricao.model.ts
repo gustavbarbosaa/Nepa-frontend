@@ -1,8 +1,8 @@
-import { eProjectStatus } from '@features/projects/enums/status.enum';
+import { eStatusInscricaoProjeto } from '@shared/enums/status-inscricao.enum';
 
 export interface iInscricao {
   id: string;
-  status: eProjectStatus;
+  status: eStatusInscricaoProjeto;
   bolsista: boolean;
   aluno_id: string;
   projeto_id: string;

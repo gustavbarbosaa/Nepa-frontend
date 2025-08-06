@@ -1,4 +1,5 @@
 import { eProjectStatus } from '@features/projects/enums/status.enum';
+import { eStatusInscricaoProjeto } from '@shared/enums/status-inscricao.enum';
 
 export interface iProject {
   id: string;
@@ -20,4 +21,5 @@ export interface iProject {
   referencias: string;
   aceitou_termos: boolean;
   data_limite_edicao: string;
+  subscriptionStatus: eStatusInscricaoProjeto | null;
 }

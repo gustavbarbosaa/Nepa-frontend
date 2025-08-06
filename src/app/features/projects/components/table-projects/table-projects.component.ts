@@ -15,12 +15,17 @@ import {
   Validators,
 } from '@angular/forms';
 import { ToastService } from '@core/services/toast/toast.service';
+import { TokenService } from '@core/services/token/token.service';
 import { eProjectStatus } from '@features/projects/enums/status.enum';
 import { ProjectSignalService } from '@features/projects/services/project-signal/project-signal.service';
 import { ProjectService } from '@features/projects/services/project/project.service';
+import { SubscriptionsService } from '@features/subscriptions/services/subscriptions/subscriptions.service';
 import { ButtonComponent } from '@shared/components/button/button.component';
 import { SelectFormComponent } from '@shared/components/select-form/select-form.component';
 import { TableListItemsComponent } from '@shared/components/table-list-items/table-list-items.component';
+import { eAutoridade } from '@shared/enums/autoridade.enum';
+import { eStatusInscricaoProjeto } from '@shared/enums/status-inscricao.enum';
+import { iInscricao } from '@shared/models/inscricao.model';
 import { iProject } from '@shared/models/project.model';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -28,6 +33,7 @@ import { Dialog } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
 import { Tag } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
+import { forkJoin, map } from 'rxjs';
 
 @Component({
   selector: 'app-table-projects',
@@ -50,6 +56,8 @@ export class TableProjectsComponent implements OnInit {
   formStatus!: FormGroup;
   private projectService = inject(ProjectService);
   private projectSignalService = inject(ProjectSignalService);
+  private subscriptionService = inject(SubscriptionsService);
+  private tokenService = inject(TokenService);
   private toastService = inject(ToastService);
   private formBuilder = inject(NonNullableFormBuilder);
 
@@ -57,6 +65,11 @@ export class TableProjectsComponent implements OnInit {
   selectedProject = signal<iProject | null>(null);
   visibleDelete = signal<boolean>(false);
   visibleApprove = signal<boolean>(false);
+  visibleSubscription = signal<boolean>(false);
+  userInfo = signal(this.tokenService.getNameAndTypeUserForToken());
+  autoridade = eAutoridade;
+  statusProjeto = eProjectStatus;
+  statusInscricao = eStatusInscricaoProjeto;
   loading = signal<boolean>(false);
 
   statusProject: WritableSignal<{ label: string; value: string }[]> = signal(
@@ -103,11 +116,67 @@ export class TableProjectsComponent implements OnInit {
   }
 
   fetchProjects(): void {
+    this.loading.set(true);
+    const isStudent = this.userInfo()?.autoridade === this.autoridade.aluno;
+
     this.projectService.getAll().subscribe({
-      next: res => {
-        this.allProjects.set(res);
+      next: projects => {
+        if (isStudent) {
+          this.allProjects.set(
+            projects.map(p => ({ ...p, subscriptionStatus: null }))
+          );
+          this.loading.set(false);
+        } else {
+          const studentId = this.userInfo()?.sub;
+          if (!studentId) {
+            this.allProjects.set(projects);
+            this.loading.set(false);
+            return;
+          }
+
+          const subscriptionRequests = projects.map(project =>
+            this.subscriptionService.getAllByProject(project.id).pipe(
+              map(subscriptions => {
+                const studentSubscription = subscriptions.find(
+                  (sub: iInscricao) => sub.aluno_id === studentId
+                );
+                return {
+                  ...project,
+                  subscriptionStatus: studentSubscription
+                    ? studentSubscription.status
+                    : null,
+                };
+              })
+            )
+          );
+
+          console.log('to aqui');
+          subscriptionRequests.map(s => console.log(s));
+
+          forkJoin(subscriptionRequests).subscribe({
+            next: processedProjects => {
+              this.allProjects.set(processedProjects);
+              this.loading.set(false);
+            },
+            error: err => {
+              console.error('Erro ao buscar inscrições para o Admin: ', err);
+              this.toastService.showError(
+                'Erro ao verificar inscrições.',
+                'Ops!'
+              );
+              this.allProjects.set(
+                projects.map(p => ({ ...p, subscriptionStatus: null }))
+              );
+              this.loading.set(false);
+            },
+          });
+        }
       },
-      error: err => console.error('Erro ao buscar projetos: ', err),
+      error: err => {
+        console.error('Erro ao buscar projetos: ', err);
+        this.toastService.showError('Erro ao carregar projetos.', 'Ops!');
+        this.loading.set(false);
+      },
     });
   }
 
@@ -123,6 +192,11 @@ export class TableProjectsComponent implements OnInit {
 
     this.selectedProject.set(project);
     this.visibleApprove.set(true);
+  }
+
+  showSubscriptionDialog(project: iProject): void {
+    this.selectedProject.set(project);
+    this.visibleSubscription.set(true);
   }
 
   approveProject(): void {
@@ -179,6 +253,59 @@ export class TableProjectsComponent implements OnInit {
       },
       complete: () => {
         this.loading.set(false);
+      },
+    });
+  }
+
+  subscribeInProject(): void {
+    this.loading.set(true);
+    const project = this.selectedProject();
+    if (!project) {
+      this.loading.set(false);
+      return;
+    }
+
+    // Condição para alunos: impede uma segunda inscrição,
+    // pois o status só muda no refresh da página.
+    if (project.subscriptionStatus !== null) {
+      this.toastService.showInfo(
+        'Você já tem uma inscrição para este projeto!',
+        'Atenção!'
+      );
+      this.loading.set(false);
+      this.visibleSubscription.set(false);
+      return;
+    }
+
+    this.subscriptionService.subscribeInTheProject(project.id).subscribe({
+      next: () => {
+        // Após a inscrição bem-sucedida, atualize o estado localmente
+        const currentProjects = this.allProjects();
+        const updatedProjects = currentProjects.map(p => {
+          if (p.id === project.id) {
+            return {
+              ...p,
+              subscriptionStatus: eStatusInscricaoProjeto.PENDENTE,
+            };
+          }
+          return p;
+        });
+        this.allProjects.set(updatedProjects);
+
+        this.toastService.showSuccess(
+          'Inscrição realizada com sucesso!',
+          'Sucesso!'
+        );
+        this.visibleSubscription.set(false);
+        this.loading.set(false);
+      },
+      error: error => {
+        this.toastService.showError(
+          'Houve um erro ao se inscrever no projeto!',
+          'Ops!'
+        );
+        this.loading.set(false);
+        console.error(error.error.message);
       },
     });
   }

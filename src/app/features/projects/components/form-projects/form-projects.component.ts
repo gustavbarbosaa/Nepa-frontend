@@ -18,7 +18,6 @@ import { eProjectStatus } from '@features/projects/enums/status.enum';
 import { Checkbox } from 'primeng/checkbox';
 import { ChipsModule } from 'primeng/chips';
 import { InputFormComponent } from '@shared/components/input-form/input-form.component';
-import { SelectFormComponent } from '@shared/components/select-form/select-form.component';
 import { TextAreaComponent } from '@shared/components/text-area/text-area.component';
 import { ProjectService } from '@features/projects/services/project/project.service';
 import { ToastService } from '@core/services/toast/toast.service';
@@ -35,7 +34,6 @@ import { Toast } from 'primeng/toast';
     ChipsModule,
     ReactiveFormsModule,
     InputFormComponent,
-    SelectFormComponent,
     TextAreaComponent,
     Toast,
   ],
