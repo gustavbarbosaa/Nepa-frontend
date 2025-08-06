@@ -60,7 +60,6 @@ export class FormProjectsComponent implements OnInit {
     this.projectForm = this.fb.group({
       titulo: ['', [Validators.required, Validators.maxLength(255)]],
       sumario: ['', Validators.required],
-      status: ['PENDENTE', Validators.required],
       titulacao: ['', [Validators.required, Validators.maxLength(255)]],
       linha_de_pesquisa: ['', [Validators.required, Validators.maxLength(255)]],
       vagas_ocupadas: [0],

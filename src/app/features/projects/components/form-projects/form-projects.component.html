@@ -15,12 +15,13 @@
               initialIcon="heroDocumentText"
               placeholder="Nome completo do projeto" />
 
-            <app-select-form
-              id="status"
-              label="Status *"
-              initialIcon="heroArrowPathRoundedSquare"
-              [control]="getControl('status')"
-              [options]="statusOptions()" />
+            <app-input-form
+              id="titulacao"
+              label="Titulação *"
+              type="text"
+              [control]="getControl('titulacao')"
+              initialIcon="heroAcademicCap"
+              placeholder="Ex: Graduação, Mestrado, etc" />
 
             <app-input-form
               id="vagas_totais"
@@ -37,7 +38,7 @@
               (onClick)="activateCallback(2)"
               [disabled]="
                 !projectForm.get('titulo')?.valid ||
-                !projectForm.get('status')?.valid ||
+                !projectForm.get('titulacao')?.valid ||
                 !projectForm.get('vagas_totais')?.valid
               " />
           </div>
@@ -51,14 +52,6 @@
       <p-step-panel>
         <ng-template #content let-activateCallback="activateCallback">
           <div class="grid gap-4">
-            <app-input-form
-              id="titulacao"
-              label="Titulação *"
-              type="text"
-              [control]="getControl('titulacao')"
-              initialIcon="heroAcademicCap"
-              placeholder="Ex: Graduação, Mestrado, etc" />
-
             <app-input-form
               id="linha_de_pesquisa"
               label="Linha de Pesquisa *"
@@ -84,7 +77,6 @@
               label="Próximo"
               (onClick)="activateCallback(3)"
               [disabled]="
-                !projectForm.get('titulacao')?.valid ||
                 !projectForm.get('linha_de_pesquisa')?.valid ||
                 !projectForm.get('sumario')?.valid
               " />

@@ -8,7 +8,6 @@ import { SubscriptionsService } from '@features/subscriptions/services/subscript
 import { TableListItemsComponent } from '@shared/components/table-list-items/table-list-items.component';
 import { iStudent } from '@shared/models/student.model';
 import { MessageService } from 'primeng/api';
-import { forkJoin, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-table-subscriptions',
