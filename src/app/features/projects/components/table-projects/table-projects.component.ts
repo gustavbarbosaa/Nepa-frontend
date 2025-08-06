@@ -118,7 +118,7 @@ export class TableProjectsComponent implements OnInit {
 
   showApproveDialog(project: iProject): void {
     this.formStatus.setValue({
-      status: project.status,
+      status: this.unformatStatusLabel(project.status),
     });
 
     this.selectedProject.set(project);
@@ -193,5 +193,9 @@ export class TableProjectsComponent implements OnInit {
       .split('_')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
+  }
+
+  private unformatStatusLabel(formattedStatus: string): string {
+    return formattedStatus.toUpperCase().replace(/ /g, '_');
   }
 }

@@ -103,7 +103,6 @@ export class FormProjectsComponent implements OnInit {
       return;
     }
 
-    this.loading.set(true);
     const formValueToSend = { ...this.projectForm.value };
     formValueToSend.palavras_chave = formValueToSend.palavras_chave.join(', ');
     formValueToSend.vagas_totais = Number(formValueToSend.vagas_totais);
