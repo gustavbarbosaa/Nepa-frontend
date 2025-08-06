@@ -42,7 +42,6 @@ export class HeaderStudentsComponent implements OnInit {
     ]);
 
     this.form.valueChanges.subscribe(value => {
-      console.log('Form value changed:', value);
       this.studentServiceSignal.filterName.set(value.filterName);
       this.studentServiceSignal.filterStatus.set(value.filterStatus);
     });

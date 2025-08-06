@@ -101,8 +101,6 @@ export class FormProjectsComponent implements OnInit {
 
   submitForm(): void {
     if (this.projectForm.invalid) {
-      console.log(this.projectForm);
-      console.log('form invalido');
       return;
     }
 
@@ -136,6 +134,5 @@ export class FormProjectsComponent implements OnInit {
     });
 
     this.projectForm.markAllAsTouched();
-    console.log('Dados do formulário:', formValueToSend);
   }
 }

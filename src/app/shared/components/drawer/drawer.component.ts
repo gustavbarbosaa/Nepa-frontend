@@ -72,8 +72,6 @@ export class DrawerComponent implements OnInit {
 
   ngOnInit(): void {
     const user = this.tokenService.getNameAndTypeUserForToken();
-    console.log(user);
-    console.log(this.userInfo);
 
     const menuItems: {
       icon: string;

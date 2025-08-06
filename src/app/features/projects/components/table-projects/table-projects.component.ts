@@ -88,15 +88,18 @@ export class TableProjectsComponent implements OnInit {
     this.fetchProjects();
 
     this.formStatus = this.formBuilder.group({
-      status: ['APROVADO', [Validators.required]],
+      status: ['Aprovado', [Validators.required]],
     });
 
-    this.statusProject.set([
+    const statusOptions = [
+      { label: 'Selecione o status', value: '' },
       ...Object.entries(eProjectStatus).map(([key, value]) => ({
         label: this.formatStatusLabel(key),
         value: value,
       })),
-    ]);
+    ];
+
+    this.statusProject.set(statusOptions);
   }
 
   fetchProjects(): void {
@@ -114,6 +117,10 @@ export class TableProjectsComponent implements OnInit {
   }
 
   showApproveDialog(project: iProject): void {
+    this.formStatus.setValue({
+      status: project.status,
+    });
+
     this.selectedProject.set(project);
     this.visibleApprove.set(true);
   }

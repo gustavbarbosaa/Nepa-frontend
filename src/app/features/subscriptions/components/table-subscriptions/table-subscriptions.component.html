@@ -1,1 +1,49 @@
-<app-table-list-items [data]="combinedData"></app-table-list-items>
+<app-table-list-items [data]="combinedData">
+  <ng-template #headerTable>
+    <tr>
+      <th style="width: 25%">id</th>
+      <th style="width: 25%">status</th>
+      <th style="width: 20%">bolsista</th>
+      <th style="width: 5%">aluno_id</th>
+      <th style="width: 25%">projeto_id</th>
+    </tr>
+  </ng-template>
+  <ng-template #bodyTable let-subscription>
+    <tr>
+      <td>
+        <div
+          class="max-w-[350px] truncate whitespace-nowrap overflow-hidden text-ellipsis">
+          {{ subscription.id }}
+        </div>
+      </td>
+
+      <td>
+        <div
+          class="max-w-[350px] truncate whitespace-nowrap overflow-hidden text-ellipsis">
+          {{ subscription.status }}
+        </div>
+      </td>
+
+      <td>
+        <div
+          class="max-w-[350px] truncate whitespace-nowrap overflow-hidden text-ellipsis">
+          {{ subscription.bolsista }}
+        </div>
+      </td>
+
+      <td>
+        <div
+          class="max-w-[350px] truncate whitespace-nowrap overflow-hidden text-ellipsis">
+          {{ subscription.aluno_id }}
+        </div>
+      </td>
+
+      <td>
+        <div
+          class="max-w-[350px] truncate whitespace-nowrap overflow-hidden text-ellipsis">
+          {{ subscription.projeto_id }}
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</app-table-list-items>

@@ -42,5 +42,13 @@ export const routes: Routes = [
         r => r.noticeRoutes
       ),
   },
+  {
+    path: 'inscricoes',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./features/subscriptions/pages/subscriptions.route').then(
+        r => r.subscritionsRoutes
+      ),
+  },
   { path: '', redirectTo: 'autenticacao', pathMatch: 'full' },
 ];

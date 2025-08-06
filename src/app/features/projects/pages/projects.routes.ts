@@ -3,7 +3,6 @@ import { ProjectsPage } from './projects/projects.page';
 import { authGuard } from '@core/guards/auth/auth.guard';
 import { MyProjectsPage } from './my-projects/my-projects.page';
 import { RegisterProjectPage } from './register-project/register-project.page';
-import { TableSubscriptionsComponent } from '@features/subscriptions/components/table-subscriptions/table-subscriptions.component';
 
 export const projectRoutes: Routes = [
   { path: '', component: ProjectsPage, canActivate: [authGuard] },
@@ -16,9 +15,5 @@ export const projectRoutes: Routes = [
     path: 'cadastrar',
     component: RegisterProjectPage,
     canActivate: [authGuard],
-  },
-  {
-    path: 'inscricoes/:id',
-    component: TableSubscriptionsComponent,
   },
 ];

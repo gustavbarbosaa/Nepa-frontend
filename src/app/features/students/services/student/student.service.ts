@@ -22,9 +22,7 @@ export class StudentService {
   }
 
   getById(id: string): Observable<iStudent> {
-    return this.http
-      .get<iStudent>(`${this.apiUrl}/alunos/${id}/`)
-      .pipe(take(1));
+    return this.http.get<iStudent>(`${this.apiUrl}/alunos/${id}`).pipe(take(1));
   }
 
   delete(id: string): Observable<void> {
