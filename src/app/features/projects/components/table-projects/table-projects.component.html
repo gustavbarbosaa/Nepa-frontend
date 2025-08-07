@@ -176,13 +176,12 @@
                 icon="pi pi-user-plus"
                 pTooltip="Realizar inscrição"
                 (onClick)="showSubscriptionDialog(project)"
-                severity="primary" />
+                severity="info" />
             } @else {
               @switch (project.subscriptionStatus) {
                 @case (statusInscricao.APROVADO) {
                   <p-button
                     icon="pi pi-check"
-                    label="Aprovado"
                     severity="success"
                     [disabled]="true"
                     pTooltip="Sua inscrição foi aprovada" />
@@ -190,7 +189,6 @@
                 @case (statusInscricao.PENDENTE) {
                   <p-button
                     icon="pi pi-clock"
-                    label="Pendente"
                     severity="warn"
                     [disabled]="true"
                     pTooltip="Sua inscrição está pendente de aprovação" />
@@ -198,7 +196,6 @@
                 @case (statusInscricao.REJEITADO) {
                   <p-button
                     icon="pi pi-times"
-                    label="Rejeitado"
                     severity="danger"
                     [disabled]="true"
                     pTooltip="Sua inscrição foi rejeitada" />

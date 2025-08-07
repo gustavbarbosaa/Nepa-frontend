@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@env/environment';
+import { iInscricao } from '@shared/models/inscricao.model';
 import { iStudent } from '@shared/models/student.model';
 import { Observable, take } from 'rxjs';
 
@@ -23,6 +24,12 @@ export class StudentService {
 
   getById(id: string): Observable<iStudent> {
     return this.http.get<iStudent>(`${this.apiUrl}/alunos/${id}`).pipe(take(1));
+  }
+
+  getRegisteredProjects(): Observable<iInscricao[]> {
+    return this.http
+      .get<iInscricao[]>(`${this.apiUrl}/alunos/me/inscricoes`)
+      .pipe(take(1));
   }
 
   delete(id: string): Observable<void> {

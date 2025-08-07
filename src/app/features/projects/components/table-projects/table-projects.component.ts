@@ -19,6 +19,7 @@ import { TokenService } from '@core/services/token/token.service';
 import { eProjectStatus } from '@features/projects/enums/status.enum';
 import { ProjectSignalService } from '@features/projects/services/project-signal/project-signal.service';
 import { ProjectService } from '@features/projects/services/project/project.service';
+import { StudentService } from '@features/students/services/student/student.service';
 import { SubscriptionsService } from '@features/subscriptions/services/subscriptions/subscriptions.service';
 import { ButtonComponent } from '@shared/components/button/button.component';
 import { SelectFormComponent } from '@shared/components/select-form/select-form.component';
@@ -33,7 +34,6 @@ import { Dialog } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
 import { Tag } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
-import { forkJoin, map } from 'rxjs';
 
 @Component({
   selector: 'app-table-projects',
@@ -57,10 +57,12 @@ export class TableProjectsComponent implements OnInit {
   private projectService = inject(ProjectService);
   private projectSignalService = inject(ProjectSignalService);
   private subscriptionService = inject(SubscriptionsService);
+  private studentService = inject(StudentService);
   private tokenService = inject(TokenService);
   private toastService = inject(ToastService);
   private formBuilder = inject(NonNullableFormBuilder);
 
+  projectsSubscribed = signal<iInscricao[]>([]);
   allProjects = signal<iProject[]>([]);
   selectedProject = signal<iProject | null>(null);
   visibleDelete = signal<boolean>(false);
@@ -76,12 +78,25 @@ export class TableProjectsComponent implements OnInit {
     []
   );
 
+  projectsWithSubscriptionStatus = computed(() => {
+    const subscribedProjects = this.projectsSubscribed();
+    return this.allProjects().map(project => {
+      const subscription = subscribedProjects.find(
+        sub => sub.projeto_id === project.id
+      );
+      return {
+        ...project,
+        subscriptionStatus: subscription ? subscription.status : null,
+      };
+    });
+  });
+
   projects = computed(() => {
     const title = this.projectSignalService.filterTitle().toLowerCase();
     const status = this.projectSignalService.filterStatus();
     const courseId = this.projectSignalService.filterCourse();
 
-    return this.allProjects().filter(project => {
+    return this.projectsWithSubscriptionStatus().filter(project => {
       const matchesTitle = project.titulo.toLowerCase().includes(title);
       const matchesStatus = !status || project.status === status;
       const matchesCourse = !courseId || project.id === courseId;
@@ -94,6 +109,9 @@ export class TableProjectsComponent implements OnInit {
     effect(() => {
       this.projectSignalService.refresh$();
       this.fetchProjects();
+      if (this.userInfo()?.autoridade === this.autoridade.aluno) {
+        this.fetchProjectsSubscribed();
+      }
     });
   }
 
@@ -115,68 +133,29 @@ export class TableProjectsComponent implements OnInit {
     this.statusProject.set(statusOptions);
   }
 
+  fetchProjectsSubscribed(): void {
+    this.studentService.getRegisteredProjects().subscribe({
+      next: response => {
+        this.projectsSubscribed.set(response);
+      },
+      error: error => console.error(error),
+    });
+  }
+
   fetchProjects(): void {
     this.loading.set(true);
-    const isStudent = this.userInfo()?.autoridade === this.autoridade.aluno;
 
     this.projectService.getAll().subscribe({
-      next: projects => {
-        if (isStudent) {
-          this.allProjects.set(
-            projects.map(p => ({ ...p, subscriptionStatus: null }))
-          );
-          this.loading.set(false);
-        } else {
-          const studentId = this.userInfo()?.sub;
-          if (!studentId) {
-            this.allProjects.set(projects);
-            this.loading.set(false);
-            return;
-          }
-
-          const subscriptionRequests = projects.map(project =>
-            this.subscriptionService.getAllByProject(project.id).pipe(
-              map(subscriptions => {
-                const studentSubscription = subscriptions.find(
-                  (sub: iInscricao) => sub.aluno_id === studentId
-                );
-                return {
-                  ...project,
-                  subscriptionStatus: studentSubscription
-                    ? studentSubscription.status
-                    : null,
-                };
-              })
-            )
-          );
-
-          console.log('to aqui');
-          subscriptionRequests.map(s => console.log(s));
-
-          forkJoin(subscriptionRequests).subscribe({
-            next: processedProjects => {
-              this.allProjects.set(processedProjects);
-              this.loading.set(false);
-            },
-            error: err => {
-              console.error('Erro ao buscar inscrições para o Admin: ', err);
-              this.toastService.showError(
-                'Erro ao verificar inscrições.',
-                'Ops!'
-              );
-              this.allProjects.set(
-                projects.map(p => ({ ...p, subscriptionStatus: null }))
-              );
-              this.loading.set(false);
-            },
-          });
-        }
+      next: response => {
+        this.loading.set(false);
+        this.allProjects.set(response);
+        this.fetchProjectsSubscribed();
       },
-      error: err => {
-        console.error('Erro ao buscar projetos: ', err);
-        this.toastService.showError('Erro ao carregar projetos.', 'Ops!');
+      error: error => {
+        console.error(error);
         this.loading.set(false);
       },
+      complete: () => this.loading.set(false),
     });
   }
 
@@ -258,56 +237,36 @@ export class TableProjectsComponent implements OnInit {
   }
 
   subscribeInProject(): void {
+    if (!this.selectedProject()) {
+      return;
+    }
+
     this.loading.set(true);
-    const project = this.selectedProject();
-    if (!project) {
-      this.loading.set(false);
-      return;
-    }
 
-    // Condição para alunos: impede uma segunda inscrição,
-    // pois o status só muda no refresh da página.
-    if (project.subscriptionStatus !== null) {
-      this.toastService.showInfo(
-        'Você já tem uma inscrição para este projeto!',
-        'Atenção!'
-      );
-      this.loading.set(false);
-      this.visibleSubscription.set(false);
-      return;
-    }
+    this.subscriptionService
+      .subscribeInTheProject(this.selectedProject()!.id)
+      .subscribe({
+        next: () => {
+          this.loading.set(false);
+          this.toastService.showSuccess(
+            'Inscrição realizada com sucesso!',
+            'Sucesso'
+          );
 
-    this.subscriptionService.subscribeInTheProject(project.id).subscribe({
-      next: () => {
-        // Após a inscrição bem-sucedida, atualize o estado localmente
-        const currentProjects = this.allProjects();
-        const updatedProjects = currentProjects.map(p => {
-          if (p.id === project.id) {
-            return {
-              ...p,
-              subscriptionStatus: eStatusInscricaoProjeto.PENDENTE,
-            };
-          }
-          return p;
-        });
-        this.allProjects.set(updatedProjects);
-
-        this.toastService.showSuccess(
-          'Inscrição realizada com sucesso!',
-          'Sucesso!'
-        );
-        this.visibleSubscription.set(false);
-        this.loading.set(false);
-      },
-      error: error => {
-        this.toastService.showError(
-          'Houve um erro ao se inscrever no projeto!',
-          'Ops!'
-        );
-        this.loading.set(false);
-        console.error(error.error.message);
-      },
-    });
+          setInterval(() => {
+            this.visibleSubscription.set(false);
+            this.fetchProjects();
+          }, 2000);
+        },
+        error: error => {
+          this.loading.set(false);
+          this.toastService.showError('Erro ao realizar inscrição!', 'Erro');
+          console.error(error);
+        },
+        complete: () => {
+          this.loading.set(false);
+        },
+      });
   }
 
   getControl<T = string>(controlName: string): FormControl<T> {
