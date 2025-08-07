@@ -4,6 +4,7 @@ import { ToastService } from '@core/services/toast/toast.service';
 import { SubscriptionsService } from '@features/subscriptions/services/subscriptions/subscriptions.service';
 import { ButtonComponent } from '@shared/components/button/button.component';
 import { TableListItemsComponent } from '@shared/components/table-list-items/table-list-items.component';
+import { eStatusInscricaoProjeto } from '@shared/enums/status-inscricao.enum';
 import { iInscricao } from '@shared/models/inscricao.model';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -52,6 +53,64 @@ export class TableSubscriptionsComponent implements OnInit {
       },
       error: error => console.error(error),
     });
+  }
+
+  approveSubscription(): void {
+    if (!this.subscriptionSelected()) {
+      return;
+    }
+
+    this.loading.set(true);
+    const idProject = this.subscriptionSelected()!.projeto_id;
+    const idSubscription = this.subscriptionSelected()!.id;
+
+    this.subscriptionsService
+      .approveOrRepproveSubscription(idProject, idSubscription, {
+        status: eStatusInscricaoProjeto.APROVADO,
+      })
+      .subscribe({
+        next: () => {
+          this.loading.set(false);
+
+          this.toastService.showSuccess(
+            'Aluno aprovado com sucesso!',
+            'Sucesso'
+          );
+        },
+        error: error => {
+          this.loading.set(false);
+          this.toastService.showError('Erro ao aprovar aluno!', 'Erro');
+          console.error(error);
+        },
+        complete: () => this.loading.set(false),
+      });
+  }
+
+  repproveSubscription(): void {
+    if (!this.subscriptionSelected()) {
+      return;
+    }
+
+    this.loading.set(true);
+    const idProject = this.subscriptionSelected()!.projeto_id;
+    const idSubscription = this.subscriptionSelected()!.id;
+
+    this.subscriptionsService
+      .approveOrRepproveSubscription(idProject, idSubscription, {
+        status: eStatusInscricaoProjeto.REJEITADO,
+      })
+      .subscribe({
+        next: () => {
+          this.loading.set(false);
+          this.toastService.showWarn('Aluno reprovado com sucesso!', 'Sucesso');
+        },
+        error: error => {
+          this.loading.set(false);
+          this.toastService.showError('Erro ao reprovar aluno!', 'Erro');
+          console.error(error);
+        },
+        complete: () => this.loading.set(false),
+      });
   }
 
   showApproveDialog(subscription: iInscricao): void {

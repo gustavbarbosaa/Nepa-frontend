@@ -92,6 +92,7 @@
                     text="Aprovar"
                     color="bg-success-600"
                     class="text-light max-w-[150px] w-full"
+                    (click)="approveSubscription()"
                     [loading]="loading()" />
                 </div>
               }
@@ -141,6 +142,7 @@
                     text="Reprovar"
                     color="bg-danger-600"
                     class="text-light max-w-[150px] w-full"
+                    (click)="repproveSubscription()"
                     [loading]="loading()" />
                 </div>
               }
