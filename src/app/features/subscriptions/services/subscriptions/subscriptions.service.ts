@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@env/environment';
-import { eProjectStatus } from '@features/projects/enums/status.enum';
 import { eStatusInscricaoProjeto } from '@shared/enums/status-inscricao.enum';
 import { iInscricao } from '@shared/models/inscricao.model';
 import { Observable, take } from 'rxjs';
