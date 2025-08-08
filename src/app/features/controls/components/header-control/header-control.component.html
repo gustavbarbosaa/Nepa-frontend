@@ -1,14 +1,17 @@
-<div class="header-control">
-  <h2 class="header-control__title">Controles</h2>
-  <form class="flex items-center justify-center gap-2">
+<div class="flex flex-col gap-2 items-start justify-center">
+  <h2 class="text-2xl font-bold text-dark">Controles</h2>
+  <form class="flex flex-col items-center justify-center gap-2 w-full">
     <app-select-form
       id="options"
       label="Selecione o ano"
+      class="w-full"
+      initialIcon="heroAdjustmentsHorizontal"
       [control]="getControl('ano')"
       [options]="options()" />
     <app-button
-      color="primary"
-      text="Adionar"
+      color="bg-primary-600"
+      class="text-light w-full"
+      text="Adicionar"
       type="button"
       [loading]="loading()" />
   </form>

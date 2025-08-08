@@ -23,6 +23,7 @@ export class HeaderControlComponent implements OnInit {
 
   constructor() {
     this.options.set([
+      { label: 'Selecione um ano', value: '' },
       { label: '2024', value: '2024' },
       { label: '2025', value: '2025' },
     ]);
