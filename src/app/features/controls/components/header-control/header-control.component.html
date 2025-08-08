@@ -1,1 +1,15 @@
-<p>header-control works!</p>
+<div class="header-control">
+  <h2 class="header-control__title">Controles</h2>
+  <form class="flex items-center justify-center gap-2">
+    <app-select-form
+      id="options"
+      label="Selecione o ano"
+      [control]="getControl('ano')"
+      [options]="options()" />
+    <app-button
+      color="primary"
+      text="Adionar"
+      type="button"
+      [loading]="loading()" />
+  </form>
+</div>
