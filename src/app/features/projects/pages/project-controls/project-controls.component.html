@@ -1,10 +1,34 @@
 <app-pages-layout class="flex">
-  @if (project) {
-    <h2>Controles do Projeto: {{ project!.titulo }}</h2>
+  @if (project()) {
+    <h2>Controles do Projeto: {{ project()!.titulo }}</h2>
 
     <div>
-      @for (control of controls; track control.id) {
+      @for (control of controls(); track control.id) {
         <h3>Controle {{ control.ano }}/{{ control.mes }}</h3>
+
+        <app-table-list-items [data]="controls()">
+          <ng-template #headerTable>
+            <tr>
+              <th style="width: 25%">Aluno</th>
+              <th style="width: 25%">Presente</th>
+            </tr>
+          </ng-template>
+          <ng-template #bodyTable let-control>
+            <td>
+              <div
+                class="max-w-[350px] truncate whitespace-nowrap overflow-hidden text-ellipsis">
+                {{ control.inscricao_id }}
+              </div>
+            </td>
+
+            <td>
+              <div
+                class="max-w-[350px] truncate whitespace-nowrap overflow-hidden text-ellipsis">
+                {{ control.presente }}
+              </div>
+            </td>
+          </ng-template>
+        </app-table-list-items>
 
         <div>
           @for (
