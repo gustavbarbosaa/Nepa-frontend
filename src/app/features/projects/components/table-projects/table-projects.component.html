@@ -175,6 +175,10 @@
               <p-button
                 icon="pi pi-user-plus"
                 pTooltip="Realizar inscrição"
+                [disabled]="
+                  project.vagas_ocupadas >= project.vagas_totais ||
+                  project.status !== 'Em Andamento'
+                "
                 (onClick)="showSubscriptionDialog(project)"
                 severity="info" />
             } @else {
