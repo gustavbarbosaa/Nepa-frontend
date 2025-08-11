@@ -8,5 +8,5 @@
          hover:from-primary-700 hover:to-primary-800
          transition-all duration-200
          shadow-md hover:shadow-lg
-         focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50;
+         focus:outline-none focus:ring-2 focus:ring-primary-500/50;
 }
