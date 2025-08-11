@@ -8,8 +8,9 @@ import {
   effect,
   WritableSignal,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ToastService } from '@core/services/toast/toast.service';
+import { ControlService } from '@features/controls/services/control.service';
 import { eProjectStatus } from '@features/projects/enums/status.enum';
 import { ProjectSignalService } from '@features/projects/services/project-signal/project-signal.service';
 import { ProjectService } from '@features/projects/services/project/project.service';
@@ -39,6 +40,7 @@ import { ToastModule } from 'primeng/toast';
 export class TableMyProjectsComponent implements OnInit {
   private projectService = inject(ProjectService);
   private projectSignalService = inject(ProjectSignalService);
+  private router = inject(Router);
 
   allProjects = signal<iProject[]>([]);
   loading = signal<boolean>(false);
@@ -78,18 +80,28 @@ export class TableMyProjectsComponent implements OnInit {
   }
 
   fetchProjects(): void {
-    this.projectService.getByUser().subscribe({
+    this.loading.set(true);
+    this.projectService.getProjectWithControls().subscribe({
       next: res => {
         this.allProjects.set(res);
+        this.loading.set(false);
       },
-      error: err => console.error('Erro ao buscar projetos: ', err),
+      error: err => {
+        console.error('Erro ao buscar projetos: ', err);
+        this.loading.set(false);
+      },
     });
   }
+
   private formatStatusLabel(status: string): string {
     return status
       .toLowerCase()
       .split('_')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
+  }
+
+  navigateToProjectControls(projectId: string): void {
+    this.router.navigate(['/projetos', projectId, 'controles']);
   }
 }

@@ -66,7 +66,10 @@
             severity="primary"
             icon="pi pi-users"
             [routerLink]="['/inscricoes', project.id]" />
-          <p-button severity="secondary" icon="pi pi-align-center" />
+          <p-button
+            severity="secondary"
+            icon="pi pi-align-center"
+            (onClick)="navigateToProjectControls(project.id)" />
         </div>
       </td>
     </tr>

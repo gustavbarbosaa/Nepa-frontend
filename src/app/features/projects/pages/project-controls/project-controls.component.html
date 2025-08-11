@@ -1,0 +1,21 @@
+<app-pages-layout class="flex">
+  @if (project) {
+    <h2>Controles do Projeto: {{ project!.titulo }}</h2>
+
+    <div>
+      @for (control of controls; track control.id) {
+        <h3>Controle {{ control.ano }}/{{ control.mes }}</h3>
+
+        <div>
+          @for (
+            frequencia of control.frequencia_semanais;
+            track frequencia.id
+          ) {
+            <p>Data: {{ frequencia.realizado_em }}</p>
+            <p>Descrição: {{ frequencia.descricao }}</p>
+          }
+        </div>
+      }
+    </div>
+  }
+</app-pages-layout>

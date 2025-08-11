@@ -2,7 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { iProject } from '@shared/models/project.model';
-import { Observable, take } from 'rxjs';
+import { forkJoin, map, Observable, switchMap, take } from 'rxjs';
+import { ControlService } from '../../../controls/services/control.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +11,7 @@ import { Observable, take } from 'rxjs';
 export class ProjectService {
   private http = inject(HttpClient);
   private apiUrl = environment.apiUrl;
+  private controlService = inject(ControlService);
 
   getAll(status?: string, id?: string): Observable<iProject[]> {
     let params = new HttpParams();
@@ -31,6 +33,20 @@ export class ProjectService {
     return this.http
       .get<iProject[]>(`${this.apiUrl}/projetos/me`)
       .pipe(take(1));
+  }
+
+  getProjectWithControls(): Observable<iProject[]> {
+    return this.getByUser().pipe(
+      switchMap(projects => {
+        return forkJoin(
+          projects.map(project =>
+            this.controlService
+              .getControls(null, null, project.id)
+              .pipe(map(controls => ({ ...project, controls })))
+          )
+        );
+      })
+    );
   }
 
   post(form: FormData): Observable<iProject> {

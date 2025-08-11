@@ -12,8 +12,8 @@ export class ControlService {
   private apiUrl = environment.apiUrl;
 
   getControls(
-    ano: number,
-    mes: number,
+    ano: number | null,
+    mes: number | null,
     project_id: string
   ): Observable<iControl[]> {
     let params = new HttpParams();
