@@ -66,16 +66,23 @@
       @if (userInfo() && userInfo()!.autoridade === autoridade.admin) {
         <td>
           <div class="flex items-center gap-2">
-            <p-button
-              icon="pi pi-check"
-              (onClick)="showApproveDialog(project)"
-              severity="success" />
+            @if (project.status === statusProjeto.pendente) {
+              <p-button
+                icon="pi pi-check"
+                (onClick)="showApproveDialog(project)"
+                severity="success" />
+            } @else {
+              <p-button
+                icon="pi pi-sync"
+                (onClick)="showApproveDialog(project)"
+                severity="success" />
+            }
             <p-dialog
               header="Alerta!"
               [(visible)]="visibleApprove"
               [modal]="true"
               [dismissableMask]="true"
-              [style]="{ width: '500px' }"
+              [style]="{ width: '650px' }"
               [breakpoints]="{ '960px': '90vw' }"
               appendTo="body">
               <p-toast position="top-right" />
@@ -84,7 +91,11 @@
                 @if (selectedProject()) {
                   <h2
                     class="text-xl font-bold text-success-600 py-4 border-t border-tertiary-200">
-                    Tem certeza que deseja aprovar este projeto?
+                    @if (selectedProject()!.status === statusProjeto.pendente) {
+                      Tem certeza que deseja aprovar este projeto?
+                    } @else {
+                      Tem certeza que deseja alterar o status deste projeto?
+                    }
                   </h2>
                   <p class="mb-2">
                     <strong>Título:</strong> {{ selectedProject()!.titulo }}
@@ -111,7 +122,11 @@
                     </button>
 
                     <app-button
-                      text="Aprovar"
+                      [text]="
+                        selectedProject()!.status === statusProjeto.pendente
+                          ? 'Aprovar'
+                          : 'Alterar Status'
+                      "
                       color="bg-success-600"
                       class="text-light max-w-[150px] w-full"
                       (click)="approveProject()"
