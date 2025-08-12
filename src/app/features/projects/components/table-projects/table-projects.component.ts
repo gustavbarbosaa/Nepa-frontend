@@ -189,13 +189,13 @@ export class TableProjectsComponent implements OnInit {
         this.loading.set(false);
         this.visibleApprove.set(false);
         this.toastService.showSuccess(
-          'Projeto aprovado com sucesso!',
+          'Alteração de status realizada com sucesso!',
           'Sucesso!'
         );
       },
       error: error => {
         this.toastService.showError(
-          'Houve um erro ao aprovar o projeto!',
+          'Houve um erro ao alterar status do projeto!',
           'Ops!'
         );
         this.loading.set(false);
