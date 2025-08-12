@@ -29,7 +29,7 @@
       <td>
         @switch (project.status) {
           @case ('Pendente') {
-            <p-tag value="Pendente" severity="warning" />
+            <p-tag value="Pendente" severity="warn" />
           }
           @case ('Em Andamento') {
             <p-tag value="Em Andamento" severity="info" />
@@ -39,6 +39,12 @@
           }
           @case ('Cancelado') {
             <p-tag value="Cancelado" severity="danger" />
+          }
+          @case ('Aprovado') {
+            <p-tag value="Aprovado" severity="success" />
+          }
+          @case ('Finalizado') {
+            <p-tag value="Finalizado" severity="warn" />
           }
           @default {
             <p-tag value="Desconhecido" severity="secondary" />
