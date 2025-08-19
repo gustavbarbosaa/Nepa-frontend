@@ -3,7 +3,7 @@ import { ProjectsPage } from './projects/projects.page';
 import { authGuard } from '@core/guards/auth/auth.guard';
 import { MyProjectsPage } from './my-projects/my-projects.page';
 import { RegisterProjectPage } from './register-project/register-project.page';
-import { ProjectControlsComponent } from './project-controls/project-controls.component';
+import { ProjectControlsPage } from './project-controls/project-controls.page';
 
 export const projectRoutes: Routes = [
   { path: '', component: ProjectsPage, canActivate: [authGuard] },
@@ -19,6 +19,6 @@ export const projectRoutes: Routes = [
   },
   {
     path: ':projectId/controles',
-    component: ProjectControlsComponent,
+    component: ProjectControlsPage,
   },
 ];
