@@ -6,15 +6,15 @@ import { iControl } from '@shared/models/control.model';
 import { iProject } from '@shared/models/project.model';
 import { forkJoin } from 'rxjs';
 import { PagesLayoutComponent } from '@shared/components/pages-layout/pages-layout.component';
-import { TableListItemsComponent } from '@shared/components/table-list-items/table-list-items.component';
+import { TitleHeaderListComponent } from '@shared/components/title-header-list/title-header-list.component';
 
 @Component({
   selector: 'app-project-controls',
-  imports: [PagesLayoutComponent, TableListItemsComponent],
-  templateUrl: './project-controls.component.html',
-  styleUrl: './project-controls.component.css',
+  imports: [PagesLayoutComponent, TitleHeaderListComponent],
+  templateUrl: './project-controls.page.html',
+  styleUrl: './project-controls.page.css',
 })
-export class ProjectControlsComponent implements OnInit {
+export class ProjectControlsPage implements OnInit {
   private route = inject(ActivatedRoute);
   private projectService = inject(ProjectService);
   private controlService = inject(ControlService);
@@ -37,8 +37,34 @@ export class ProjectControlsComponent implements OnInit {
       next: ([project, controls]) => {
         this.project.set(project);
         this.controls.set(controls);
+        console.log('Projeto e controles carregados com sucesso:', {
+          project,
+          controls,
+        });
       },
       error: err => console.error('Erro ao carregar dados: ', err),
     });
+  }
+
+  private nameMonth(month: number): string {
+    const months = [
+      'Janeiro',
+      'Fevereiro',
+      'Março',
+      'Abril',
+      'Maio',
+      'Junho',
+      'Julho',
+      'Agosto',
+      'Setembro',
+      'Outubro',
+      'Novembro',
+      'Dezembro',
+    ];
+    return months[month - 1] || '';
+  }
+
+  formatDate(month: number, year: number): string {
+    return `${this.nameMonth(month)} / ${year}`;
   }
 }
