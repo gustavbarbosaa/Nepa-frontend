@@ -1,31 +1,90 @@
+<p-toast />
 <app-pages-layout class="flex">
-  <app-title-header-list
-    title="Gerencie os controles"
-    subtitle="Crie controles e controle as frequências dos projetos" />
+  <div class="w-full flex items-center justify-between">
+    <app-title-header-list
+      title="Gerencie os controles"
+      subtitle="Crie controles e controle as frequências dos projetos" />
 
-  <ng-template #headerTable>
-    <tr>
-      <th style="width: 25%">Projeto</th>
-      <th style="width: 25%">Data</th>
-      <th style="width: 20%">Ver frequências</th>
-    </tr>
-  </ng-template>
+    <button
+      (click)="openDialog()"
+      type="button"
+      class="inline-flex items-center justify-center bg-gradient-to-r from-primary-600 to-primary-700 rounded-xl px-6 py-3 text-white font-bold hover:from-primary-700 hover:to-primary-800 transition-all duration-500 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-500/50 cursor-pointer">
+      Cadastrar controle
+    </button>
+  </div>
 
-  <ng-template #bodyTable let-control>
-    <tr>
-      <td>
-        <div
-          class="max-w-[350px] truncate whitespace-nowrap overflow-hidden text-ellipsis">
-          <p>{{ project()?.titulo }}</p>
-        </div>
-      </td>
+  <app-table-list-items [data]="controls()">
+    <ng-template #headerTable>
+      <tr>
+        <th style="width: 25%">Projeto</th>
+        <th style="width: 25%">Data</th>
+        <th style="width: 20%">Ver frequências</th>
+      </tr>
+    </ng-template>
 
-      <td>
-        <div
-          class="max-w-[350px] truncate whitespace-nowrap overflow-hidden text-ellipsis">
-          {{ formatDate(control.ano, control.mes) }}
-        </div>
-      </td>
-    </tr>
-  </ng-template>
+    <ng-template #bodyTable let-control>
+      <tr>
+        <td>
+          <div
+            class="max-w-[350px] truncate whitespace-nowrap overflow-hidden text-ellipsis">
+            <p>{{ project()?.titulo }}</p>
+          </div>
+        </td>
+
+        <td>
+          <div
+            class="max-w-[350px] truncate whitespace-nowrap overflow-hidden text-ellipsis">
+            {{ formatDate(control.mes, control.ano) }}
+          </div>
+        </td>
+
+        <td>
+          <div class="flex items-center justify-center gap-2">
+            <p-button icon="pi pi-eye" severity="info" />
+            <p-button icon="pi pi-trash" severity="danger" />
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </app-table-list-items>
 </app-pages-layout>
+
+<p-dialog
+  header="Cadastrar controle"
+  [modal]="true"
+  [dismissableMask]="true"
+  [(visible)]="showDialog"
+  [style]="{ width: '500px' }"
+  [breakpoints]="{ '960px': '90vw' }"
+  appendTo="body">
+  <div>
+    <h2
+      class="text-xl font-bold text-primary-600 py-4 border-t border-tertiary-200">
+      Informe o mês e o ano do controle
+    </h2>
+    <div>
+      <app-input-form
+        id="data"
+        initialIcon="heroCalendarDateRange"
+        label="Insira a data"
+        type="month"
+        placeholder="Ex: 1"
+        [control]="getControl('mes')" />
+    </div>
+    <div class="flex justify-end gap-4 pt-6 border-t border-tertiary-200">
+      <button
+        (click)="showDialog.set(false)"
+        type="button"
+        class="bg-tertiary-200 px-4 py-2 rounded-lg cursor-pointer hover:bg-tertiary-300 transition-all">
+        Cancelar
+      </button>
+      <app-button
+        (click)="createControl()"
+        [loading]="loading()"
+        type="button"
+        text="Cadastrar"
+        color="bg-primary-600"
+        class="text-light max-w-[150px] w-full cursor-pointer" />
+    </div>
+  </div>
+</p-dialog>

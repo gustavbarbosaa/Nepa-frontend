@@ -25,4 +25,10 @@ export class ControlService {
       .get<iControl[]>(`${this.apiUrl}/controles/`, { params })
       .pipe(take(1));
   }
+
+  post(controlData: FormData): Observable<iControl> {
+    return this.http
+      .post<iControl>(`${this.apiUrl}/controles/`, controlData)
+      .pipe(take(1));
+  }
 }
