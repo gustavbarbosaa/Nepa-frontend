@@ -51,6 +51,8 @@ export class ProjectControlsPage implements OnInit {
   controls = signal<iControl[]>([]);
   loading = signal<boolean>(false);
   showDialog = signal<boolean>(false);
+  showDeleteDialog = signal<boolean>(false);
+  controlSelected = signal<iControl | null>(null);
 
   ngOnInit(): void {
     this.loadProjectAndControls();
@@ -144,6 +146,11 @@ export class ProjectControlsPage implements OnInit {
 
   openDialog(): void {
     this.showDialog.set(true);
+  }
+
+  openDeleteDialog(control: iControl): void {
+    this.controlSelected.set(control);
+    this.showDeleteDialog.set(true);
   }
 
   getControl<T = string>(controlName: string): FormControl<T> {
