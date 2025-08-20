@@ -97,8 +97,8 @@ export class ProjectControlsPage implements OnInit {
     return months[month - 1] || '';
   }
 
-  formatDate(month: number, year: number): string {
-    return `${this.nameMonth(month)} / ${year}`;
+  formatDate(month?: number, year?: number): string {
+    return `${this.nameMonth(month!)} / ${year}`;
   }
 
   createControl(): void {

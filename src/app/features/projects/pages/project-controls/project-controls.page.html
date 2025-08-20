@@ -103,13 +103,9 @@
   <div>
     <h2
       class="text-xl font-bold text-danger-600 py-4 border-t border-tertiary-200">
-      Tem certeza que deseja excluir este controle?
+      Tem certeza que deseja excluir este controle de
+      {{formatDate(controlSelected()?.mes, controlSelected()?.ano)}} ?
     </h2>
-    <div>
-      <p>
-        {{formatDate(this.controlSelected()!.mes, this.controlSelected()!.ano)}}
-      </p>
-    </div>
     <div class="flex justify-end gap-4 pt-6 border-t border-tertiary-200">
       <button
         (click)="showDeleteDialog.set(false)"
