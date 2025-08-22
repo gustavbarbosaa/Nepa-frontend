@@ -31,4 +31,10 @@ export class ControlService {
       .post<iControl>(`${this.apiUrl}/controles/`, controlData)
       .pipe(take(1));
   }
+
+  delete(projetoId: string): Observable<void> {
+    return this.http
+      .delete<void>(`${this.apiUrl}/controles/${projetoId}`)
+      .pipe(take(1));
+  }
 }

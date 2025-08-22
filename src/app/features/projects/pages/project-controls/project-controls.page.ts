@@ -156,4 +156,25 @@ export class ProjectControlsPage implements OnInit {
   getControl<T = string>(controlName: string): FormControl<T> {
     return this.form.get(controlName) as FormControl<T>;
   }
+
+  deleteControl(): void {
+    this.loading.set(true);
+
+    this.controlService.delete(this.controlSelected()!.id).subscribe({
+      next: () => {
+        this.loading.set(false);
+        this.toast.showSuccess('Controle excluído com sucesso!', 'Sucesso');
+        this.loadProjectAndControls();
+        this.showDeleteDialog.set(false);
+      },
+      error: err => {
+        this.loading.set(false);
+        this.toast.showError('Erro ao excluir controle', 'Erro');
+        console.error('Erro ao excluir controle: ', err);
+      },
+      complete: () => {
+        this.loading.set(false);
+      },
+    });
+  }
 }
