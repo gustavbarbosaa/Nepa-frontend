@@ -26,6 +26,10 @@ import { Button } from 'primeng/button';
 import { Dialog } from 'primeng/dialog';
 import { TabPanel, TabsModule } from 'primeng/tabs';
 import { CheckboxModule } from 'primeng/checkbox';
+import { FrequencyService } from '@features/projects/services/frequency/frequency.service';
+import { ToastService } from '@core/services/toast/toast.service';
+import { MessageService } from 'primeng/api';
+import { Toast } from 'primeng/toast';
 
 @Component({
   selector: 'app-form-frequency',
@@ -38,15 +42,20 @@ import { CheckboxModule } from 'primeng/checkbox';
     TabsModule,
     TabPanel,
     CheckboxModule,
+    Toast,
   ],
   templateUrl: './form-frequency.component.html',
   styleUrl: './form-frequency.component.css',
+  providers: [ToastService, MessageService],
 })
 export class FormFrequencyComponent implements OnInit {
   @Input({ required: true }) visible!: boolean;
+  @Input({ required: true }) controlId: string | null = null;
   @Output() visibleChange = new EventEmitter<boolean>();
   private fb = inject(NonNullableFormBuilder);
   private subscriptionsService = inject(SubscriptionsService);
+  private frequencyService = inject(FrequencyService);
+  private toast = inject(ToastService);
   private route = inject(ActivatedRoute);
 
   subscriptions = signal<iInscricao[]>([]);
@@ -122,17 +131,31 @@ export class FormFrequencyComponent implements OnInit {
       .filter(alunoCtrl => alunoCtrl.value.presente)
       .map(alunoCtrl => ({
         inscricao_id: alunoCtrl.value.inscricao_id,
-        nome: alunoCtrl.value.nome,
+        presente: alunoCtrl.value.presente,
       }));
 
-    const dadosParaEnvio = {
+    const dadosParaEnvio: FormData = {
       ...formAtual.value,
       alunos_presentes: alunosPresentes,
     };
 
-    console.log('Dados do formulário para envio:', dadosParaEnvio);
+    console.log('Dados para envio:', dadosParaEnvio);
 
-    this.closeDialog();
+    this.frequencyService.save(this.controlId!, dadosParaEnvio).subscribe({
+      next: () => {
+        this.toast.showSuccess('Frequência salva com sucesso!', 'Sucesso');
+        setInterval(() => {
+          this.closeDialog();
+        }, 2000);
+      },
+      error: err => {
+        console.error('Erro ao salvar frequência:', err);
+        this.toast.showError('Erro ao salvar frequência.', 'Erro');
+      },
+      complete: () => {
+        console.log('Requisição de salvamento concluída.');
+      },
+    });
   }
 
   getControl<T = string>(tab: number, controlName: string): FormControl<T> {

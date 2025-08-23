@@ -56,7 +56,9 @@
   </app-table-list-items>
 </app-pages-layout>
 
-<app-form-frequency [(visible)]="showFrequencyDialog" />
+<app-form-frequency
+  [(visible)]="showFrequencyDialog"
+  [controlId]="controlSelected()?.id ?? null" />
 
 <p-dialog
   header="Cadastrar controle"
