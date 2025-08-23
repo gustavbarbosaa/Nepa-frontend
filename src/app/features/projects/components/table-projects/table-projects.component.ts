@@ -253,7 +253,7 @@ export class TableProjectsComponent implements OnInit {
             'Sucesso'
           );
 
-          setInterval(() => {
+          setTimeout(() => {
             this.visibleSubscription.set(false);
             this.fetchProjects();
           }, 2000);

@@ -101,7 +101,7 @@ export class TableTeacherComponent implements OnInit {
           'Sucesso'
         );
 
-        setInterval(() => {
+        setTimeout(() => {
           this.visibleApprove.set(false);
         }, 2000);
       },

@@ -114,9 +114,9 @@ export class FormProjectsComponent implements OnInit {
           'Sucesso'
         );
 
-        setInterval(() => {
+        setTimeout(() => {
           this.router.navigate(['/projetos/meus-projetos']);
-        });
+        }, 2000);
       },
       error: error => {
         this.loading.set(false);

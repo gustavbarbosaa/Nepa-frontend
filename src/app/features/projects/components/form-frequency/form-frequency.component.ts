@@ -144,7 +144,7 @@ export class FormFrequencyComponent implements OnInit {
     this.frequencyService.save(this.controlId!, dadosParaEnvio).subscribe({
       next: () => {
         this.toast.showSuccess('Frequência salva com sucesso!', 'Sucesso');
-        setInterval(() => {
+        setTimeout(() => {
           this.closeDialog();
         }, 2000);
       },
