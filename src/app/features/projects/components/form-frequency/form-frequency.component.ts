@@ -25,6 +25,7 @@ import { iInscricao } from '@shared/models/inscricao.model';
 import { Button } from 'primeng/button';
 import { Dialog } from 'primeng/dialog';
 import { TabPanel, TabsModule } from 'primeng/tabs';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @Component({
   selector: 'app-form-frequency',
@@ -36,6 +37,7 @@ import { TabPanel, TabsModule } from 'primeng/tabs';
     ReactiveFormsModule,
     TabsModule,
     TabPanel,
+    CheckboxModule,
   ],
   templateUrl: './form-frequency.component.html',
   styleUrl: './form-frequency.component.css',
@@ -51,6 +53,7 @@ export class FormFrequencyComponent implements OnInit {
 
   forms: { [key: number]: FormGroup } = {};
   activeTab = 1;
+  textTitle = signal<string>('');
 
   ngOnInit(): void {
     const projectId = this.route.snapshot.paramMap.get('projectId');
@@ -73,7 +76,10 @@ export class FormFrequencyComponent implements OnInit {
 
   loadSubscriptions(projectId: string): void {
     this.subscriptionsService
-      .getAllByProject(projectId, eStatusInscricaoProjeto.APROVADO)
+      .getAllByProject(
+        projectId,
+        eStatusInscricaoProjeto.APROVADO.toLocaleUpperCase()
+      )
       .subscribe({
         next: subs => {
           this.subscriptions.set(subs);
@@ -84,7 +90,7 @@ export class FormFrequencyComponent implements OnInit {
                 this.fb.group({
                   inscricao_id: [s.id],
                   presente: [false],
-                  nome: [s.aluno.nome], // <- já guarda o nome do aluno no form
+                  nome: [s.aluno.nome],
                 })
               )
             );
@@ -106,12 +112,25 @@ export class FormFrequencyComponent implements OnInit {
   submit(): void {
     const formAtual = this.forms[this.activeTab];
 
-    console.log(formAtual);
-
     if (formAtual.invalid) {
       formAtual.markAllAsTouched();
       return;
     }
+
+    const alunosPresentesFormArray = this.getAlunosArray(this.activeTab);
+    const alunosPresentes = alunosPresentesFormArray.controls
+      .filter(alunoCtrl => alunoCtrl.value.presente)
+      .map(alunoCtrl => ({
+        inscricao_id: alunoCtrl.value.inscricao_id,
+        nome: alunoCtrl.value.nome,
+      }));
+
+    const dadosParaEnvio = {
+      ...formAtual.value,
+      alunos_presentes: alunosPresentes,
+    };
+
+    console.log('Dados do formulário para envio:', dadosParaEnvio);
 
     this.closeDialog();
   }
@@ -122,5 +141,20 @@ export class FormFrequencyComponent implements OnInit {
 
   closeDialog(): void {
     this.visibleChange.emit(false);
+  }
+
+  changeTextTitle(): string {
+    switch (this.activeTab) {
+      case 1:
+        return 'Primeira Reunião';
+      case 2:
+        return 'Segunda Reunião';
+      case 3:
+        return 'Terceira Reunião';
+      case 4:
+        return 'Quarta Reunião';
+      default:
+        return '';
+    }
   }
 }

@@ -1,5 +1,5 @@
 <p-dialog
-  header="Realizar frequência"
+  [header]="'Realizar frequência - ' + changeTextTitle()"
   [(visible)]="visible"
   (onHide)="visibleChange.emit(false)"
   modal="true"
@@ -59,20 +59,33 @@
             placeholder="Insira uma observação" />
         </div>
 
-        <div class="w-full mt-4">
-          <h3 class="font-bold mb-2">Alunos</h3>
+        <div
+          class="w-full mt-4 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+          <h3
+            class="font-bold p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-lg text-gray-800 dark:text-gray-200">
+            Alunos
+          </h3>
 
-          @for (
-            alunoCtrl of getAlunosArray(activeTab).controls;
-            track alunoCtrl.value.inscricao_id
-          ) {
-            <label class="flex items-center gap-2">
-              <input
-                type="checkbox"
-                [formControl]="getFormControl(alunoCtrl.get('presente'))" />
-              {{ alunoCtrl.value.nome }}
-            </label>
-          }
+          <div
+            class="divide-y divide-gray-200 dark:divide-gray-700 max-h-[450px] overflow-y-auto">
+            @for (
+              alunoCtrl of getAlunosArray(activeTab).controls;
+              track alunoCtrl.value.inscricao_id
+            ) {
+              <label
+                [for]="'aluno-checkbox-' + alunoCtrl.value.inscricao_id"
+                class="flex items-center gap-3 p-4 cursor-pointer transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                <p-checkbox
+                  [inputId]="'aluno-checkbox-' + alunoCtrl.value.inscricao_id"
+                  [binary]="true"
+                  [formControl]="getFormControl(alunoCtrl.get('presente'))"
+                  class="shrink-0" />
+                <span class="text-gray-700 dark:text-gray-300">
+                  {{ alunoCtrl.value.nome }}
+                </span>
+              </label>
+            }
+          </div>
         </div>
       </p-tabpanel>
 
@@ -122,6 +135,35 @@
             [control]="getControl(2, 'observacao')"
             placeholder="Insira uma observação" />
         </div>
+
+        <div
+          class="w-full mt-4 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+          <h3
+            class="font-bold p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-lg text-gray-800 dark:text-gray-200">
+            Alunos
+          </h3>
+
+          <div
+            class="divide-y divide-gray-200 dark:divide-gray-700 max-h-[450px] overflow-y-auto">
+            @for (
+              alunoCtrl of getAlunosArray(activeTab).controls;
+              track alunoCtrl.value.inscricao_id
+            ) {
+              <label
+                [for]="'aluno-checkbox-' + alunoCtrl.value.inscricao_id"
+                class="flex items-center gap-3 p-4 cursor-pointer transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                <p-checkbox
+                  [inputId]="'aluno-checkbox-' + alunoCtrl.value.inscricao_id"
+                  [binary]="true"
+                  [formControl]="getFormControl(alunoCtrl.get('presente'))"
+                  class="shrink-0" />
+                <span class="text-gray-700 dark:text-gray-300">
+                  {{ alunoCtrl.value.nome }}
+                </span>
+              </label>
+            }
+          </div>
+        </div>
       </p-tabpanel>
 
       <!-- Semana 3 -->
@@ -170,6 +212,35 @@
             [control]="getControl(3, 'observacao')"
             placeholder="Insira uma observação" />
         </div>
+
+        <div
+          class="w-full mt-4 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+          <h3
+            class="font-bold p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-lg text-gray-800 dark:text-gray-200">
+            Alunos
+          </h3>
+
+          <div
+            class="divide-y divide-gray-200 dark:divide-gray-700 max-h-[450px] overflow-y-auto">
+            @for (
+              alunoCtrl of getAlunosArray(activeTab).controls;
+              track alunoCtrl.value.inscricao_id
+            ) {
+              <label
+                [for]="'aluno-checkbox-' + alunoCtrl.value.inscricao_id"
+                class="flex items-center gap-3 p-4 cursor-pointer transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                <p-checkbox
+                  [inputId]="'aluno-checkbox-' + alunoCtrl.value.inscricao_id"
+                  [binary]="true"
+                  [formControl]="getFormControl(alunoCtrl.get('presente'))"
+                  class="shrink-0" />
+                <span class="text-gray-700 dark:text-gray-300">
+                  {{ alunoCtrl.value.nome }}
+                </span>
+              </label>
+            }
+          </div>
+        </div>
       </p-tabpanel>
 
       <!-- Semana 4 -->
@@ -217,6 +288,35 @@
             label="Observação"
             [control]="getControl(4, 'observacao')"
             placeholder="Insira uma observação" />
+        </div>
+
+        <div
+          class="w-full mt-4 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+          <h3
+            class="font-bold p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-lg text-gray-800 dark:text-gray-200">
+            Alunos
+          </h3>
+
+          <div
+            class="divide-y divide-gray-200 dark:divide-gray-700 max-h-[450px] overflow-y-auto">
+            @for (
+              alunoCtrl of getAlunosArray(activeTab).controls;
+              track alunoCtrl.value.inscricao_id
+            ) {
+              <label
+                [for]="'aluno-checkbox-' + alunoCtrl.value.inscricao_id"
+                class="flex items-center gap-3 p-4 cursor-pointer transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                <p-checkbox
+                  [inputId]="'aluno-checkbox-' + alunoCtrl.value.inscricao_id"
+                  [binary]="true"
+                  [formControl]="getFormControl(alunoCtrl.get('presente'))"
+                  class="shrink-0" />
+                <span class="text-gray-700 dark:text-gray-300">
+                  {{ alunoCtrl.value.nome }}
+                </span>
+              </label>
+            }
+          </div>
         </div>
       </p-tabpanel>
     </p-tabpanels>
