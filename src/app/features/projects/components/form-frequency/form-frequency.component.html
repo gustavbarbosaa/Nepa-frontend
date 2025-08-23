@@ -3,52 +3,215 @@
   [(visible)]="visible"
   (onHide)="visibleChange.emit(false)"
   modal="true"
-  [style]="{ width: '25rem' }">
-  <app-input-form
-    id="data"
-    label="Data da atividade"
-    type="date"
-    initialIcon="heroCalendarDateRange"
-    [control]="getControl('realizada_em')"
-    placeholder="Insira a data da frequência" />
+  [style]="{ width: '50rem' }">
+  <p-tabs [(value)]="activeTab" class="w-full">
+    <p-tablist>
+      <p-tab [value]="1">Semana 1</p-tab>
+      <p-tab [value]="2">Semana 2</p-tab>
+      <p-tab [value]="3">Semana 3</p-tab>
+      <p-tab [value]="4">Semana 4</p-tab>
+    </p-tablist>
+    <p-tabpanels>
+      <!-- Semana 1 -->
+      <p-tabpanel [value]="1" header="Semana 1">
+        <div class="w-full flex flex-col items-center justify-center gap-4">
+          <app-input-form
+            class="w-full"
+            id="data_sem1"
+            label="Data da atividade"
+            type="date"
+            initialIcon="heroCalendarDateRange"
+            [control]="getControl(1, 'realizada_em')"
+            placeholder="Insira a data da frequência" />
 
-  <div class="flex justify-center items-center gap-2">
-    <app-input-form
-      initialIcon="heroClock"
-      class="flex-1"
-      id="inicio_atividade"
-      label="Inicio da atividade"
-      type="time"
-      [control]="getControl('tempo_inicio')"
-      placeholder="Informe a hora que a reunião iniciou" />
+          <div class="w-full flex justify-center items-center gap-2">
+            <app-input-form
+              initialIcon="heroClock"
+              class="flex-1"
+              id="inicio_sem1"
+              label="Início da atividade"
+              type="time"
+              [control]="getControl(1, 'tempo_inicio')"
+              placeholder="Informe a hora que a reunião iniciou" />
 
-    <app-input-form
-      initialIcon="heroClock"
-      class="flex-1"
-      id="termino_atividade"
-      label="Término da atividade"
-      type="time"
-      [control]="getControl('tempo_termino')"
-      placeholder="Informe a hora que a reunião terminou" />
-  </div>
+            <app-input-form
+              initialIcon="heroClock"
+              class="flex-1"
+              id="termino_sem1"
+              label="Término da atividade"
+              type="time"
+              [control]="getControl(1, 'tempo_termino')"
+              placeholder="Informe a hora que a reunião terminou" />
+          </div>
 
-  <app-text-area
-    id="descricao"
-    label="Descrição"
-    [control]="getControl('descricao')"
-    placeholder="Insira uma descrição" />
+          <app-text-area
+            class="w-full"
+            id="descricao"
+            label="Descrição"
+            [control]="getControl(1, 'descricao')"
+            placeholder="Insira uma descrição" />
 
-  <app-text-area
-    id="observacao"
-    label="Observação"
-    [control]="getControl('observacao')"
-    placeholder="Insira uma descrição" />
+          <app-text-area
+            class="w-full"
+            id="observacao_sem1"
+            label="Observação"
+            [control]="getControl(1, 'observacao')"
+            placeholder="Insira uma observação" />
+        </div>
+      </p-tabpanel>
 
-  <div class="flex justify-end gap-2">
+      <!-- Semana 2 -->
+      <p-tabpanel [value]="2" header="Semana 2">
+        <div class="w-full flex flex-col items-center justify-center gap-4">
+          <app-input-form
+            class="w-full"
+            id="data_sem2"
+            label="Data da atividade"
+            type="date"
+            initialIcon="heroCalendarDateRange"
+            [control]="getControl(2, 'realizada_em')"
+            placeholder="Insira a data da frequência" />
+
+          <div class="w-full flex justify-center items-center gap-2">
+            <app-input-form
+              initialIcon="heroClock"
+              class="flex-1"
+              id="inicio_sem2"
+              label="Início da atividade"
+              type="time"
+              [control]="getControl(2, 'tempo_inicio')"
+              placeholder="Informe a hora que a reunião iniciou" />
+
+            <app-input-form
+              initialIcon="heroClock"
+              class="flex-1"
+              id="termino_sem2"
+              label="Término da atividade"
+              type="time"
+              [control]="getControl(2, 'tempo_termino')"
+              placeholder="Informe a hora que a reunião terminou" />
+          </div>
+
+          <app-text-area
+            class="w-full"
+            id="descricao_sem2"
+            label="Descrição"
+            [control]="getControl(2, 'descricao')"
+            placeholder="Insira uma descrição" />
+
+          <app-text-area
+            class="w-full"
+            id="observacao_sem2"
+            label="Observação"
+            [control]="getControl(2, 'observacao')"
+            placeholder="Insira uma observação" />
+        </div>
+      </p-tabpanel>
+
+      <!-- Semana 3 -->
+      <p-tabpanel [value]="3" header="Semana 3">
+        <div class="w-full flex flex-col items-center justify-center gap-4">
+          <app-input-form
+            class="w-full"
+            id="data_sem3"
+            label="Data da atividade"
+            type="date"
+            initialIcon="heroCalendarDateRange"
+            [control]="getControl(3, 'realizada_em')"
+            placeholder="Insira a data da frequência" />
+
+          <div class="w-full flex justify-center items-center gap-2">
+            <app-input-form
+              initialIcon="heroClock"
+              class="flex-1"
+              id="inicio_sem3"
+              label="Início da atividade"
+              type="time"
+              [control]="getControl(3, 'tempo_inicio')"
+              placeholder="Informe a hora que a reunião iniciou" />
+
+            <app-input-form
+              initialIcon="heroClock"
+              class="flex-1"
+              id="termino_sem3"
+              label="Término da atividade"
+              type="time"
+              [control]="getControl(3, 'tempo_termino')"
+              placeholder="Informe a hora que a reunião terminou" />
+          </div>
+
+          <app-text-area
+            class="w-full"
+            id="descricao_sem3"
+            label="Descrição"
+            [control]="getControl(3, 'descricao')"
+            placeholder="Insira uma descrição" />
+
+          <app-text-area
+            class="w-full"
+            id="observacao_sem3"
+            label="Observação"
+            [control]="getControl(3, 'observacao')"
+            placeholder="Insira uma observação" />
+        </div>
+      </p-tabpanel>
+
+      <!-- Semana 4 -->
+      <p-tabpanel [value]="4" header="Semana 4">
+        <div class="w-full flex flex-col items-center justify-center gap-4">
+          <app-input-form
+            class="w-full"
+            id="data_sem4"
+            label="Data da atividade"
+            type="date"
+            initialIcon="heroCalendarDateRange"
+            [control]="getControl(4, 'realizada_em')"
+            placeholder="Insira a data da frequência" />
+
+          <div class="w-full flex justify-center items-center gap-2">
+            <app-input-form
+              initialIcon="heroClock"
+              class="flex-1"
+              id="inicio_sem4"
+              label="Início da atividade"
+              type="time"
+              [control]="getControl(4, 'tempo_inicio')"
+              placeholder="Informe a hora que a reunião iniciou" />
+
+            <app-input-form
+              initialIcon="heroClock"
+              class="flex-1"
+              id="termino_sem4"
+              label="Término da atividade"
+              type="time"
+              [control]="getControl(4, 'tempo_termino')"
+              placeholder="Informe a hora que a reunião terminou" />
+          </div>
+
+          <app-text-area
+            class="w-full"
+            id="descricao_sem4"
+            label="Descrição"
+            [control]="getControl(4, 'descricao')"
+            placeholder="Insira uma descrição" />
+
+          <app-text-area
+            class="w-full"
+            id="observacao_sem4"
+            label="Observação"
+            [control]="getControl(4, 'observacao')"
+            placeholder="Insira uma observação" />
+        </div>
+      </p-tabpanel>
+    </p-tabpanels>
+  </p-tabs>
+
+  <!-- Footer de ações -->
+  <div class="w-full flex justify-end gap-2 mt-4">
     <p-button label="Cancelar" severity="secondary" (click)="closeDialog()" />
     <p-button
       label="Cadastrar frequência"
       icon="pi pi-plus"
-      (click)="closeDialog()" />
+      (click)="submit()" />
   </div>
 </p-dialog>
