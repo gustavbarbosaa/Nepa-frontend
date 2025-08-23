@@ -1,0 +1,54 @@
+<p-dialog
+  header="Realizar frequência"
+  [(visible)]="visible"
+  (onHide)="visibleChange.emit(false)"
+  modal="true"
+  [style]="{ width: '25rem' }">
+  <app-input-form
+    id="data"
+    label="Data da atividade"
+    type="date"
+    initialIcon="heroCalendarDateRange"
+    [control]="getControl('realizada_em')"
+    placeholder="Insira a data da frequência" />
+
+  <div class="flex justify-center items-center gap-2">
+    <app-input-form
+      initialIcon="heroClock"
+      class="flex-1"
+      id="inicio_atividade"
+      label="Inicio da atividade"
+      type="time"
+      [control]="getControl('tempo_inicio')"
+      placeholder="Informe a hora que a reunião iniciou" />
+
+    <app-input-form
+      initialIcon="heroClock"
+      class="flex-1"
+      id="termino_atividade"
+      label="Término da atividade"
+      type="time"
+      [control]="getControl('tempo_termino')"
+      placeholder="Informe a hora que a reunião terminou" />
+  </div>
+
+  <app-text-area
+    id="descricao"
+    label="Descrição"
+    [control]="getControl('descricao')"
+    placeholder="Insira uma descrição" />
+
+  <app-text-area
+    id="observacao"
+    label="Observação"
+    [control]="getControl('observacao')"
+    placeholder="Insira uma descrição" />
+
+  <div class="flex justify-end gap-2">
+    <p-button label="Cancelar" severity="secondary" (click)="closeDialog()" />
+    <p-button
+      label="Cadastrar frequência"
+      icon="pi pi-plus"
+      (click)="closeDialog()" />
+  </div>
+</p-dialog>

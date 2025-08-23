@@ -40,7 +40,11 @@
 
         <td>
           <div class="flex items-center justify-center gap-2">
-            <p-button icon="pi pi-eye" severity="info" />
+            <p-button
+              (onClick)="openFrequencyDialog(control)"
+              icon="pi pi-eye"
+              severity="info" />
+
             <p-button
               (onClick)="openDeleteDialog(control)"
               icon="pi pi-trash"
@@ -51,6 +55,8 @@
     </ng-template>
   </app-table-list-items>
 </app-pages-layout>
+
+<app-form-frequency [(visible)]="showFrequencyDialog" />
 
 <p-dialog
   header="Cadastrar controle"

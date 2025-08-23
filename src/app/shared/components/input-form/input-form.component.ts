@@ -14,6 +14,7 @@ import {
   heroUserGroup,
   heroMagnifyingGlass,
   heroCalendarDateRange,
+  heroClock,
 } from '@ng-icons/heroicons/outline';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -39,6 +40,7 @@ import { NgxMaskDirective } from 'ngx-mask';
       heroUserGroup,
       heroMagnifyingGlass,
       heroCalendarDateRange,
+      heroClock,
     }),
   ],
   providers: [],

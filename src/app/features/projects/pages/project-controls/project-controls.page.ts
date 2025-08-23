@@ -21,6 +21,7 @@ import { ButtonComponent } from '@shared/components/button/button.component';
 import { ToastService } from '@core/services/toast/toast.service';
 import { MessageService } from 'primeng/api';
 import { Toast } from 'primeng/toast';
+import { FormFrequencyComponent } from '@features/projects/components/form-frequency/form-frequency.component';
 
 @Component({
   selector: 'app-project-controls',
@@ -33,6 +34,7 @@ import { Toast } from 'primeng/toast';
     TableListItemsComponent,
     Button,
     Toast,
+    FormFrequencyComponent,
   ],
   templateUrl: './project-controls.page.html',
   styleUrl: './project-controls.page.css',
@@ -52,6 +54,7 @@ export class ProjectControlsPage implements OnInit {
   loading = signal<boolean>(false);
   showDialog = signal<boolean>(false);
   showDeleteDialog = signal<boolean>(false);
+  showFrequencyDialog = signal<boolean>(false);
   controlSelected = signal<iControl | null>(null);
 
   ngOnInit(): void {
@@ -151,6 +154,11 @@ export class ProjectControlsPage implements OnInit {
   openDeleteDialog(control: iControl): void {
     this.controlSelected.set(control);
     this.showDeleteDialog.set(true);
+  }
+
+  openFrequencyDialog(control: iControl): void {
+    this.controlSelected.set(control);
+    this.showFrequencyDialog.set(true);
   }
 
   getControl<T = string>(controlName: string): FormControl<T> {
