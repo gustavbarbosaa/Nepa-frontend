@@ -58,6 +58,22 @@
             [control]="getControl(1, 'observacao')"
             placeholder="Insira uma observação" />
         </div>
+
+        <div class="w-full mt-4">
+          <h3 class="font-bold mb-2">Alunos</h3>
+
+          @for (
+            alunoCtrl of getAlunosArray(activeTab).controls;
+            track alunoCtrl.value.inscricao_id
+          ) {
+            <label class="flex items-center gap-2">
+              <input
+                type="checkbox"
+                [formControl]="getFormControl(alunoCtrl.get('presente'))" />
+              {{ alunoCtrl.value.nome }}
+            </label>
+          }
+        </div>
       </p-tabpanel>
 
       <!-- Semana 2 -->

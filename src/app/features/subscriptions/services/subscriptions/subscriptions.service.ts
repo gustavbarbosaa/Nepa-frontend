@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { eStatusInscricaoProjeto } from '@shared/enums/status-inscricao.enum';
@@ -12,9 +12,17 @@ export class SubscriptionsService {
   private http = inject(HttpClient);
   private readonly apiUrl: string = environment.apiUrl;
 
-  getAllByProject(id: string): Observable<iInscricao[]> {
+  getAllByProject(id: string, status?: string): Observable<iInscricao[]> {
+    let params = new HttpParams();
+
+    if (status) {
+      params = params.set('status', status);
+    }
+
     return this.http
-      .get<iInscricao[]>(`${this.apiUrl}/projetos/${id}/inscricoes/`)
+      .get<
+        iInscricao[]
+      >(`${this.apiUrl}/projetos/${id}/inscricoes/`, { params })
       .pipe(take(1));
   }
 
