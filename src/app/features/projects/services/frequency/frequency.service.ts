@@ -13,8 +13,8 @@ export class FrequencyService {
 
   getAll(
     control_id: string,
-    held_ind: Date,
-    control_month_id: string
+    held_ind?: Date,
+    control_month_id?: string
   ): Observable<iFrequency[]> {
     const params = new HttpParams();
 

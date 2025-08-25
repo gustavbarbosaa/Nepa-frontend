@@ -3,9 +3,11 @@ import {
   EventEmitter,
   inject,
   Input,
+  OnChanges,
   OnInit,
   Output,
   signal,
+  SimpleChanges,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -48,7 +50,7 @@ import { Toast } from 'primeng/toast';
   styleUrl: './form-frequency.component.css',
   providers: [ToastService, MessageService],
 })
-export class FormFrequencyComponent implements OnInit {
+export class FormFrequencyComponent implements OnInit, OnChanges {
   @Input({ required: true }) visible!: boolean;
   @Input({ required: true }) controlId: string | null = null;
   @Output() visibleChange = new EventEmitter<boolean>();
@@ -60,27 +62,88 @@ export class FormFrequencyComponent implements OnInit {
 
   subscriptions = signal<iInscricao[]>([]);
 
-  forms: { [key: number]: FormGroup } = {};
-  activeTab = 1;
+  form!: FormGroup;
+  activeTab = 0;
   textTitle = signal<string>('');
 
   ngOnInit(): void {
+    this.form = this.fb.group({
+      frequencias: this.fb.array([]),
+    });
+
     const projectId = this.route.snapshot.paramMap.get('projectId');
 
     if (projectId) {
       this.loadSubscriptions(projectId);
     }
 
-    for (let i = 1; i <= 4; i++) {
-      this.forms[i] = this.fb.group({
-        realizada_em: ['', Validators.required],
-        tempo_inicio: ['', Validators.required],
-        tempo_termino: ['', Validators.required],
-        descricao: ['', Validators.required],
-        observacao: ['', Validators.required],
-        alunos_presentes: this.fb.array([]),
+    console.log(this.controlId);
+
+    if (this.controlId) {
+      this.frequencyService.getAll(this.controlId).subscribe({
+        next: freqs => {
+          console.log('Frequências carregadas:', freqs);
+          if (freqs.length) {
+            freqs.forEach(f => this.addSemana(f));
+          } else {
+            this.addSemana();
+          }
+        },
+        error: err => {
+          console.error('Erro ao carregar frequências', err);
+          this.addSemana();
+        },
       });
+    } else {
+      console.log('Frequências carregadas:');
+
+      this.addSemana();
     }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['controlId'] && this.controlId) {
+      this.loadFrequencies();
+    }
+  }
+
+  private loadFrequencies(): void {
+    this.frequencias.clear();
+    this.frequencyService
+      .getAll(this.controlId!, undefined, undefined)
+      .subscribe({
+        next: freqs => {
+          if (freqs.length) {
+            freqs.forEach(f => this.addSemana(f));
+          } else {
+            this.addSemana();
+          }
+        },
+        error: err => {
+          console.error('Erro ao carregar frequências', err);
+          this.addSemana();
+        },
+      });
+  }
+
+  get frequencias(): FormArray {
+    return this.form.get('frequencias') as FormArray;
+  }
+
+  loadForm(f: any): FormGroup {
+    return this.fb.group({
+      realizada_em: [f?.realizada_em || '', Validators.required],
+      tempo_inicio: [f?.tempo_inicio || '', Validators.required],
+      tempo_termino: [f?.tempo_termino || '', Validators.required],
+      descricao: [f?.descricao || '', Validators.required],
+      observacao: [f?.observacao || '', Validators.required],
+      alunos_presentes: this.fb.array([]),
+    });
+  }
+
+  addSemana(f?: any): void {
+    this.frequencias.push(this.loadForm(f));
+    this.activeTab = this.frequencias.length - 1;
   }
 
   loadSubscriptions(projectId: string): void {
@@ -92,8 +155,9 @@ export class FormFrequencyComponent implements OnInit {
       .subscribe({
         next: subs => {
           this.subscriptions.set(subs);
+          this.frequencias.controls.forEach(ctrl => {
+            const fg = ctrl as FormGroup;
 
-          for (let i = 1; i <= 4; i++) {
             const formArray = this.fb.array(
               subs.map(s =>
                 this.fb.group({
@@ -103,15 +167,16 @@ export class FormFrequencyComponent implements OnInit {
                 })
               )
             );
-            this.forms[i].setControl('alunos_presentes', formArray);
-          }
+
+            fg.setControl('alunos_presentes', formArray);
+          });
         },
         error: err => console.error('Erro ao carregar inscrições', err),
       });
   }
 
-  getAlunosArray(tab: number): FormArray {
-    return this.forms[tab].get('alunos_presentes') as FormArray;
+  getAlunosArray(index: number): FormArray {
+    return this.frequencias.at(index).get('alunos_presentes') as FormArray;
   }
 
   getFormControl(control: AbstractControl | null): FormControl {
@@ -119,7 +184,7 @@ export class FormFrequencyComponent implements OnInit {
   }
 
   submit(): void {
-    const formAtual = this.forms[this.activeTab];
+    const formAtual = this.frequencias.at(this.activeTab) as FormGroup;
 
     if (formAtual.invalid) {
       formAtual.markAllAsTouched();
@@ -139,8 +204,6 @@ export class FormFrequencyComponent implements OnInit {
       alunos_presentes: alunosPresentes,
     };
 
-    console.log('Dados para envio:', dadosParaEnvio);
-
     this.frequencyService.save(this.controlId!, dadosParaEnvio).subscribe({
       next: () => {
         this.toast.showSuccess('Frequência salva com sucesso!', 'Sucesso');
@@ -159,7 +222,9 @@ export class FormFrequencyComponent implements OnInit {
   }
 
   getControl<T = string>(tab: number, controlName: string): FormControl<T> {
-    return this.forms[tab].get(controlName) as FormControl<T>;
+    return (this.frequencias.at(tab) as FormGroup).get(
+      controlName
+    ) as FormControl<T>;
   }
 
   closeDialog(): void {

@@ -1,325 +1,99 @@
 <p-toast />
 <p-dialog
-  [header]="'Realizar frequência - ' + changeTextTitle()"
+  header="Realizar frequência"
   [(visible)]="visible"
   (onHide)="visibleChange.emit(false)"
   modal="true"
   [style]="{ width: '50rem' }">
   <p-tabs [(value)]="activeTab" class="w-full">
     <p-tablist>
-      <p-tab [value]="1">Semana 1</p-tab>
-      <p-tab [value]="2">Semana 2</p-tab>
-      <p-tab [value]="3">Semana 3</p-tab>
-      <p-tab [value]="4">Semana 4</p-tab>
+      @for (freq of frequencias.controls; let i = $index; track i) {
+        <p-tab [value]="i">Semana {{ i + 1 }}</p-tab>
+      }
+      <p-tab [value]="frequencias.controls.length">
+        <p-button icon="pi pi-plus" rounded="true" (onClick)="addSemana()" />
+      </p-tab>
     </p-tablist>
+
     <p-tabpanels>
-      <!-- Semana 1 -->
-      <p-tabpanel [value]="1" header="Semana 1">
-        <div class="w-full flex flex-col items-center justify-center gap-4">
-          <app-input-form
-            class="w-full"
-            id="data_sem1"
-            label="Data da atividade"
-            type="date"
-            initialIcon="heroCalendarDateRange"
-            [control]="getControl(1, 'realizada_em')"
-            placeholder="Insira a data da frequência" />
-
-          <div class="w-full flex justify-center items-center gap-2">
+      @for (semana of frequencias.controls; let i = $index; track i) {
+        <p-tabpanel [value]="i">
+          <div class="w-full flex flex-col items-center justify-center gap-4">
             <app-input-form
-              initialIcon="heroClock"
-              class="flex-1"
-              id="inicio_sem1"
-              label="Início da atividade"
-              type="time"
-              [control]="getControl(1, 'tempo_inicio')"
-              placeholder="Informe a hora que a reunião iniciou" />
+              class="w-full"
+              [id]="'data_sem' + i"
+              label="Data da atividade"
+              type="date"
+              initialIcon="heroCalendarDateRange"
+              [control]="getControl(i, 'realizada_em')"
+              placeholder="Insira a data da frequência" />
 
-            <app-input-form
-              initialIcon="heroClock"
-              class="flex-1"
-              id="termino_sem1"
-              label="Término da atividade"
-              type="time"
-              [control]="getControl(1, 'tempo_termino')"
-              placeholder="Informe a hora que a reunião terminou" />
+            <div class="w-full flex justify-center items-center gap-2">
+              <app-input-form
+                initialIcon="heroClock"
+                class="flex-1"
+                [id]="'inicio_sem' + i"
+                label="Início da atividade"
+                type="time"
+                [control]="getControl(i, 'tempo_inicio')"
+                placeholder="Informe a hora que a reunião iniciou" />
+
+              <app-input-form
+                initialIcon="heroClock"
+                class="flex-1"
+                [id]="'termino_sem' + i"
+                label="Término da atividade"
+                type="time"
+                [control]="getControl(i, 'tempo_termino')"
+                placeholder="Informe a hora que a reunião terminou" />
+            </div>
+
+            <app-text-area
+              class="w-full"
+              [id]="'descricao_sem' + i"
+              label="Descrição"
+              [control]="getControl(i, 'descricao')"
+              placeholder="Insira uma descrição" />
+
+            <app-text-area
+              class="w-full"
+              [id]="'observacao_sem' + i"
+              label="Observação"
+              [control]="getControl(i, 'observacao')"
+              placeholder="Insira uma observação" />
           </div>
 
-          <app-text-area
-            class="w-full"
-            id="descricao"
-            label="Descrição"
-            [control]="getControl(1, 'descricao')"
-            placeholder="Insira uma descrição" />
-
-          <app-text-area
-            class="w-full"
-            id="observacao_sem1"
-            label="Observação"
-            [control]="getControl(1, 'observacao')"
-            placeholder="Insira uma observação" />
-        </div>
-
-        <div
-          class="w-full mt-4 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
-          <h3
-            class="font-bold p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-lg text-gray-800 dark:text-gray-200">
-            Alunos
-          </h3>
-
+          <!-- Lista de alunos -->
           <div
-            class="divide-y divide-gray-200 dark:divide-gray-700 max-h-[450px] overflow-y-auto">
-            @for (
-              alunoCtrl of getAlunosArray(activeTab).controls;
-              track alunoCtrl.value.inscricao_id
-            ) {
-              <label
-                [for]="'aluno-checkbox-' + alunoCtrl.value.inscricao_id"
-                class="flex items-center gap-3 p-4 cursor-pointer transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-700">
-                <p-checkbox
-                  [inputId]="'aluno-checkbox-' + alunoCtrl.value.inscricao_id"
-                  [binary]="true"
-                  [formControl]="getFormControl(alunoCtrl.get('presente'))"
-                  class="shrink-0" />
-                <span class="text-gray-700 dark:text-gray-300">
-                  {{ alunoCtrl.value.nome }}
-                </span>
-              </label>
-            }
+            class="w-full mt-4 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+            <h3
+              class="font-bold p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-lg text-gray-800 dark:text-gray-200">
+              Alunos
+            </h3>
+
+            <div
+              class="divide-y divide-gray-200 dark:divide-gray-700 max-h-[450px] overflow-y-auto">
+              @for (
+                alunoCtrl of getAlunosArray(i).controls;
+                track alunoCtrl.value.inscricao_id
+              ) {
+                <label
+                  [for]="'aluno-checkbox-' + alunoCtrl.value.inscricao_id"
+                  class="flex items-center gap-3 p-4 cursor-pointer transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <p-checkbox
+                    [inputId]="'aluno-checkbox-' + alunoCtrl.value.inscricao_id"
+                    [binary]="true"
+                    [formControl]="getFormControl(alunoCtrl.get('presente'))"
+                    class="shrink-0" />
+                  <span class="text-gray-700 dark:text-gray-300">
+                    {{ alunoCtrl.value.nome }}
+                  </span>
+                </label>
+              }
+            </div>
           </div>
-        </div>
-      </p-tabpanel>
-
-      <!-- Semana 2 -->
-      <p-tabpanel [value]="2" header="Semana 2">
-        <div class="w-full flex flex-col items-center justify-center gap-4">
-          <app-input-form
-            class="w-full"
-            id="data_sem2"
-            label="Data da atividade"
-            type="date"
-            initialIcon="heroCalendarDateRange"
-            [control]="getControl(2, 'realizada_em')"
-            placeholder="Insira a data da frequência" />
-
-          <div class="w-full flex justify-center items-center gap-2">
-            <app-input-form
-              initialIcon="heroClock"
-              class="flex-1"
-              id="inicio_sem2"
-              label="Início da atividade"
-              type="time"
-              [control]="getControl(2, 'tempo_inicio')"
-              placeholder="Informe a hora que a reunião iniciou" />
-
-            <app-input-form
-              initialIcon="heroClock"
-              class="flex-1"
-              id="termino_sem2"
-              label="Término da atividade"
-              type="time"
-              [control]="getControl(2, 'tempo_termino')"
-              placeholder="Informe a hora que a reunião terminou" />
-          </div>
-
-          <app-text-area
-            class="w-full"
-            id="descricao_sem2"
-            label="Descrição"
-            [control]="getControl(2, 'descricao')"
-            placeholder="Insira uma descrição" />
-
-          <app-text-area
-            class="w-full"
-            id="observacao_sem2"
-            label="Observação"
-            [control]="getControl(2, 'observacao')"
-            placeholder="Insira uma observação" />
-        </div>
-
-        <div
-          class="w-full mt-4 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
-          <h3
-            class="font-bold p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-lg text-gray-800 dark:text-gray-200">
-            Alunos
-          </h3>
-
-          <div
-            class="divide-y divide-gray-200 dark:divide-gray-700 max-h-[450px] overflow-y-auto">
-            @for (
-              alunoCtrl of getAlunosArray(activeTab).controls;
-              track alunoCtrl.value.inscricao_id
-            ) {
-              <label
-                [for]="'aluno-checkbox-' + alunoCtrl.value.inscricao_id"
-                class="flex items-center gap-3 p-4 cursor-pointer transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-700">
-                <p-checkbox
-                  [inputId]="'aluno-checkbox-' + alunoCtrl.value.inscricao_id"
-                  [binary]="true"
-                  [formControl]="getFormControl(alunoCtrl.get('presente'))"
-                  class="shrink-0" />
-                <span class="text-gray-700 dark:text-gray-300">
-                  {{ alunoCtrl.value.nome }}
-                </span>
-              </label>
-            }
-          </div>
-        </div>
-      </p-tabpanel>
-
-      <!-- Semana 3 -->
-      <p-tabpanel [value]="3" header="Semana 3">
-        <div class="w-full flex flex-col items-center justify-center gap-4">
-          <app-input-form
-            class="w-full"
-            id="data_sem3"
-            label="Data da atividade"
-            type="date"
-            initialIcon="heroCalendarDateRange"
-            [control]="getControl(3, 'realizada_em')"
-            placeholder="Insira a data da frequência" />
-
-          <div class="w-full flex justify-center items-center gap-2">
-            <app-input-form
-              initialIcon="heroClock"
-              class="flex-1"
-              id="inicio_sem3"
-              label="Início da atividade"
-              type="time"
-              [control]="getControl(3, 'tempo_inicio')"
-              placeholder="Informe a hora que a reunião iniciou" />
-
-            <app-input-form
-              initialIcon="heroClock"
-              class="flex-1"
-              id="termino_sem3"
-              label="Término da atividade"
-              type="time"
-              [control]="getControl(3, 'tempo_termino')"
-              placeholder="Informe a hora que a reunião terminou" />
-          </div>
-
-          <app-text-area
-            class="w-full"
-            id="descricao_sem3"
-            label="Descrição"
-            [control]="getControl(3, 'descricao')"
-            placeholder="Insira uma descrição" />
-
-          <app-text-area
-            class="w-full"
-            id="observacao_sem3"
-            label="Observação"
-            [control]="getControl(3, 'observacao')"
-            placeholder="Insira uma observação" />
-        </div>
-
-        <div
-          class="w-full mt-4 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
-          <h3
-            class="font-bold p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-lg text-gray-800 dark:text-gray-200">
-            Alunos
-          </h3>
-
-          <div
-            class="divide-y divide-gray-200 dark:divide-gray-700 max-h-[450px] overflow-y-auto">
-            @for (
-              alunoCtrl of getAlunosArray(activeTab).controls;
-              track alunoCtrl.value.inscricao_id
-            ) {
-              <label
-                [for]="'aluno-checkbox-' + alunoCtrl.value.inscricao_id"
-                class="flex items-center gap-3 p-4 cursor-pointer transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-700">
-                <p-checkbox
-                  [inputId]="'aluno-checkbox-' + alunoCtrl.value.inscricao_id"
-                  [binary]="true"
-                  [formControl]="getFormControl(alunoCtrl.get('presente'))"
-                  class="shrink-0" />
-                <span class="text-gray-700 dark:text-gray-300">
-                  {{ alunoCtrl.value.nome }}
-                </span>
-              </label>
-            }
-          </div>
-        </div>
-      </p-tabpanel>
-
-      <!-- Semana 4 -->
-      <p-tabpanel [value]="4" header="Semana 4">
-        <div class="w-full flex flex-col items-center justify-center gap-4">
-          <app-input-form
-            class="w-full"
-            id="data_sem4"
-            label="Data da atividade"
-            type="date"
-            initialIcon="heroCalendarDateRange"
-            [control]="getControl(4, 'realizada_em')"
-            placeholder="Insira a data da frequência" />
-
-          <div class="w-full flex justify-center items-center gap-2">
-            <app-input-form
-              initialIcon="heroClock"
-              class="flex-1"
-              id="inicio_sem4"
-              label="Início da atividade"
-              type="time"
-              [control]="getControl(4, 'tempo_inicio')"
-              placeholder="Informe a hora que a reunião iniciou" />
-
-            <app-input-form
-              initialIcon="heroClock"
-              class="flex-1"
-              id="termino_sem4"
-              label="Término da atividade"
-              type="time"
-              [control]="getControl(4, 'tempo_termino')"
-              placeholder="Informe a hora que a reunião terminou" />
-          </div>
-
-          <app-text-area
-            class="w-full"
-            id="descricao_sem4"
-            label="Descrição"
-            [control]="getControl(4, 'descricao')"
-            placeholder="Insira uma descrição" />
-
-          <app-text-area
-            class="w-full"
-            id="observacao_sem4"
-            label="Observação"
-            [control]="getControl(4, 'observacao')"
-            placeholder="Insira uma observação" />
-        </div>
-
-        <div
-          class="w-full mt-4 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
-          <h3
-            class="font-bold p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-lg text-gray-800 dark:text-gray-200">
-            Alunos
-          </h3>
-
-          <div
-            class="divide-y divide-gray-200 dark:divide-gray-700 max-h-[450px] overflow-y-auto">
-            @for (
-              alunoCtrl of getAlunosArray(activeTab).controls;
-              track alunoCtrl.value.inscricao_id
-            ) {
-              <label
-                [for]="'aluno-checkbox-' + alunoCtrl.value.inscricao_id"
-                class="flex items-center gap-3 p-4 cursor-pointer transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-700">
-                <p-checkbox
-                  [inputId]="'aluno-checkbox-' + alunoCtrl.value.inscricao_id"
-                  [binary]="true"
-                  [formControl]="getFormControl(alunoCtrl.get('presente'))"
-                  class="shrink-0" />
-                <span class="text-gray-700 dark:text-gray-300">
-                  {{ alunoCtrl.value.nome }}
-                </span>
-              </label>
-            }
-          </div>
-        </div>
-      </p-tabpanel>
+        </p-tabpanel>
+      }
     </p-tabpanels>
   </p-tabs>
 
