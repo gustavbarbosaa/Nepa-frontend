@@ -131,13 +131,30 @@ export class FormFrequencyComponent implements OnInit, OnChanges {
   }
 
   loadForm(f: any): FormGroup {
+    const alunosArray = this.fb.array<FormGroup>([]);
+
+    if (this.subscriptions().length) {
+      this.subscriptions().forEach(s => {
+        const presenteMarcado = f?.alunos_presentes?.some(
+          (ap: any) => ap.inscricao_id === s.id && ap.presente
+        );
+        alunosArray.push(
+          this.fb.group({
+            inscricao_id: [s.id],
+            presente: [presenteMarcado || false],
+            nome: [s.aluno.nome],
+          })
+        );
+      });
+    }
+
     return this.fb.group({
       realizada_em: [f?.realizada_em || '', Validators.required],
       tempo_inicio: [f?.tempo_inicio || '', Validators.required],
       tempo_termino: [f?.tempo_termino || '', Validators.required],
       descricao: [f?.descricao || '', Validators.required],
       observacao: [f?.observacao || '', Validators.required],
-      alunos_presentes: this.fb.array([]),
+      alunos_presentes: alunosArray,
     });
   }
 
