@@ -2,7 +2,7 @@
   <div class="w-full flex items-center justify-between">
     <app-title-header-list
       title="Gerenciar editais"
-      subtitle="Faça o gerenciamento dos editais publicados" />
+      subtitle="Faça o gerenciamento dos editais!" />
 
     @if (userInfo() && userInfo()!.autoridade === autoridade.admin) {
       <button
@@ -11,7 +11,8 @@
         severity="contrast"
         (click)="showDialog()"
         label="Cadastrar edital">
-        Cadastrar edital
+        <span class="block md:hidden"><i class="pi pi-plus"></i></span>
+        <span class="hidden md:block">Cadastrar edital</span>
       </button>
       <p-dialog
         header="Cadastre um novo edital"
