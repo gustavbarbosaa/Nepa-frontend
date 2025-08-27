@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-pages-layout',
   imports: [],
   template: ` <div
-    class="w-full h-[90vh] max-w-5xl mx-auto px-4 py-8 my-8 rounded-2xl drop-shadow-lg bg-white overflow-scroll">
+    class="w-full h-screen md:h-[90vh] max-w-5xl mx-auto px-4 py-8 md:my-8 rounded-2xl drop-shadow-lg bg-white overflow-scroll">
     <ng-content></ng-content>
   </div>`,
 })
