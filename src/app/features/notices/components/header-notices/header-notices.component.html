@@ -26,7 +26,7 @@
     }
   </div>
   <div
-    class="w-full flex items-center justify-between rounded-2xl border border-tertiary-100 p-4 gap-4">
+    class="w-full flex flex-col md:flex-row items-center justify-between rounded-2xl border border-tertiary-100 p-4 gap-4">
     <app-input-form
       id="nome"
       label="Filtrar por nome"
@@ -39,6 +39,7 @@
     <app-select-form
       id="course"
       label="Arquivo"
+      class="w-full"
       initialIcon="heroAdjustmentsHorizontal"
       [control]="getControl('filterFile')"
       [options]="fileFilter()" />
