@@ -135,7 +135,7 @@ export class FormFrequencyComponent implements OnInit, OnChanges {
 
     if (this.subscriptions().length) {
       this.subscriptions().forEach(s => {
-        const presenteMarcado = f?.alunos_presentes?.some(
+        const presenteMarcado = f?.presencas?.some(
           (ap: any) => ap.inscricao_id === s.id && ap.presente
         );
         alunosArray.push(
@@ -154,7 +154,7 @@ export class FormFrequencyComponent implements OnInit, OnChanges {
       tempo_termino: [f?.tempo_termino || '', Validators.required],
       descricao: [f?.descricao || '', Validators.required],
       observacao: [f?.observacao || '', Validators.required],
-      alunos_presentes: alunosArray,
+      presencas: alunosArray,
     });
   }
 
@@ -185,7 +185,7 @@ export class FormFrequencyComponent implements OnInit, OnChanges {
               )
             );
 
-            fg.setControl('alunos_presentes', formArray);
+            fg.setControl('presencas', formArray);
           });
         },
         error: err => console.error('Erro ao carregar inscrições', err),
@@ -193,7 +193,7 @@ export class FormFrequencyComponent implements OnInit, OnChanges {
   }
 
   getAlunosArray(index: number): FormArray {
-    return this.frequencias.at(index).get('alunos_presentes') as FormArray;
+    return this.frequencias.at(index).get('presencas') as FormArray;
   }
 
   getFormControl(control: AbstractControl | null): FormControl {
@@ -218,7 +218,7 @@ export class FormFrequencyComponent implements OnInit, OnChanges {
 
     const dadosParaEnvio: FormData = {
       ...formAtual.value,
-      alunos_presentes: alunosPresentes,
+      presencas: alunosPresentes,
     };
 
     this.frequencyService.save(this.controlId!, dadosParaEnvio).subscribe({
