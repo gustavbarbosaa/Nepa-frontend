@@ -126,10 +126,6 @@ export class FormFrequencyComponent implements OnInit, OnChanges {
       });
   }
 
-  get frequencias(): FormArray {
-    return this.form.get('frequencias') as FormArray;
-  }
-
   loadForm(f: any): FormGroup {
     const alunosArray = this.fb.array<FormGroup>([]);
 
@@ -192,14 +188,6 @@ export class FormFrequencyComponent implements OnInit, OnChanges {
       });
   }
 
-  getAlunosArray(index: number): FormArray {
-    return this.frequencias.at(index).get('presencas') as FormArray;
-  }
-
-  getFormControl(control: AbstractControl | null): FormControl {
-    return control as FormControl;
-  }
-
   submit(): void {
     const formAtual = this.frequencias.at(this.activeTab) as FormGroup;
 
@@ -238,14 +226,26 @@ export class FormFrequencyComponent implements OnInit, OnChanges {
     });
   }
 
+  closeDialog(): void {
+    this.visibleChange.emit(false);
+  }
+
+  get frequencias(): FormArray {
+    return this.form.get('frequencias') as FormArray;
+  }
+
   getControl<T = string>(tab: number, controlName: string): FormControl<T> {
     return (this.frequencias.at(tab) as FormGroup).get(
       controlName
     ) as FormControl<T>;
   }
 
-  closeDialog(): void {
-    this.visibleChange.emit(false);
+  getAlunosArray(index: number): FormArray {
+    return this.frequencias.at(index).get('presencas') as FormArray;
+  }
+
+  getFormControl(control: AbstractControl | null): FormControl {
+    return control as FormControl;
   }
 
   changeTextTitle(): string {
