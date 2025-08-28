@@ -1,20 +1,49 @@
-<p-card [header]="'Seja bem vindo, ' + role()">
-  @switch (role()) {
-    @case ('Admin') {
-      <p class="m-0">
-        Gerencie editais, usuários e aprove projetos científicos.
-      </p>
+<p-card
+  [styleClass]="'shadow-lg rounded-xl border-l-4 border-primary-500 bg-white'">
+  <ng-template pTemplate="header">
+    <div class="flex items-center gap-3">
+      <div
+        class="p-3 rounded-md m-4 bg-primary-100 flex items-center justify-center">
+        <i class="pi pi-user text-primary-600 text-xl"></i>
+      </div>
+      <h2 class="text-lg font-bold text-tertiary-800">
+        Seja bem-vindo, {{ role() }}
+      </h2>
+    </div>
+  </ng-template>
+
+  <div class="mt-2 text-tertiary-600 leading-relaxed">
+    @switch (role()) {
+      @case ('Admin') {
+        <p>
+          Gerencie <span class="font-semibold text-primary-600">editais</span>,
+          organize
+          <span class="font-semibold text-primary-600">usuários</span> e aprove
+          <span class="font-semibold text-primary-600"
+            >projetos científicos</span
+          >.
+        </p>
+      }
+      @case ('Professor') {
+        <p>
+          Gerencie seus
+          <span class="font-semibold text-success-600">projetos</span>, oriente
+          <span class="font-semibold text-success-600">alunos</span> e acompanhe
+          <span class="font-semibold text-success-600">frequências</span>.
+        </p>
+      }
+      @case ('Aluno') {
+        <p>
+          Explore
+          <span class="font-semibold text-tertiary-700"
+            >projetos científicos</span
+          >
+          e candidate-se às
+          <span class="font-semibold text-tertiary-700"
+            >oportunidades de pesquisa</span
+          >.
+        </p>
+      }
     }
-    @case ('Professor') {
-      <p class="m-0">
-        Gerencie seus projetos, oriente alunos e controle frequências.
-      </p>
-    }
-    @case ('Aluno') {
-      <p class="m-0">
-        Explore projetos científicos e candidate-se às oportunidades de
-        pesquisa.
-      </p>
-    }
-  }
+  </div>
 </p-card>
