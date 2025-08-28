@@ -1,73 +1,90 @@
-<app-home-layout>
+<app-home-layout class="bg-tertiary-100">
   <div class="flex flex-col items-center gap-10 p-8 w-full">
-    <!-- Título -->
-    <app-card-title-home class="w-full" [role]="user()!.autoridade" />
+    <app-card-title-home
+      class="w-full shadow-sm rounded-xl"
+      [role]="user()!.autoridade" />
 
-    <!-- Métricas principais -->
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-5xl">
-      <app-card-details-home title="Projetos ativos" [number]="5" />
-      <app-card-details-home title="Projetos finalizados" [number]="12" />
-      <app-card-details-home title="Horas dedicadas" [number]="180" />
+      <app-card-details-home
+        class="bg-primary-50 hover:shadow-lg hover:-translate-y-1 transition rounded-xl"
+        title="Projetos ativos"
+        [number]="5" />
+      <app-card-details-home
+        class="bg-success-50 hover:shadow-lg hover:-translate-y-1 transition rounded-xl"
+        title="Projetos finalizados"
+        [number]="12" />
+      <app-card-details-home
+        class="bg-tertiary-50 hover:shadow-lg hover:-translate-y-1 transition rounded-xl"
+        title="Horas dedicadas"
+        [number]="180" />
     </div>
 
-    <!-- Ações rápidas -->
     <div class="flex flex-col gap-6 items-center w-full max-w-5xl">
       <h2
-        class="text-xl font-bold text-tertiary-800 border-b-2 border-primary-500 pb-1">
+        class="text-2xl font-bold text-tertiary-900 border-b border-tertiary-200 pb-2">
         Ações Rápidas
       </h2>
 
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full">
         @switch (user()!.autoridade) { @case ('Aluno') {
         <app-card-fast-action
+          class="hover:shadow-xl hover:-translate-y-1 transition rounded-xl"
           title="Cadastrar projeto"
           subtitle="Submeta um novo projeto de pesquisa"
           icon="plus"
           color="primary" />
 
         <app-card-fast-action
+          class="hover:shadow-xl hover:-translate-y-1 transition rounded-xl"
           title="Minhas atividades"
           subtitle="Visualize seus projetos em andamento"
           icon="folder-open"
           color="success" />
 
         <app-card-fast-action
+          class="hover:shadow-xl hover:-translate-y-1 transition rounded-xl"
           title="Certificados"
           subtitle="Acompanhe seus certificados emitidos"
           icon="file"
           color="tertiary" />
         } @case ('Professor') {
         <app-card-fast-action
+          class="hover:shadow-xl hover:-translate-y-1 transition rounded-xl"
           title="Projetos orientados"
           subtitle="Gerencie seus projetos"
           icon="users"
           color="primary" />
 
         <app-card-fast-action
+          class="hover:shadow-xl hover:-translate-y-1 transition rounded-xl"
           title="Cadastrar feedback"
           subtitle="Adicione parecer ou avaliação"
           icon="comment"
           color="success" />
 
         <app-card-fast-action
+          class="hover:shadow-xl hover:-translate-y-1 transition rounded-xl"
           title="Relatórios"
           subtitle="Acesse relatórios e estatísticas"
           icon="chart-line"
           color="tertiary" />
         } @case ('Admin') {
         <app-card-fast-action
+          class="hover:shadow-xl hover:-translate-y-1 transition rounded-xl"
           title="Gerenciar usuários"
           subtitle="Cadastre e edite usuários do sistema"
           icon="user-cog"
           color="danger" />
 
         <app-card-fast-action
+          class="hover:shadow-xl hover:-translate-y-1 transition rounded-xl"
           title="Projetos cadastrados"
           subtitle="Controle todos os projetos da instituição"
           icon="tasks"
           color="primary" />
 
         <app-card-fast-action
+          class="hover:shadow-xl hover:-translate-y-1 transition rounded-xl"
           title="Configurações"
           subtitle="Parâmetros gerais da plataforma"
           icon="cog"
