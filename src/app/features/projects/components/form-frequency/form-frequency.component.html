@@ -4,8 +4,8 @@
   [(visible)]="visible"
   (onHide)="visibleChange.emit(false)"
   modal="true"
-  [style]="{ width: '50rem' }">
-  <p-tabs [(value)]="activeTab" scrollable class="w-full">
+  [styleClass]="'dialog-frequencia'">
+  <p-tabs [(value)]="activeTab" scrollable="true">
     <p-tablist>
       @for (freq of frequencias.controls; let i = $index; track i) {
         <p-tab [value]="i">Semana {{ i + 1 }}</p-tab>

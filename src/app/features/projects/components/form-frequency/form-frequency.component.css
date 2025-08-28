@@ -1,0 +1,4 @@
+:host ::ng-deep .dialog-frequencia {
+  width: 95vw; /* ocupa até 95% da largura da tela */
+  max-width: 50rem; /* mas nunca passa de 50rem no desktop */
+}
