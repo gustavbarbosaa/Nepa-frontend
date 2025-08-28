@@ -52,6 +52,7 @@
           <p-button
             icon="pi pi-check"
             severity="success"
+            [disabled]="subscription.status"
             (onClick)="showApproveDialog(subscription)" />
 
           <p-dialog
