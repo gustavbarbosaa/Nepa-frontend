@@ -22,6 +22,7 @@ import { ToastService } from '@core/services/toast/toast.service';
 import { MessageService } from 'primeng/api';
 import { Toast } from 'primeng/toast';
 import { FormFrequencyComponent } from '@features/projects/components/form-frequency/form-frequency.component';
+import { TokenService } from '@core/services/token/token.service';
 
 @Component({
   selector: 'app-project-controls',
@@ -47,8 +48,10 @@ export class ProjectControlsPage implements OnInit {
   private controlService = inject(ControlService);
   private fb = inject(NonNullableFormBuilder);
   private toast = inject(ToastService);
+  private tokenService = inject(TokenService);
 
   projectId = this.route.snapshot.paramMap.get('projectId');
+  userInfo = signal(this.tokenService.getNameAndTypeUserForToken());
   project = signal<iProject | null>(null);
   controls = signal<iControl[]>([]);
   loading = signal<boolean>(false);

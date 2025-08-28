@@ -4,7 +4,7 @@
     <app-title-header-list
       title="Gerencie os controles"
       subtitle="Crie controles e controle as frequências dos projetos" />
-
+    @if(userInfo()!.autoridade === 'Professor') {
     <button
       (click)="openDialog()"
       type="button"
@@ -12,6 +12,7 @@
       <span class="block md:hidden"><i class="pi pi-plus"></i></span>
       <span class="hidden md:block">Cadastrar controle</span>
     </button>
+    }
   </div>
 
   <app-table-list-items [data]="controls()">
@@ -46,10 +47,12 @@
               icon="pi pi-eye"
               severity="info" />
 
+            @if(userInfo()!.autoridade === 'Professor') {
             <p-button
               (onClick)="openDeleteDialog(control)"
               icon="pi pi-trash"
               severity="danger" />
+            }
           </div>
         </td>
       </tr>

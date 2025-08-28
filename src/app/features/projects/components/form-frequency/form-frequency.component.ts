@@ -32,6 +32,7 @@ import { FrequencyService } from '@features/projects/services/frequency/frequenc
 import { ToastService } from '@core/services/toast/toast.service';
 import { MessageService } from 'primeng/api';
 import { Toast } from 'primeng/toast';
+import { TokenService } from '@core/services/token/token.service';
 
 @Component({
   selector: 'app-form-frequency',
@@ -59,7 +60,9 @@ export class FormFrequencyComponent implements OnInit, OnChanges {
   private frequencyService = inject(FrequencyService);
   private toast = inject(ToastService);
   private route = inject(ActivatedRoute);
+  private tokenService = inject(TokenService);
 
+  userInfo = signal(this.tokenService.getNameAndTypeUserForToken());
   subscriptions = signal<iInscricao[]>([]);
 
   form!: FormGroup;
@@ -144,7 +147,7 @@ export class FormFrequencyComponent implements OnInit, OnChanges {
       });
     }
 
-    return this.fb.group({
+    const formGroup = this.fb.group({
       realizada_em: [f?.realizada_em || '', Validators.required],
       tempo_inicio: [f?.tempo_inicio || '', Validators.required],
       tempo_termino: [f?.tempo_termino || '', Validators.required],
@@ -152,6 +155,12 @@ export class FormFrequencyComponent implements OnInit, OnChanges {
       observacao: [f?.observacao || '', Validators.required],
       presencas: alunosArray,
     });
+
+    if (f) {
+      formGroup.disable();
+    }
+
+    return formGroup;
   }
 
   addSemana(f?: any): void {

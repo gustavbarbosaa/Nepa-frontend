@@ -14,6 +14,7 @@ import {
   NonNullableFormBuilder,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastService } from '@core/services/toast/toast.service';
 import { TokenService } from '@core/services/token/token.service';
 import { eProjectStatus } from '@features/projects/enums/status.enum';
@@ -61,6 +62,7 @@ export class TableProjectsComponent implements OnInit {
   private tokenService = inject(TokenService);
   private toastService = inject(ToastService);
   private formBuilder = inject(NonNullableFormBuilder);
+  private router = inject(Router);
 
   projectsSubscribed = signal<iInscricao[]>([]);
   allProjects = signal<iProject[]>([]);
@@ -283,5 +285,9 @@ export class TableProjectsComponent implements OnInit {
 
   private unformatStatusLabel(formattedStatus: string): string {
     return formattedStatus.toUpperCase().replace(/ /g, '_');
+  }
+
+  navigateToProjectControls(projectId: string): void {
+    this.router.navigate(['/projetos', projectId, 'controles']);
   }
 }

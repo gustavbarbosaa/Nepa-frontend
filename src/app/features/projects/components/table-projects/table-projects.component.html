@@ -69,6 +69,11 @@
       @if (userInfo() && userInfo()!.autoridade === autoridade.admin) {
         <td>
           <div class="flex items-center gap-2">
+            <p-button
+              severity="secondary"
+              icon="pi pi-align-center"
+              (onClick)="navigateToProjectControls(project.id)" />
+
             @if (project.status === statusProjeto.pendente) {
               <p-button
                 icon="pi pi-check"
@@ -76,9 +81,9 @@
                 severity="success" />
             } @else {
               <p-button
-                icon="pi pi-sync"
+                icon="pi pi-thumbs-up"
                 (onClick)="showApproveDialog(project)"
-                severity="info" />
+                severity="success" />
             }
             <p-dialog
               header="Alerta!"

@@ -10,9 +10,12 @@
       @for (freq of frequencias.controls; let i = $index; track i) {
         <p-tab [value]="i">Semana {{ i + 1 }}</p-tab>
       }
-      <p-tab [value]="frequencias.controls.length">
-        <p-button icon="pi pi-plus" rounded="true" (onClick)="addSemana()" />
-      </p-tab>
+
+      @if (userInfo()!.autoridade === 'Professor') {
+        <p-tab [value]="frequencias.controls.length">
+          <p-button icon="pi pi-plus" rounded="true" (onClick)="addSemana()" />
+        </p-tab>
+      }
     </p-tablist>
 
     <p-tabpanels>
@@ -97,12 +100,14 @@
     </p-tabpanels>
   </p-tabs>
 
-  <!-- Footer de ações -->
-  <div class="w-full flex justify-end gap-2 mt-4">
-    <p-button label="Cancelar" severity="secondary" (click)="closeDialog()" />
-    <p-button
-      label="Cadastrar frequência"
-      icon="pi pi-plus"
-      (click)="submit()" />
-  </div>
+  @if (userInfo()!.autoridade === 'Professor') {
+    <!-- Footer de ações -->
+    <div class="w-full flex justify-end gap-2 mt-4">
+      <p-button label="Cancelar" severity="secondary" (click)="closeDialog()" />
+      <p-button
+        label="Cadastrar frequência"
+        icon="pi pi-plus"
+        (click)="submit()" />
+    </div>
+  }
 </p-dialog>
