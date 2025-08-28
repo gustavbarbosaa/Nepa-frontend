@@ -1,0 +1,22 @@
+<p-card
+  [styleClass]="
+    'shadow-md rounded-xl border-l-4 ' + 'border-' + color() + '-500'
+  ">
+  <ng-template pTemplate="header">
+    <div class="m-4 flex items-center gap-2">
+      <div
+        class="p-2 rounded-md flex items-center justify-center"
+        [ngClass]="'bg-' + color() + '-100'">
+        <i
+          [class]="'pi pi-' + icon()"
+          [ngClass]="'text-' + color() + '-600'"></i>
+      </div>
+
+      <span class="font-medium">{{ title() }}</span>
+    </div>
+  </ng-template>
+
+  <p class="m-0">
+    {{ subtitle() }}
+  </p>
+</p-card>

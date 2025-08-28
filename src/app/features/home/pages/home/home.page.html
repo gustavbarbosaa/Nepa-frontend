@@ -1,1 +1,83 @@
-<p>home works!</p>
+<app-home-layout>
+  <div class="flex flex-col items-center gap-10 p-8 w-full">
+    <!-- Título -->
+    <app-card-title-home class="w-full" [role]="user()!.autoridade" />
+
+    <!-- Métricas principais -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-5xl">
+      <app-card-details-home title="Projetos ativos" [number]="5" />
+      <app-card-details-home title="Projetos finalizados" [number]="12" />
+      <app-card-details-home title="Horas dedicadas" [number]="180" />
+    </div>
+
+    <!-- Ações rápidas -->
+    <div class="flex flex-col gap-6 items-center w-full max-w-5xl">
+      <h2
+        class="text-xl font-bold text-tertiary-800 border-b-2 border-primary-500 pb-1">
+        Ações Rápidas
+      </h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full">
+        @switch (user()!.autoridade) { @case ('Aluno') {
+        <app-card-fast-action
+          title="Cadastrar projeto"
+          subtitle="Submeta um novo projeto de pesquisa"
+          icon="plus"
+          color="primary" />
+
+        <app-card-fast-action
+          title="Minhas atividades"
+          subtitle="Visualize seus projetos em andamento"
+          icon="folder-open"
+          color="success" />
+
+        <app-card-fast-action
+          title="Certificados"
+          subtitle="Acompanhe seus certificados emitidos"
+          icon="file"
+          color="tertiary" />
+        } @case ('Professor') {
+        <app-card-fast-action
+          title="Projetos orientados"
+          subtitle="Gerencie seus projetos"
+          icon="users"
+          color="primary" />
+
+        <app-card-fast-action
+          title="Cadastrar feedback"
+          subtitle="Adicione parecer ou avaliação"
+          icon="comment"
+          color="success" />
+
+        <app-card-fast-action
+          title="Relatórios"
+          subtitle="Acesse relatórios e estatísticas"
+          icon="chart-line"
+          color="tertiary" />
+        } @case ('Admin') {
+        <app-card-fast-action
+          title="Gerenciar usuários"
+          subtitle="Cadastre e edite usuários do sistema"
+          icon="user-cog"
+          color="danger" />
+
+        <app-card-fast-action
+          title="Projetos cadastrados"
+          subtitle="Controle todos os projetos da instituição"
+          icon="tasks"
+          color="primary" />
+
+        <app-card-fast-action
+          title="Configurações"
+          subtitle="Parâmetros gerais da plataforma"
+          icon="cog"
+          color="success" />
+        } @default {
+        <p class="text-tertiary-500">
+          Nenhuma ação disponível para este perfil.
+        </p>
+        } }
+      </div>
+    </div>
+  </div>
+</app-home-layout>

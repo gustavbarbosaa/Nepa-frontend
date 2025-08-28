@@ -82,7 +82,7 @@ export class DrawerComponent implements OnInit {
       {
         icon: 'heroHome',
         label: 'Início',
-        routerLink: '/',
+        routerLink: '/inicio',
         textVisible: this.isVisible(),
       },
     ];

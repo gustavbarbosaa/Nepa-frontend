@@ -1,0 +1,20 @@
+<p-card [header]="'Seja bem vindo, ' + role()">
+  @switch (role()) {
+    @case ('Admin') {
+      <p class="m-0">
+        Gerencie editais, usuários e aprove projetos científicos.
+      </p>
+    }
+    @case ('Professor') {
+      <p class="m-0">
+        Gerencie seus projetos, oriente alunos e controle frequências.
+      </p>
+    }
+    @case ('Aluno') {
+      <p class="m-0">
+        Explore projetos científicos e candidate-se às oportunidades de
+        pesquisa.
+      </p>
+    }
+  }
+</p-card>
