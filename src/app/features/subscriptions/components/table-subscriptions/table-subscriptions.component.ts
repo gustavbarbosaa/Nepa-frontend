@@ -1,7 +1,8 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastService } from '@core/services/toast/toast.service';
 import { SubscriptionsService } from '@features/subscriptions/services/subscriptions/subscriptions.service';
+import { SubscriptionsSignalService } from '@features/subscriptions/services/subscriptionSignal/subscriptions-signal.service';
 import { ButtonComponent } from '@shared/components/button/button.component';
 import { TableListItemsComponent } from '@shared/components/table-list-items/table-list-items.component';
 import { eStatusInscricaoProjeto } from '@shared/enums/status-inscricao.enum';
@@ -28,6 +29,7 @@ import { Toast } from 'primeng/toast';
 })
 export class TableSubscriptionsComponent implements OnInit {
   private subscriptionsService = inject(SubscriptionsService);
+  private subscriptionsSignalService = inject(SubscriptionsSignalService);
   private toastService = inject(ToastService);
   private route = inject(ActivatedRoute);
 
@@ -54,6 +56,18 @@ export class TableSubscriptionsComponent implements OnInit {
       error: error => console.error(error),
     });
   }
+
+  subscriptions = computed(() => {
+    const name = this.subscriptionsSignalService.filterName().toLowerCase();
+    const status = this.subscriptionsSignalService.filterStatus();
+
+    return this.subscriptionsInProject().filter(subs => {
+      const matchesName = subs.aluno.nome.toLowerCase().includes(name);
+      const matchesStatus = !status || subs.status === status;
+
+      return matchesName && matchesStatus;
+    });
+  });
 
   approveSubscription(): void {
     if (!this.subscriptionSelected()) {

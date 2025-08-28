@@ -41,7 +41,6 @@ export class HeaderProjectsComponent implements OnInit {
   form!: FormGroup;
   private formBuilder = inject(NonNullableFormBuilder);
   private projectServiceSignal = inject(ProjectSignalService);
-  private projectService = inject(ProjectService);
   private courseService = inject(CourseService);
 
   statusFilter: WritableSignal<{ label: string; value: string }[]> = signal([]);

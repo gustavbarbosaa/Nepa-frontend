@@ -6,8 +6,8 @@ export const subscritionsRoutes: Routes = [
     path: ':id',
     canActivate: [authGuard],
     loadComponent: () =>
-      import(
-        '../pages/subscriptions/subscriptions/subscriptions.component'
-      ).then(c => c.SubscriptionsComponent),
+      import('./subscriptions/subscriptions.component').then(
+        c => c.SubscriptionsComponent
+      ),
   },
 ];
