@@ -50,13 +50,5 @@ export const routes: Routes = [
         r => r.subscritionsRoutes
       ),
   },
-  {
-    path: 'controles',
-    canActivate: [authGuard],
-    loadChildren: () =>
-      import('./features/controls/pages/control.routes').then(
-        r => r.controlRoutes
-      ),
-  },
   { path: '', redirectTo: 'autenticacao', pathMatch: 'full' },
 ];
