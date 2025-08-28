@@ -1,94 +1,105 @@
 <app-home-layout class="bg-tertiary-100">
-  <div class="flex flex-col items-center gap-10 p-8 w-full">
-    <app-card-title-home
-      class="w-full shadow-sm rounded-xl"
-      [role]="user()!.autoridade" />
-
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-5xl">
-      <app-card-details-home
-        class="bg-primary-50 hover:shadow-lg hover:-translate-y-1 transition rounded-xl"
-        title="Projetos ativos"
-        [number]="5" />
-      <app-card-details-home
-        class="bg-success-50 hover:shadow-lg hover:-translate-y-1 transition rounded-xl"
-        title="Projetos finalizados"
-        [number]="12" />
-      <app-card-details-home
-        class="bg-tertiary-50 hover:shadow-lg hover:-translate-y-1 transition rounded-xl"
-        title="Horas dedicadas"
-        [number]="180" />
+  <div class="flex flex-col items-center gap-8 p-6 sm:p-10 w-full">
+    <div class="flex items-center justify-center">
+      <img class="animate-pulse" src="/assets/logo-nepa.png" alt="" />
+      <h2 class="text-2xl font-semibold text-tertiary-800">NEPA</h2>
     </div>
 
-    <div class="flex flex-col gap-6 items-center w-full max-w-5xl">
+    <!-- Mensagem inicial -->
+    <div class="text-center max-w-3xl text-tertiary-600">
+      <h2 class="text-2xl font-semibold text-tertiary-800">
+        Olá, {{ user()!.autoridade }} 👋
+      </h2>
+      <p class="mt-2">
+        Bem-vindo(a) à plataforma de
+        <span class="text-primary-600 font-semibold">Gestão de Projetos</span>.
+        Aqui você pode acompanhar seu progresso, explorar novas oportunidades e
+        realizar suas tarefas com praticidade.
+      </p>
+    </div>
+
+    <!-- Boas-vindas -->
+    <app-card-title-home
+      class="w-full shadow-md rounded-xl"
+      [role]="user()!.autoridade" />
+
+    <!-- Ações rápidas -->
+    <div class="flex flex-col gap-6 items-center w-full max-w-6xl">
       <h2
         class="text-2xl font-bold text-tertiary-900 border-b border-tertiary-200 pb-2">
         Ações Rápidas
       </h2>
+      <p class="text-tertiary-600 text-center max-w-2xl">
+        Acesse as principais funcionalidades de acordo com seu perfil:
+      </p>
 
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full">
+      <div
+        class="flex flex-col sm:flex-row items-center justify-center gap-6 w-full">
         @switch (user()!.autoridade) { @case ('Aluno') {
         <app-card-fast-action
-          class="hover:shadow-xl hover:-translate-y-1 transition rounded-xl"
-          title="Cadastrar projeto"
-          subtitle="Submeta um novo projeto de pesquisa"
-          icon="plus"
-          color="primary" />
-
-        <app-card-fast-action
-          class="hover:shadow-xl hover:-translate-y-1 transition rounded-xl"
-          title="Minhas atividades"
-          subtitle="Visualize seus projetos em andamento"
-          icon="folder-open"
-          color="success" />
-
-        <app-card-fast-action
-          class="hover:shadow-xl hover:-translate-y-1 transition rounded-xl"
-          title="Certificados"
-          subtitle="Acompanhe seus certificados emitidos"
+          route="/projetos"
+          class="hover:shadow-xl hover:-translate-y-1 transition rounded-xl flex-1"
+          title="Projetos"
+          subtitle="acompanhar projetos cadastrados"
           icon="file"
           color="tertiary" />
         } @case ('Professor') {
         <app-card-fast-action
-          class="hover:shadow-xl hover:-translate-y-1 transition rounded-xl"
-          title="Projetos orientados"
+          route="/projetos/meus-projetos"
+          class="hover:shadow-xl hover:-translate-y-1 transition rounded-xl flex-1"
+          title="Meus projetos"
           subtitle="Gerencie seus projetos"
           icon="users"
           color="primary" />
 
         <app-card-fast-action
-          class="hover:shadow-xl hover:-translate-y-1 transition rounded-xl"
-          title="Cadastrar feedback"
-          subtitle="Adicione parecer ou avaliação"
-          icon="comment"
+          route="/projetos/cadastrar"
+          class="hover:shadow-xl hover:-translate-y-1 transition rounded-xl flex-1"
+          title="Cadastrar projeto"
+          subtitle="Cadastrar novo projeto"
+          icon="plus"
           color="success" />
 
         <app-card-fast-action
-          class="hover:shadow-xl hover:-translate-y-1 transition rounded-xl"
-          title="Relatórios"
-          subtitle="Acesse relatórios e estatísticas"
-          icon="chart-line"
+          route="/editais"
+          class="hover:shadow-xl hover:-translate-y-1 transition rounded-xl flex-1"
+          title="Ver editais"
+          subtitle="Vizualize os editais publicados"
+          icon="file"
           color="tertiary" />
+
         } @case ('Admin') {
         <app-card-fast-action
-          class="hover:shadow-xl hover:-translate-y-1 transition rounded-xl"
-          title="Gerenciar usuários"
-          subtitle="Cadastre e edite usuários do sistema"
-          icon="user-cog"
-          color="danger" />
+          route="/projetos"
+          class="hover:shadow-xl hover:-translate-y-1 transition rounded-xl flex-1"
+          title="Projetos"
+          subtitle="Projetos cadastrados"
+          icon="file"
+          color="tertiary" />
 
         <app-card-fast-action
-          class="hover:shadow-xl hover:-translate-y-1 transition rounded-xl"
-          title="Projetos cadastrados"
-          subtitle="Controle todos os projetos da instituição"
-          icon="tasks"
+          route="/editais/cadastrar"
+          class="hover:shadow-xl hover:-translate-y-1 transition rounded-xl flex-1"
+          title="Editais"
+          subtitle="Gerencie os editais"
+          icon="plus"
           color="primary" />
 
         <app-card-fast-action
-          class="hover:shadow-xl hover:-translate-y-1 transition rounded-xl"
-          title="Configurações"
-          subtitle="Parâmetros gerais da plataforma"
-          icon="cog"
+          route="/alunos"
+          class="hover:shadow-xl hover:-translate-y-1 transition rounded-xl flex-1"
+          title="Ver alunos"
+          subtitle="Alunos cadastrados"
+          icon="eye"
           color="success" />
+
+        <app-card-fast-action
+          route="/professores"
+          class="hover:shadow-xl hover:-translate-y-1 transition rounded-xl flex-1"
+          title="Ver professores"
+          subtitle="Professores cadastrados"
+          icon="eye"
+          color="danger" />
         } @default {
         <p class="text-tertiary-500">
           Nenhuma ação disponível para este perfil.

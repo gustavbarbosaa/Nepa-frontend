@@ -1,6 +1,10 @@
 <p-card
+  [routerLink]="route()"
   [styleClass]="
-    'shadow-md rounded-xl border-l-4 ' + 'border-' + color() + '-500'
+    'cursor-pointer shadow-md rounded-xl border-l-4 ' +
+    'border-' +
+    color() +
+    '-500'
   ">
   <ng-template pTemplate="header">
     <div class="m-4 flex items-center gap-2">
