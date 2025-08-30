@@ -5,7 +5,7 @@
 }
 
 .list-item:hover {
-  @apply bg-tertiary-100 border-tertiary-300  ml-2;
+  @apply bg-tertiary-100 border-tertiary-300 ml-2;
 }
 
 .list-item__link {
