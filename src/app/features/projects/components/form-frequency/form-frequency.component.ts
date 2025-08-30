@@ -80,12 +80,9 @@ export class FormFrequencyComponent implements OnInit, OnChanges {
       this.loadSubscriptions(projectId);
     }
 
-    console.log(this.controlId);
-
     if (this.controlId) {
       this.frequencyService.getAll(this.controlId).subscribe({
         next: freqs => {
-          console.log('Frequências carregadas:', freqs);
           if (freqs.length) {
             freqs.forEach(f => this.addSemana(f));
           } else {
@@ -98,8 +95,6 @@ export class FormFrequencyComponent implements OnInit, OnChanges {
         },
       });
     } else {
-      console.log('Frequências carregadas:');
-
       this.addSemana();
     }
   }
@@ -228,9 +223,6 @@ export class FormFrequencyComponent implements OnInit, OnChanges {
       error: err => {
         console.error('Erro ao salvar frequência:', err);
         this.toast.showError('Erro ao salvar frequência.', 'Erro');
-      },
-      complete: () => {
-        console.log('Requisição de salvamento concluída.');
       },
     });
   }

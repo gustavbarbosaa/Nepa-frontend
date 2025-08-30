@@ -137,7 +137,6 @@ export class ProjectControlsPage implements OnInit {
         this.controls.set([...this.controls(), control]);
         this.showDialog.set(false);
         this.form.reset({ projeto_id: this.projectId, mes: null, ano: null });
-        console.log('Controle criado com sucesso:', control);
       },
       error: err => {
         this.loading.set(false);
