@@ -31,14 +31,5 @@
       initialIcon="heroAdjustmentsHorizontal"
       [control]="getControl('filterStatus')"
       [options]="statusFilter()" />
-
-    @if (!isFiltered()) {
-      <app-select-form
-        id="course"
-        label="Curso"
-        initialIcon="heroAdjustmentsHorizontal"
-        [control]="getControl('filterCourse')"
-        [options]="coursesFilter()" />
-    }
   </div>
 </div>

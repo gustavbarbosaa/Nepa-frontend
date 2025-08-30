@@ -96,14 +96,12 @@ export class TableProjectsComponent implements OnInit {
   projects = computed(() => {
     const title = this.projectSignalService.filterTitle().toLowerCase();
     const status = this.projectSignalService.filterStatus();
-    const courseId = this.projectSignalService.filterCourse();
 
     return this.projectsWithSubscriptionStatus().filter(project => {
       const matchesTitle = project.titulo.toLowerCase().includes(title);
       const matchesStatus = !status || project.status === status;
-      const matchesCourse = !courseId || project.id === courseId;
 
-      return matchesTitle && matchesStatus && matchesCourse;
+      return matchesTitle && matchesStatus;
     });
   });
 

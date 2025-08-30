@@ -8,7 +8,6 @@ export class ProjectSignalService {
   private refreshSignal = signal(0);
   filterTitle = signal<string>('');
   filterStatus = signal<eProjectStatus | ''>('');
-  filterCourse = signal<string>('');
 
   refresh$ = this.refreshSignal.asReadonly();
 

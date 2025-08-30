@@ -19,9 +19,7 @@ import { ProjectSignalService } from '@features/projects/services/project-signal
 import { InputFormComponent } from '@shared/components/input-form/input-form.component';
 import { SelectFormComponent } from '@shared/components/select-form/select-form.component';
 import { TitleHeaderListComponent } from '@shared/components/title-header-list/title-header-list.component';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs';
-import { ProjectService } from '@features/projects/services/project/project.service';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -44,27 +42,11 @@ export class HeaderProjectsComponent implements OnInit {
   private courseService = inject(CourseService);
 
   statusFilter: WritableSignal<{ label: string; value: string }[]> = signal([]);
-  coursesFilter: Signal<{ label: string; value: string }[]>;
-
-  constructor() {
-    this.coursesFilter = toSignal(
-      this.courseService
-        .getAll()
-        .pipe(
-          map(courses => [
-            { label: 'Todos os cursos', value: '' },
-            ...courses.map(c => ({ label: c.nome, value: c.id })),
-          ])
-        ),
-      { initialValue: [] }
-    );
-  }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       filterTitle: ['', [Validators.nullValidator]],
       filterStatus: [''],
-      filterCourse: [''],
     });
 
     this.statusFilter.set([
@@ -77,10 +59,9 @@ export class HeaderProjectsComponent implements OnInit {
 
     this.form.valueChanges
       .pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe(({ filterTitle, filterStatus, filterCourse }) => {
+      .subscribe(({ filterTitle, filterStatus }) => {
         this.projectServiceSignal.filterTitle.set(filterTitle || '');
         this.projectServiceSignal.filterStatus.set(filterStatus || '');
-        this.projectServiceSignal.filterCourse.set(filterCourse || '');
       });
   }
 
