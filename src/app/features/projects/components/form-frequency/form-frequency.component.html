@@ -68,27 +68,26 @@
 
           <!-- Lista de alunos -->
           <div
-            class="w-full mt-4 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+            class="w-full mt-4 border border-gray-200 rounded-lg overflow-hidden">
             <h3
-              class="font-bold p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-lg text-gray-800 dark:text-gray-200">
+              class="font-bold p-4 border-b border-gray-200 bg-gray-50 text-lg text-gray-800">
               Alunos
             </h3>
 
-            <div
-              class="divide-y divide-gray-200 dark:divide-gray-700 max-h-[450px] overflow-y-auto">
+            <div class="divide-y divide-gray-200 max-h-[450px] overflow-y-auto">
               @for (
                 alunoCtrl of getAlunosArray(i).controls;
                 track alunoCtrl.value.inscricao_id
               ) {
                 <label
                   [for]="'aluno-checkbox-' + alunoCtrl.value.inscricao_id"
-                  class="flex items-center gap-3 p-4 cursor-pointer transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                  class="flex items-center gap-3 p-4 cursor-pointer transition-colors duration-200 hover:bg-gray-100">
                   <p-checkbox
                     [inputId]="'aluno-checkbox-' + alunoCtrl.value.inscricao_id"
                     [binary]="true"
                     [formControl]="getFormControl(alunoCtrl.get('presente'))"
                     class="shrink-0" />
-                  <span class="text-gray-700 dark:text-gray-300">
+                  <span class="text-gray-700">
                     {{ alunoCtrl.value.nome }}
                   </span>
                 </label>

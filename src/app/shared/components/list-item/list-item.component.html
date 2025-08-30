@@ -2,10 +2,9 @@
   <a pRipple [routerLink]="link()" class="list-item__link">
     <ng-icon [name]="icon()" class="text-2xl mr-2 text-tertiary-600" />
     @if (textVisible()) {
-      <span
-        class="font-normal font-poppins text-base text-tertiary-600 dark:text-light"
-        >{{ label() }}</span
-      >
+      <span class="font-normal font-poppins text-base text-tertiary-600">{{
+        label()
+      }}</span>
     }
   </a>
 </li>

@@ -7,10 +7,7 @@ import { Component, input } from '@angular/core';
     <button type="button" class="flex items-center gap-2">
       <img src="/assets/logo-nepa.png" alt="Logo do Nepa" />
       @if (!reduce()) {
-        <h2
-          class="font-poppins font-semibold text-base text-dark dark:text-light">
-          Nepa
-        </h2>
+        <h2 class="font-poppins font-semibold text-base text-dark">Nepa</h2>
       }
     </button>
   `,
