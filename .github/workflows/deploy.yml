@@ -22,10 +22,10 @@ jobs:
         run: npm ci
 
       - name: 'Construir projeto'
-        run: npm run build -- --configuration=production
+        run: nx build frontend_nepa --configuration=production
 
       - name: 'Verificar arquivos de build'
-        run: ls -la ./dist/browser/Nepa-frontend
+        run: ls -la ./dist/frontend_nepa/browser/
 
       - name: 'Limpar diretório no servidor'
         uses: appleboy/ssh-action@v1
@@ -45,6 +45,6 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          source: './dist/browser/Nepa-frontend/*'
+          source: './dist/frontend_nepa/browser/*'
           target: '/frontend'
           overwrite: true
