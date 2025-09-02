@@ -25,15 +25,15 @@ jobs:
         run: npm run build -- --configuration=production
 
       - name: 'Verificar arquivos de build'
-        run: ls -la ./dist/Nepa-frontend
+        run: ls -la ./dist/browser/Nepa-frontend
 
       - name: 'Limpar diretório no servidor'
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SSH_PORT }}
           script: |
             rm -rf /frontend/*
             mkdir -p /frontend
@@ -45,6 +45,6 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          source: './dist/Nepa-frontend/*'
+          source: './dist/browser/Nepa-frontend/*'
           target: '/frontend'
           overwrite: true
