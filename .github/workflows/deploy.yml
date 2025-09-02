@@ -27,6 +27,13 @@ jobs:
       - name: 'Verificar arquivos de build'
         run: ls -la ./dist/frontend_nepa/browser/
 
+      - name: 'Testar conexão básica'
+        run: |
+          echo "Host: ${{ secrets.SSH_HOST }}"
+          echo "Port: ${{ secrets.SSH_PORT }}"
+          echo "Username: ${{ secrets.SSH_USERNAME }}"
+          echo "Password: ${{ secrets.SSH_PASSWORD }}"
+
       - name: 'Limpar diretório no servidor'
         uses: appleboy/ssh-action@v1
         with:
