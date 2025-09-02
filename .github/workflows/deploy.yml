@@ -33,7 +33,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           port: ${{ secrets.SSH_PORT }}
           username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          password: ${{ secrets.SSH_PASSWORD }} # 🔑 TROCA AQUI
           script: |
             rm -rf /frontend/*
             mkdir -p /frontend
@@ -43,7 +43,7 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          password: ${{ secrets.SSH_PASSWORD }} # 🔑 TROCA AQUI
           port: ${{ secrets.SSH_PORT }}
           source: './dist/frontend_nepa/browser/*'
           target: '/frontend'
