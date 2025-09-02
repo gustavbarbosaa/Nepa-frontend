@@ -21,6 +21,9 @@ jobs:
       - name: 'Instalar dependências'
         run: npm ci
 
+      - name: 'Instalar NX globalmente'
+        run: npx nx build frontend_nepa --configuration=production
+
       - name: 'Construir projeto'
         run: nx build frontend_nepa --configuration=production
 
