@@ -10,6 +10,7 @@ import { TableModule } from 'primeng/table';
 })
 export class TableListItemsComponent<T> {
   data = input.required<T[]>();
+  loading = input.required<boolean>();
 
   @ContentChild('headerTable', { static: true })
   headerTable!: TemplateRef<unknown>;

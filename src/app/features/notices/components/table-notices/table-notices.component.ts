@@ -101,9 +101,16 @@ export class TableNoticesComponent implements OnInit {
   }
 
   fetchNotices(): void {
+    this.loading.set(true);
     this.noticeService.getAll().subscribe({
-      next: res => this.allNotices.set(res),
-      error: err => console.error('Erro ao buscar editais: ', err),
+      next: res => {
+        this.loading.set(false);
+        this.allNotices.set(res);
+      },
+      error: err => {
+        this.loading.set(false);
+        console.error('Erro ao buscar editais: ', err);
+      },
     });
   }
 

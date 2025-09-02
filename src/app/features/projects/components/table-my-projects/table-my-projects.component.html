@@ -1,4 +1,4 @@
-<app-table-list-items [data]="projects()">
+<app-table-list-items [loading]="loading()" [data]="projects()">
   <ng-template #headerTable>
     <tr>
       <th style="width: 25%">Título</th>
