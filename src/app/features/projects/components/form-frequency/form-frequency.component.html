@@ -106,6 +106,7 @@
       <p-button
         label="Cadastrar frequência"
         icon="pi pi-plus"
+        [disabled]="getControl(activeTab, 'desabilitado').value"
         (click)="submit()" />
     </div>
   }

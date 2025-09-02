@@ -68,6 +68,7 @@ export class FormFrequencyComponent implements OnInit, OnChanges {
   form!: FormGroup;
   activeTab = 0;
   textTitle = signal<string>('');
+  disableButton = signal<boolean>(false);
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -149,10 +150,12 @@ export class FormFrequencyComponent implements OnInit, OnChanges {
       descricao: [f?.descricao || '', Validators.required],
       observacao: [f?.observacao || '', Validators.required],
       presencas: alunosArray,
+      desabilitado: [!!f],
     });
 
     if (f) {
       formGroup.disable();
+      this.disableButton.set(true);
     }
 
     return formGroup;
@@ -208,8 +211,10 @@ export class FormFrequencyComponent implements OnInit, OnChanges {
         presente: alunoCtrl.value.presente,
       }));
 
+    const { desabilitado, ...formValue } = formAtual.value;
+
     const dadosParaEnvio: FormData = {
-      ...formAtual.value,
+      ...formValue,
       presencas: alunosPresentes,
     };
 
