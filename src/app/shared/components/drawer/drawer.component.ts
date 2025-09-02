@@ -56,7 +56,7 @@ export class DrawerComponent implements OnInit {
     this.drawerRef.close(e);
   }
 
-  visible: WritableSignal<boolean> = signal(true);
+  visible: WritableSignal<boolean> = signal(false);
   isVisible: Signal<boolean> = computed(() => this.visible());
 
   toggleVisible(): void {
