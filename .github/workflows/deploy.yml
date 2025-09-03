@@ -30,10 +30,10 @@ jobs:
       - name: 'Limpar diretório no servidor'
         uses: appleboy/ssh-action@v1
         with:
-          host: ${{ secrets.SSH_HOST }}
-          port: ${{ secrets.SSH_PORT }}
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }} # 🔑 TROCA AQUI
+          host: 'nepa.catolicapb.com.br'
+          port: '2222'
+          username: 'root'
+          password: 'nepa872509'
           script: |
             rm -rf /frontend/*
             mkdir -p /frontend
@@ -41,10 +41,10 @@ jobs:
       - name: 'Copiar arquivos para servidor'
         uses: appleboy/scp-action@v1
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }} # 🔑 TROCA AQUI
-          port: ${{ secrets.SSH_PORT }}
+          host: 'nepa.catolicapb.com.br'
+          username: 'root'
+          password: 'nepa872509'
+          port: '2222'
           source: './dist/frontend_nepa/browser/*'
           target: '/frontend'
           overwrite: true
