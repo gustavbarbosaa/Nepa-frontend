@@ -27,13 +27,13 @@ jobs:
       - name: 'Verificar arquivos de build'
         run: ls -la ./dist/frontend_nepa/browser/
 
-      - name: 'Limpar diretório no servidor'
+      - name: 'Limpar e preparar diretório no servidor'
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SSH_HOST }}
           port: ${{ secrets.SSH_PORT }}
           username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             sudo mkdir -p /frontend
             sudo chown -R $USER:$USER /frontend
@@ -44,19 +44,19 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           source: './dist/frontend_nepa/browser/*'
           target: '/frontend'
           overwrite: true
 
-      - name: 'Verificar deploy no servidor'
+      - name: 'Verificar deploy'
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SSH_HOST }}
           port: ${{ secrets.SSH_PORT }}
           username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             ls -la /frontend/
-            echo "Deploy concluído com sucesso!"
+            echo "✅ Deploy concluído com sucesso!"
