@@ -37,7 +37,7 @@ jobs:
 
       - name: 'Adicionar host ao known_hosts para evitar prompt de confirmação'
         run: |
-          ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
       - name: 'Limpar e copiar arquivos para o servidor'
         # Usamos o comando SSH nativo do Linux, que é mais robusto
