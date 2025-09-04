@@ -35,6 +35,13 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
         shell: bash
 
+      - name: 'Verificar a chave pública gerada'
+        # Esta etapa irá gerar a chave pública a partir da chave privada
+        # salva e a imprimirá no log. Compare esta chave com a que
+        # está no arquivo authorized_keys no seu servidor.
+        run: ssh-keygen -y -f ~/.ssh/id_ed25519
+        shell: bash
+
       - name: 'Adicionar host ao known_hosts para evitar prompt de confirmação'
         run: |
           ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
