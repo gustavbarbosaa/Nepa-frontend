@@ -1,9 +1,10 @@
-name: 'Deploy frontend'
+name: 'Debug Deploy Frontend'
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -24,38 +25,32 @@ jobs:
       - name: 'Build do projeto com NX'
         run: npx nx build frontend_nepa --configuration=production
 
-      - name: 'Verificar arquivos de build'
-        run: ls -la ./dist/frontend_nepa/browser/
+      - name: 'Criar arquivo de chave privada SSH'
+        # O GitHub Actions tem problemas para ler chaves com quebras de linha.
+        # Esta técnica garante que a chave é salva em um arquivo temporário,
+        # contornando qualquer problema de parsing.
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+        shell: bash
 
-      - name: 'Limpar e preparar diretório no servidor'
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          script: |
-            sudo mkdir -p /frontend
-            sudo chown -R $USER:$USER /frontend
-            rm -rf /frontend/*
+      - name: 'Adicionar host ao known_hosts para evitar prompt de confirmação'
+        run: |
+          ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-      - name: 'Copiar arquivos para servidor'
-        uses: appleboy/scp-action@v1
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          source: './dist/frontend_nepa/browser/*'
-          target: '/frontend'
+      - name: 'Limpar e copiar arquivos para o servidor'
+        # Usamos o comando SSH nativo do Linux, que é mais robusto
+        # do que a ação do GitHub para este tipo de problema.
+        run: |
+          ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "sudo mkdir -p /frontend && sudo chown -R $USER:$USER /frontend && rm -rf /frontend/*"
+
+          scp -i ~/.ssh/id_ed25519 -P ${{ secrets.SSH_PORT }} -r ./dist/frontend_nepa/browser/* ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/frontend/
+
+        shell: bash
 
       - name: 'Verificar deploy'
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          script: |
-            ls -la /frontend/
-            echo "✅ Deploy concluído com sucesso!"
+        run: |
+          ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "ls -la /frontend/"
+          echo "✅ Deploy concluído com sucesso!"
+        shell: bash
